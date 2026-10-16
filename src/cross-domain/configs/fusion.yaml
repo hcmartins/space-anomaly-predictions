@@ -1,0 +1,71 @@
+# Chapter 5's fusion-stage hyperparameters. Every value below is an
+# ENGINEERING DECISION resolving one of Chapter 5's own [INSERT]/[CONFIRM]
+# markers -- none of these are thesis-mandated; see the inline notes for
+# the reasoning, matching this project's existing convention (e.g. src/
+# solar/configs/labeling.yaml's 24h horizon).
+
+# Eq. (5.2): shared projection dimension d. Chosen no larger than the
+# smaller domain's native embedding (martian's hidden_size=16, see
+# configs/encoders.yaml) so the shared space doesn't force solar's larger
+# 32-dim embedding to be arbitrarily inflated, nor martian's to be
+# needlessly upsampled.
+shared_embedding_dim: 16
+
+# [CONFIRM resolved]: no non-linearity after the affine projection --
+# implementing Eq. (5.2) exactly as written (a plain affine map, no
+# activation function shown in the equation).
+projection_nonlinearity: null
+
+# Eq. (5.4): variance term weight. "If the implementation weights the two
+# terms equally, beta=1" -- the simplest, most defensible default absent
+# other guidance. Eq. (5.3) itself is explicitly the BIASED (1/n, not
+# 1/(n-1)) variance estimator -- implemented literally as written, not a
+# free choice.
+alignment_variance_weight: 1.0
+
+# Eq. (5.5): attention scorer form. The thesis's own first-listed example,
+# a single dense layer with tanh: a_t,k = w_t^T tanh(W_t h_k + b_t).
+attention_scorer_hidden_size: 8
+
+# Eq. (5.7): balance regularizer. Implemented literally as the stated KL
+# divergence to the uniform distribution -- not the negative-entropy or
+# squared-error alternatives the thesis flags as fallbacks only if KL
+# were NOT what the implementation used.
+balance_regularizer: kl_to_uniform
+
+# Eq. (5.8): loss term weights. Starting points pending real tuning
+# ("selected under the protocol of Appendix B" in the thesis text, which
+# this delivery does not have) -- deliberately modest so no single term
+# dominates the total objective by construction.
+lambda_align: 0.1
+lambda_bal: 0.1
+lambda_wd: 1.0e-4
+
+# Section 5.5.1: batch strategy, optimizer. n=64 matches the thesis's own
+# stated noise-acknowledgement threshold ("if n < 64, acknowledge
+# estimator noise") -- chosen to sit exactly at that boundary, not below
+# it. Adam + lr=1e-3 mirrors the real, working precedent already
+# established in both src/solar's and src/martian's own LSTM training
+# (modeling/sequence_models.py in each package).
+batch_size_solar: 64
+batch_size_martian: 64
+optimizer: adam
+learning_rate: 0.001
+epochs: 50
+early_stopping_patience: 5
+
+# Algorithm 5.1, Stage 2: [CONFIRM: initialisation scheme] -- PyTorch's
+# own default nn.Linear initialization (Kaiming-uniform), not a bespoke
+# scheme; stated explicitly here rather than left implicit.
+initialization_scheme: pytorch_default
+
+# "Cross-domain input at inference time" [CONFIRM]: option (b) -- a fixed
+# prototype (the training-set mean PROJECTED embedding per domain),
+# recorded at the end of Stage 2 training. Chosen over (a) (requires a
+# live contemporaneous stream from the other domain, which the
+# unpaired-domains design explicitly does not assume) and (c) (zero
+# cross-domain weight, which would make the "fusion" pathway a no-op at
+# inference for whichever domain is missing) -- (b) is the simplest
+# option that still lets the fused pathway do something meaningful when
+# only one domain's live data is available.
+inference_missing_domain_policy: fixed_prototype

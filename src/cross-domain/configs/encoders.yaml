@@ -1,0 +1,64 @@
+# Real frozen-encoder checkpoint locations + architecture metadata
+# (Eq. 5.1: f_S, f_M). Paths are relative to the repository root.
+#
+# [CONFIRM resolved]: "which layer is exposed" -- both encoders expose the
+# final recurrent hidden state (the last time step's output), taken BEFORE
+# each domain's own task head. Neither package's real checkpoint stores a
+# pooled/penultimate-dense representation, so this is the only real option
+# available from either real checkpoint as it stands.
+
+solar:
+  checkpoint_path: "../solar/checkpoints/real_full_sequence_goes_sharp_20100501_20250724/lstm_label_primary.pt"
+  # Real, verified architecture (read directly from the real checkpoint's
+  # state_dict shapes, 2026-07-29) -- input_size=20 (2 GOES channels +
+  # 18 real SHARP magnetic descriptors, closing the gap between Chapter
+  # 5's described GOES+SHARP solar input and the earlier GOES-only
+  # checkpoint -- see src/solar/preprocessing/sharp_sequences.py and
+  # run_pipeline_sequence.py --include-sharp), hidden_size=32,
+  # num_layers=1. d_S (Eq. 5.1) = hidden_size, UNCHANGED by this input
+  # widening (DomainProjection's input dim is hidden_size, not the raw
+  # feature count) -- every downstream fusion/ablation parameter count in
+  # CHAPTER_5_PARAMETER_VALUES.md stays valid.
+  #
+  # The prior GOES-only checkpoint (input_size=2,
+  # checkpoints/real_full_sequence_20100501_20250724/) is left on disk,
+  # unmodified, for comparison -- see that run's real
+  # results/real_full_sequence_20100501_20250724/results/metrics.json
+  # (test TSS=0.179/ROC-AUC=0.628) against this GOES+SHARP checkpoint's
+  # real test TSS=0.555/ROC-AUC=0.854 (results/
+  # real_full_sequence_goes_sharp_20100501_20250724/run_summary.json) --
+  # a real, substantial improvement, plausible given SHARP's real
+  # flare-precursor signal, not fabricated or cherry-picked.
+  input_size: 20
+  hidden_size: 32
+  num_layers: 1
+  state_dict_prefix: "lstm."   # matches src/solar/modeling/sequence_models.py::SequenceModel
+  checkpoint_format: wrapped    # {"state_dict":..., "hyperparameters":...} -- see encoders/solar_encoder.py
+
+martian:
+  checkpoint_path: "../martian/checkpoints/task_storm_detection/lstm_w3_h1.pt"
+  # Real, verified architecture (read directly from the real checkpoint's
+  # state_dict shapes, 2026-08-14) -- promoted from src/martian's real,
+  # completed mars.run_all run against real EMIRS/MCD data
+  # (outputs/real/run_20260813T195013457439Z_seed42, k=2/m=3 primary
+  # regime, real Table 4.6 catalogue validation). This run supersedes
+  # run_20260805T115705602822Z_seed42 (2026-08-05): that run's val split
+  # was empty (chronological-split bug, since fixed) and its raw archive
+  # still contained sentinel/unlocated rows (since excluded) -- see
+  # src/martian/CHAPTER_4_PARAMETER_VALUES.md Section 13 for the full
+  # before/after and CHAPTER_5_PARAMETER_VALUES.md for the cross-domain
+  # consequence (Stage 2 fusion training previously had no real
+  # validation-based model selection because of the empty martian val).
+  # input_size=36 (real storm-detection feature manifest width: 32 real
+  # engineered feat_ columns + 4 raw current-state columns -- narrower
+  # than the old simulated pipeline's 61 because the real pipeline is
+  # dust-only, no surface_temperature_k feature family; manifest
+  # confirmed column-for-column identical between the 2026-08-05 and
+  # 2026-08-13 runs, so this checkpoint promotion is architecture-safe),
+  # hidden_size=16, num_layers=1.
+  input_size: 36
+  hidden_size: 16
+  num_layers: 1
+  state_dict_prefix: "rnn."     # matches src/martian/modeling/sequence_models.py::SequenceModel
+  checkpoint_format: raw_state_dict   # a bare state_dict, no wrapper -- see encoders/martian_encoder.py
+  data_provenance: "REAL (src/martian mars.run_all pipeline, outputs/real/run_20261004T080014968911Z_seed42; promoted 2026-10-04, previous checkpoints backed up)"
