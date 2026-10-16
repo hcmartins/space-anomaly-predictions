@@ -1,0 +1,54 @@
+# Forward-looking flare-occurrence labeling. This is a DELIBERATE, label-only
+# exception to the strictly-causal rule preprocessing/{alignment,missing_data,
+# features}.py otherwise enforce everywhere -- a label IS allowed to look
+# into the future; a feature never is.
+#
+# labeling/flare_labels.py uses the FINE-GRAINED (1-min, disk-aggregated)
+# GOES series -- preprocessing/alignment.py's `goes_disk_series` return value
+# -- rather than the SHARP-coarsened aligned series, specifically so a flare
+# peak that falls strictly BETWEEN two SHARP timestamps is never missed
+# (SHARP cadence is 12 min; an X-class flare's impulsive rise can be much
+# shorter than that).
+#
+# Chapter 4.3 classification thresholds (peak xrsb_flux, W/m^2) are
+# duplicated here from configs/goes.yaml rather than cross-loaded, so this
+# module's label definition is self-contained and never silently changes if
+# goes.yaml's ingestion-time thresholds are edited for an unrelated reason.
+# If the two ever need to diverge intentionally, that divergence must be
+# visible in this file's diff, not hidden behind a shared import.
+flare_class_thresholds_w_m2:
+  X: 1.0e-4
+  M: 1.0e-5
+  C: 1.0e-6
+  B: 1.0e-7
+
+# Forecast horizon: label = "does a flare of at least the target class peak
+# strictly after the current timestamp and within this many hours?" 24h is
+# the most common horizon in the published flare-forecasting literature this
+# project's SHARP/GOES pairing follows (e.g. Bobra & Couvidat 2015).
+# ENGINEERING DECISION, not thesis-specified -- see
+# planning/LABELING_DOCUMENTATION.md.
+forecast_horizon_hours: 24
+sensitivity_horizons_hours: [6, 12, 24, 48]
+
+# The primary binary target class: build_primary_label() surfaces
+# label_flare_{this class}_or_above as label_primary, for convenience.
+# Binary columns are still produced for ALL FOUR classes by build_labels().
+primary_target_class: M
+
+# A label needs a full, uncensored look-ahead window of real GOES coverage
+# to be trustworthy. If the fine-grained GOES series has insufficient
+# observations within (t, t+horizon] -- e.g. the ingestion window ends
+# before the horizon does -- the label is UNDEFINED (NaN), never silently
+# coded as "no flare" (0), which would fabricate a negative label from an
+# absence of data rather than a genuine quiet period. A few missing minutes
+# inside a 24h window does not invalidate it; this fraction sets how much
+# missing coverage is tolerated before a row's label is UNDEFINED.
+max_allowed_missing_coverage_fraction: 0.2
+
+# GOES fine-grained series cadence, minutes -- used only to compute
+# label_coverage_fraction's denominator (expected observation count within
+# the horizon). Must match the 1-min cadence documented throughout
+# planning/INGESTION_DOCUMENTATION.md; NOT cross-loaded from goes.yaml
+# (which has no such field) to keep this module self-contained.
+goes_fine_cadence_minutes: 1

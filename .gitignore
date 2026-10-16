@@ -1,0 +1,15 @@
+.claude
+.pytest_cache/
+thesis_figures/
+__pycache__/
+*.pyc
+.venv/
+
+# Large / regenerable artefacts (raw data caches, model checkpoints, run outputs)
+data_cache/
+checkpoints/
+src/solar/results/
+src/martian/output/
+src/martian/outputs/
+src/cross-domain/outputs/
+/outputs/

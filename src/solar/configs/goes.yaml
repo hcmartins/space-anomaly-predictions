@@ -1,0 +1,88 @@
+# Real GOES X-Ray Sensor (XRS) ingestion source configuration.
+#
+# Chapter 4.3 (thesis): "Soft X-ray irradiance observations are sourced from
+# the GOES X-Ray Sensor... Flare intensity is classified into B, C, M, and X
+# classes according to peak soft X-ray flux."
+#
+# NOAA hosts GOES XRS data in TWO structurally different archives depending
+# on satellite generation, because the GOES-R series (16/17/18, 2017–present)
+# uses a different instrument and file format from the earlier GOES 8–15
+# series (pre-2017). This config keeps both source definitions explicit
+# rather than assuming one URL pattern covers the whole of Solar Cycle 24
+# (2008–2019, per Chapter 3.3.1) through Cycle 25 (2019–present).
+#
+# VERIFICATION STATUS: CONFIRMED against the live archive on 2026-07-25 by
+# actually downloading and inspecting one real file from each source (see
+# planning/INGESTION_DOCUMENTATION.md's verification log). Both base_urls,
+# both filename patterns, and every variable name below were corrected from
+# an earlier, unverified transcription that got the GOES-R host/path and
+# BOTH sources' variable names wrong (caught by a real smoke-test run, not
+# guessed). NOAA can still reorganise archive paths in the future -- if a
+# run starts failing every file with HTTP 404, re-verify against the live
+# archive before assuming the data itself is unavailable.
+
+# --- GOES-R series (GOES-16, -17, -18): L2 science-quality, 1-minute average ---
+goes_r:
+  satellites: [16, 17, 18]     # NOAA GOES-R primary/secondary designations over the period
+  # NOTE: the real archive host is data.ngdc.noaa.gov (NOT www.ncei.noaa.gov,
+  # which 404s for this product), and the satellite number is part of the
+  # PATH, not just the filename -- base_url must be formatted with {sat}
+  # before use (see goes_ingestion.ingest_goes_r).
+  base_url: "https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/goes{sat}/l2/data/xrsf-l2-avg1m_science"
+  # Full path per day: {base_url.format(sat=sat)}/{year}/{month:02d}/{filename}
+  # Filename pattern confirmed from a live directory listing (2018-01, GOES-16):
+  # "sci_xrsf-l2-avg1m_g16_d20180101_v2-2-1.nc"
+  filename_pattern: "sci_xrsf-l2-avg1m_g{sat}_d{date:%Y%m%d}_v*.nc"
+  valid_from: "2017-02-07"     # GOES-16 XRS-B science data start (approx; verify)
+  time_variable: "time"        # confirmed from a real downloaded file's variable list
+  variables:
+    - name: xrsa_flux           # short channel, 0.5-4 Angstrom
+      netcdf_variable: "xrsa_flux"
+      unit: "W m^-2"
+    - name: xrsb_flux           # long channel, 1-8 Angstrom (used for B/C/M/X classification)
+      netcdf_variable: "xrsb_flux"
+      unit: "W m^-2"
+    - name: xrsa_quality
+      netcdf_variable: "xrsa_flag"   # confirmed real name; NOT "xrsa_quality" as an earlier draft assumed
+    - name: xrsb_quality
+      netcdf_variable: "xrsb_flag"
+
+# --- Legacy GOES series (GOES-13, -14, -15): 1-minute average, older format ---
+goes_legacy:
+  satellites: [13, 14, 15]
+  base_url: "https://www.ncei.noaa.gov/data/goes-space-environment-monitor/access/avg"
+  # Full path per month: {base_url}/{year}/{month:02d}/goes{sat}/netcdf/{filename}
+  filename_pattern: "g{sat}_xrs_1m_{month_start:%Y%m%d}_{month_end:%Y%m%d}.nc"
+  valid_from: "2008-01-01"
+  valid_to: "2020-03-04"       # approximate GOES-15 XRS decommission date; verify
+  time_variable: "time_tag"    # confirmed from a real downloaded file; NOT "time" (that name doesn't exist in this product)
+  variables:
+    - name: xrsa_flux
+      netcdf_variable: "A_AVG"       # confirmed real name; NOT "A_FLUX" as an earlier draft assumed
+      unit: "W m^-2"
+    - name: xrsb_flux
+      netcdf_variable: "B_AVG"       # confirmed real name; NOT "B_FLUX"
+      unit: "W m^-2"
+    - name: xrsa_quality
+      netcdf_variable: "A_QUAL_FLAG"
+    - name: xrsb_quality
+      netcdf_variable: "B_QUAL_FLAG"
+
+# Flare-class thresholds (peak 1-8 Angstrom / xrsb_flux), Chapter 4.3:
+flare_class_thresholds_w_m2:
+  X: 1.0e-4
+  M: 1.0e-5
+  C: 1.0e-6
+  B: 1.0e-7
+
+# HTTP behaviour
+request:
+  timeout_seconds: 60
+  max_retries: 3
+  retry_backoff_seconds: 5
+  user_agent: "space-anomaly-predictions-solar-ingestion/0.1 (research use)"
+
+output:
+  raw_cache_dir: "data_cache/goes/raw"
+  normalized_output_dir: "data_cache/goes/normalized"
+  manifest_dir: "data_cache/goes/manifests"
