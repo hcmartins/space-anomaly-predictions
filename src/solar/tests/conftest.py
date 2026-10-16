@@ -13,3 +13,11 @@ from pathlib import Path
 _SRC_ROOT = Path(__file__).resolve().parents[2]  # .../src
 if str(_SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(_SRC_ROOT))
+
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def _jsoc_email(monkeypatch):
+    # configs/sharp.yaml ships with an empty jsoc_email; tests need a placeholder.
+    monkeypatch.setenv("JSOC_EMAIL", "researcher@example.com")
