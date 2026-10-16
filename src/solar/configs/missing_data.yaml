@@ -1,0 +1,54 @@
+# Causal (trailing-only) gap-filling for the disk-integrated, SHARP-cadence
+# aligned series (preprocessing/alignment.py's output). Mechanics mirror
+# martian/preprocessing/missing_data.py: last-observation-carried-forward
+# (LOCF), bounded by max_trailing_fill_gap_steps, applied only to configured
+# fill_variables -- reserved_label_patterns guards against this loader ever
+# being pointed at a post-labeling dataframe (labeling/flare_labels.py always
+# runs AFTER this stage in the pipeline, never before).
+#
+# ENGINEERING DECISION (not thesis-specified -- see
+# planning/PREPROCESSING_DOCUMENTATION.md for the full rationale): a missing
+# SHARP-cadence step in the disk-integrated series is ambiguous. It could
+# mean "genuinely zero active regions on the visible disk" (a real physical
+# state) or "an active region was present but every one of its records was
+# rejected by QC" (a data-quality gap). This project has not ingested an
+# independent active-region count that would disambiguate the two. LOCF
+# (carry the last known disk state forward) was chosen over zero-filling the
+# extensive SHARP keywords, because zero-filling would silently assert "no
+# flare risk" during what might actually be a QC dropout of a genuinely
+# active region -- the more dangerous of the two possible errors for a
+# flare-forecasting feature.
+cadence_minutes: 12   # must match configs/alignment.yaml's SHARP T_REC cadence
+
+max_trailing_fill_gap_steps: 3   # 3 steps * 12 min = 36 min max carried-forward gap
+
+fill_variables:
+  - USFLUX
+  - TOTUSJZ
+  - TOTUSJH
+  - ABSNJZH
+  - SAVNCPP
+  - TOTPOT
+  - AREA_ACR
+  - MEANPOT
+  - R_VALUE
+  - MEANGAM
+  - MEANGBT
+  - MEANGBZ
+  - MEANGBH
+  - MEANALP
+  - MEANJZH
+  - MEANJZD
+  - MEANSHR
+  - SHRGT45
+  - n_active_regions_tracked
+  - goes_xrsa_flux_trailing_max_w_m2
+  - goes_xrsa_flux_trailing_mean_w_m2
+  - goes_xrsb_flux_trailing_max_w_m2
+  - goes_xrsb_flux_trailing_mean_w_m2
+  - goes_n_obs_in_trailing_window
+
+reserved_label_patterns: ["label_", "target_"]
+
+sensitivity:
+  max_trailing_fill_gap_steps: [1, 3, 6]

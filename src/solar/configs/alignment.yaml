@@ -1,0 +1,92 @@
+# Disk-level alignment: turns QC'd, per-satellite GOES rows and per-active-
+# region SHARP rows into ONE common timeline (preprocessing/alignment.py).
+#
+# ENGINEERING DECISION (not extracted from Chapter 3 text -- flagged per the
+# "design from confirmed facts + standard practice" approach): this project
+# has NOT ingested a real flare-event-to-active-region attribution catalogue
+# (e.g. NOAA SWPC's flare event list with NOAA AR numbers), and GOES XRS
+# itself is a full-disk (not per-region) flux measurement. Building a
+# per-active-region forecasting dataset without a real attribution catalogue
+# would require either (a) ingesting that catalogue as a new real data
+# source (not done in this delivery), or (b) fabricating an AR-to-flare
+# mapping -- refused per this project's no-fabrication policy. This module
+# therefore builds a DISK-INTEGRATED series instead: at each SHARP cadence
+# timestamp, aggregate ACROSS all currently-tracked active regions (SHARP)
+# and combine with the full-disk GOES flux state. This is a legitimate,
+# published approach to flare forecasting (whole-disk / "will a flare of
+# class >= K occur anywhere on the disk"), just a different one from
+# per-region forecasting -- documented here so it is never mistaken for a
+# thesis-specified design.
+
+# Base modeling cadence = SHARP's native T_REC cadence (720s / 12 min,
+# confirmed in configs/sharp.yaml). GOES (1-min) is aggregated down to this
+# cadence via a trailing window; SHARP itself is aggregated ACROSS
+# active regions at each T_REC, not resampled in time.
+sharp_time_column: T_REC
+
+# Per-keyword disk aggregation method. SUM for extensive/"total" quantities
+# (meaningful summed across regions); MAX for intensive/"mean-per-region"
+# complexity quantities (the single most complex/stressed region on the
+# disk is the flare-risk driver, not a disk-wide average that a quiet
+# region would dilute). This split is an engineering judgement call, not a
+# thesis-specified rule -- documented in
+# planning/PREPROCESSING_DOCUMENTATION.md.
+sharp_keyword_aggregation:
+  USFLUX: sum
+  TOTUSJZ: sum
+  TOTUSJH: sum
+  ABSNJZH: sum
+  SAVNCPP: sum
+  TOTPOT: sum
+  AREA_ACR: sum
+  MEANPOT: max
+  R_VALUE: max
+  MEANGAM: max
+  MEANGBT: max
+  MEANGBZ: max
+  MEANGBH: max
+  MEANALP: max
+  MEANJZH: max
+  MEANJZD: max
+  MEANSHR: max
+  SHRGT45: max
+
+# GOES full-disk aggregation across satellites reporting at the SAME 1-min
+# timestamp (e.g. GOES-16 + GOES-17 both operational). "max" is used rather
+# than a designated-primary-satellite lookup (not implemented -- would need
+# a real primary/secondary satellite assignment table by date, not
+# currently ingested): a real flare captured by only one satellite (e.g.
+# during the other's eclipse season) must not be diluted by averaging with
+# a satellite that under-reports it.
+goes_satellite_aggregation_method: max   # one of: max, mean
+
+# Trailing window (ending AT, and inclusive of, each SHARP timestamp) used
+# to summarize the native 1-min GOES disk series into features attached to
+# each SHARP-cadence row. Strictly causal: only GOES timestamps <= the
+# SHARP timestamp are included. 12 minutes matches SHARP's own cadence (one
+# window per SHARP step, non-overlapping); wider windows are a researcher
+# decision to sweep later if needed for the modeling stage.
+goes_trailing_window_minutes: 12
+
+# Per-active-region (HARP-level) alignment -- Phase 2 of scoping out
+# Chapter 3.2.1's per-HARP forecasting task (see
+# planning/FLARE_CATALOGUE_DOCUMENTATION.md for Phase 1, and the approved
+# plan at C:\Users\hcaxt\.claude\plans\calm-moseying-scott.md). Used ONLY
+# by preprocessing/harp_alignment.py -- the disk-integrated keys above are
+# completely unused by that module and vice versa; this project keeps
+# both pipelines available side by side rather than replacing one.
+per_harp:
+  # Limb exclusion (Chapter 3.4.2): SHARP parameters degrade near the limb
+  # via foreshortening and increased transverse-field noise. Chapter
+  # 3.2.1's own text offers two options -- mu = cos(theta) >= a threshold,
+  # OR |Stonyhurst longitude| <= 68 degrees "as in Bobra & Couvidat
+  # (2015)" -- and leaves the choice [INSERT]. The longitude form is used
+  # here because SHARP's LAT_FWT/LON_FWT (flux-weighted position) are
+  # already ingested and directly usable; 68 degrees is the exact
+  # thesis-cited literature value, not invented. LON_FWT is confirmed
+  # (Bobra et al. 2014, the SHARP definition paper) to already be in
+  # Stonyhurst coordinates -- no conversion needed before comparing
+  # against this threshold. ENGINEERING DECISION: the thesis leaves the
+  # CHOICE between this and a mu=cos(theta) threshold open, not the value
+  # of either.
+  limb_longitude_threshold_deg: 68

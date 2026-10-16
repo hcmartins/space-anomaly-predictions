@@ -1,0 +1,91 @@
+# Real SHARP (Space-weather HMI Active Region Patch) ingestion source
+# configuration.
+#
+# Chapter 4.3 (thesis): "Magnetic field information is obtained from the
+# Solar Dynamics Observatory's Helioseismic and Magnetic Imager... processed
+# into Space-weather HMI Active Region Patches." Table 7.1 lists the 18
+# magnetic indices used in this study; every keyword below is the real JSOC
+# keyword name for that index (cross-checked against Bobra et al. 2014, the
+# SHARP definition paper already in the thesis bibliography — this table's
+# content is accurate, unlike some of the surrounding result tables flagged
+# separately).
+#
+# ACCESS REQUIREMENT (not a code limitation — a real JSOC policy): exporting
+# data via JSOC's DRMS interface requires a registered email address. This
+# is free and takes a few minutes: http://jsoc.stanford.edu/ajax/register_email.html
+# The `jsoc_email` field below has NO default and must be supplied by the
+# researcher — the ingestion script refuses to run without it rather than
+# silently falling back to a shared/example address.
+
+jsoc_email: ''   # REQUIRED — set to your JSOC-registered email here, or export JSOC_EMAIL
+
+series: "hmi.sharp_cea_720s"   # Cylindrical Equal Area projection, 720s (12 min) cadence
+                                 # matches Chapter 3.3's stated SHARP cadence
+
+# Time range for the query, TAI (JSOC's native time system). Chapter 3.3.1:
+# Solar Cycle 24 = 2008-2019 (train), Solar Cycle 25 = 2019-present (test).
+# End date extended from an earlier 2019.12.31 (Cycle 24 only) to 2025.07.24
+# so this range genuinely includes Cycle 25, per explicit researcher
+# instruction -- see planning/REAL_FULL_RANGE_RUN.md. A range this size
+# requires chunked querying (see sharp_ingestion.py::ingest_sharp_chunked) --
+# a single query over ~15 years and hundreds of active regions is expected
+# to hit JSOC's undocumented row/size limits.
+time_range:
+  start: "2010.05.01_00:00:00_TAI"   # SDO/HMI launch was Feb 2010; first SHARP data mid-2010
+  end: "2025.07.24_23:59:59_TAI"
+
+# HARPNUM selection: null = all active regions with SHARP data in the time
+# range (JSOC will return every HARPNUM observed). Set to an explicit list
+# (e.g. [377, 401]) to restrict ingestion to specific tracked regions, e.g.
+# for a quick smoke test.
+harpnum_filter: null
+
+# The 18 SHARP magnetic indices (Table 7.1), by real JSOC keyword name.
+keywords:
+  - USFLUX      # total unsigned flux (Mx)
+  - TOTUSJZ     # total unsigned vertical current (A)
+  - TOTUSJH     # total unsigned current helicity
+  - ABSNJZH     # absolute net current helicity
+  - SAVNCPP     # sum of absolute net current per polarity
+  - MEANPOT     # mean photospheric excess magnetic energy density
+  - TOTPOT      # total photospheric magnetic free energy
+  - R_VALUE     # Schrijver's R (flux near strong-gradient polarity inversion lines)
+  - MEANGAM     # mean inclination angle from radial
+  - MEANGBT     # mean gradient of total field strength
+  - MEANGBZ     # mean gradient of vertical field
+  - MEANGBH     # mean gradient of horizontal field
+  - MEANALP     # mean characteristic twist parameter (force-free alpha)
+  - MEANJZH     # mean current helicity density
+  - MEANJZD     # mean vertical current density
+  - MEANSHR     # mean shear angle
+  - AREA_ACR    # area of active pixels
+  - SHRGT45     # fraction of area with shear angle > 45 degrees
+
+# Non-SHARP-specific bookkeeping keywords always requested alongside the
+# physical indices above, needed to align records temporally and spatially:
+bookkeeping_keywords:
+  - HARPNUM
+  - T_REC       # observation time (TAI)
+  - NOAA_AR     # JSOC's single "primary" NOAA AR for this HARP, when assigned (may be missing)
+  - NOAA_ARS    # ALL NOAA ARs enclosed by this HARP's bounding box, comma-separated -- the field
+                # Chapter 3.2.1/Algorithm 3.2 actually specifies for building the NOAA-AR-to-HARPNUM
+                # attribution map H ("Build H from the NOAA_ARS keyword") -- confirmed real/queryable
+                # via drms.Client.query() 2026-07-26, distinct from the single-AR NOAA_AR above. Added
+                # for preprocessing/harp_attribution.py; NOAA_AR alone is insufficient since a HARP can
+                # enclose multiple NOAA regions (~2/3 of HARPs do, per JSOC's own documentation).
+  - LAT_FWT     # flux-weighted latitude
+  - LON_FWT     # flux-weighted longitude
+  - QUALITY     # JSOC data-quality bitmask
+
+# Export/request behaviour
+request:
+  export_method: "url_quick"    # drms.Client(...).export(..., method='url_quick') for direct-URL fetch
+  export_protocol: "as-is"      # download the underlying per-record FITS-derived keyword table
+  poll_interval_seconds: 5
+  poll_timeout_seconds: 1800
+  max_records_per_export: 50000   # JSOC export size guardrail; large ranges are chunked, never truncated silently
+
+output:
+  raw_cache_dir: "data_cache/sharp/raw"
+  normalized_output_dir: "data_cache/sharp/normalized"
+  manifest_dir: "data_cache/sharp/manifests"

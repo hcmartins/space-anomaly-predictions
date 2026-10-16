@@ -1,0 +1,12 @@
+# Global run configuration — Chapter 4 simulated-data pipeline.
+# Every seed, path, and provenance default used across providers is defined here,
+# not hardcoded in any .py module.
+
+random_seed_primary: 42
+random_seed_variance_set: [1, 2, 3, 4, 5]
+
+output_root: "results/"
+figures_root: "figures_out/"
+manifest_root: "results/manifests/"
+
+provenance_tag_default: "SIMULATED"

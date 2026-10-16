@@ -1,0 +1,58 @@
+# Strictly causal feature engineering on the trailing-filled, disk-integrated
+# aligned series (preprocessing/missing_data.py's output). See
+# preprocessing/features.py's module docstring for how lag/trailing-window
+# lookups use an exact-timestamp dict keyed on cadence_minutes steps (never
+# pandas .shift(), which would silently treat row-adjacency as
+# time-adjacency once an unfillable gap has dropped rows -- see
+# planning/PREPROCESSING_DOCUMENTATION.md).
+#
+# No feature column produced here is ever named with a `label_` prefix --
+# that prefix is reserved exclusively for labeling/flare_labels.py's
+# forward-looking targets. This is a structural guarantee against feature/
+# label leakage: this module never even has access to a forecast horizon or
+# flare-class threshold construct, only the past.
+cadence_minutes: 12   # must match configs/missing_data.yaml
+
+variables:
+  - USFLUX
+  - TOTUSJZ
+  - TOTUSJH
+  - ABSNJZH
+  - SAVNCPP
+  - TOTPOT
+  - AREA_ACR
+  - MEANPOT
+  - R_VALUE
+  - MEANGAM
+  - MEANGBT
+  - MEANGBZ
+  - MEANGBH
+  - MEANALP
+  - MEANJZH
+  - MEANJZD
+  - MEANSHR
+  - SHRGT45
+  - n_active_regions_tracked
+  - goes_xrsb_flux_trailing_max_w_m2
+  - goes_xrsb_flux_trailing_mean_w_m2
+  - goes_xrsa_flux_trailing_max_w_m2
+  - goes_xrsa_flux_trailing_mean_w_m2
+
+lags_steps: [1, 2, 5, 10]     # 12 / 24 / 60 / 120 minutes back
+trailing_window_steps: 10     # 120 minutes
+
+enable_lags: true
+enable_trailing_stats: true
+enable_first_difference_and_slope: true
+enable_persistence_counter: true
+enable_qc_indicators: true
+
+# Threshold used ONLY to define the persistence-counter's "elevated flux"
+# state (a C-class peak, per configs/goes.yaml's thresholds) -- NOT loaded
+# from or synchronized with configs/labeling.yaml's separate, independently
+# configured target-class threshold. Keeping this local (rather than
+# cross-loading goes.yaml or labeling.yaml) means this module never has an
+# implicit dependency on the label definition, per the leakage guarantee
+# above.
+persistence_flux_threshold_w_m2: 1.0e-6
+persistence_flux_column: goes_xrsb_flux_trailing_max_w_m2

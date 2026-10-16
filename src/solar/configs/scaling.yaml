@@ -1,0 +1,21 @@
+# SHARP robust-scaling preprocessing (Chapter 3.4.2, Algorithm 3.2): Winsorize
+# each SHARP-derived feature column to train-only percentile bounds, then
+# apply median/IQR ("robust") scaling. Both statistics are fit on the TRAIN
+# split ONLY and applied unchanged to val/test -- the same train-only-fit
+# discipline modeling/train.py's SimpleImputer already follows.
+#
+# ENGINEERING DECISION: scope is every feat_<SHARP_PHYSICAL_KEYWORD>_* column
+# (lags/trailing-stats/diff/slope) -- i.e. every engineered feature whose
+# underlying source variable is one of the 18 SHARP physical indices
+# (data_sources/schema.py::SHARP_PHYSICAL_KEYWORDS). GOES-trailing feat_
+# columns, n_active_regions_tracked, and QC-indicator feat_ columns are left
+# unscaled -- Algorithm 3.2's scope in Chapter 3.4.2 is SHARP-specific; GOES
+# gets its own, separately-tracked preprocessing chain (Algorithm 3.1:
+# log-transform/despiking/smoothing/background-normalization), not yet
+# implemented. Motivation: SHARP physical indices span wildly different raw
+# magnitudes (USFLUX ~1e22 vs R_VALUE ~0-5), which is the leading suspect for
+# logistic regression's real, repeated convergence failure across every run
+# so far (TSS=0, ROC-AUC=0.5 exactly, all-zero coefficients) -- see
+# planning/MODELING_DOCUMENTATION.md and planning/FLARE_CATALOGUE_DOCUMENTATION.md.
+winsorize_lower_percentile: 1.0
+winsorize_upper_percentile: 99.0

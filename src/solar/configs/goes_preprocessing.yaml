@@ -1,0 +1,65 @@
+# GOES sequence preprocessing (Chapter 3.4.1, Algorithm 3.1): log10 transform,
+# MAD-based despiking, gap interpolation, causal moving-average smoothing,
+# rolling-percentile background normalization, resample to a common cadence.
+#
+# Operates on preprocessing/alignment.py::aggregate_goes_disk's output (the
+# already-QC'd, satellite-collapsed disk-integrated 1-min series) -- does NOT
+# duplicate that collapse logic, and does NOT touch aggregate_goes_disk or
+# attach_goes_trailing_state, which remain exactly as they are for the
+# classical/tabular pipeline's already-reported real numbers.
+#
+# ENGINEERING DECISION (all values below): Chapter 3.4.1's algorithm is fully
+# specified structurally but leaves every numeric parameter as [INSERT]. None
+# of these are thesis-mandated; each is chosen for real GOES 1-min XRS data
+# and documented here, matching this project's convention (e.g. the 24h label
+# horizon in configs/labeling.yaml).
+native_cadence_minutes: 1   # real GOES XRS 1-min cadence (see configs/goes.yaml)
+
+# log10 transform (Chapter 3.4.1 step 2): applied to both channels.
+log_variables: [xrsb_flux_w_m2, xrsa_flux_w_m2]
+
+# Despiking (step 3): centered median +/- n_sigma * 1.4826 * MAD over a
+# k-minute centered window. This is a one-time, offline archive-cleaning
+# pass over historical data (never applied at forecast issuance time), so
+# the centered window does not create forecast-time leakage -- see
+# preprocessing/goes_preprocessing.py's module docstring.
+#
+# REAL FINDING (2026-07-29, real smoke test on the 2017-09-04..10 pilot
+# week, AR 12673's X9.3 flare): the thesis's own worked example
+# (n_sigma=5, an implicit short kernel) is NOT a safe default for GOES
+# flux -- a real flare's rise/decay genuinely looks like a local outlier
+# at an 11-minute scale, so a narrow-kernel despike filter removes real
+# flare signal, not just instrument artifacts. Real sweep on the pilot
+# week: kernel=11min/n_sigma=5 flagged 69% of bins and left ZERO feasible
+# 6h sequence windows (longest clean run: 8 of the 30 steps needed).
+# kernel=51min/n_sigma=20 flagged only 7% and produced 879 feasible
+# windows in the same week -- a wider window lets the local median track
+# the flare's actual sustained elevated state instead of being dominated
+# by the rise/decay transition edges. Researcher-confirmed choice.
+despike_kernel_minutes: 51
+despike_n_sigma: 20.0
+
+# Gap interpolation (step 4): linear interpolation for gaps <= g_max;
+# longer gaps are left NaN and flagged, never filled -- deliberately
+# different from missing_data.py's LOCF (that stays SHARP-specific).
+max_interpolated_gap_minutes: 10
+
+# Causal smoothing (step 5): one-sided (trailing) moving average, length w.
+# Short enough to preserve flare rise-phase timescales (minutes), long
+# enough to suppress 1-min instrument noise.
+smoothing_window_minutes: 15
+
+# Background normalization (step 6): trailing rolling q-th percentile over a
+# window of L minutes, subtracted. L is deliberately much longer than the
+# smoothing window -- it estimates the slowly-varying quiet-time background,
+# not short-term structure.
+background_percentile: 10.0
+background_window_minutes: 2880   # 48h trailing window
+
+# Resample to a common cadence (step 7): 12 min, matching SHARP's native
+# cadence (see configs/alignment.yaml) -- keeps a later GOES+SHARP
+# multimodal fusion step cleanly alignable, and keeps the sequence length
+# T_G tractable for a first LSTM (native 1-min would make T_G unnecessarily
+# large for the same look-back window).
+resample_cadence_minutes: 12
+resample_aggregation: mean

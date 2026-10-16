@@ -1,0 +1,43 @@
+# GOES sequence LSTM task (Chapter 3.6, Table 3.3) -- kept as a SEPARATE
+# task config from configs/task_flare_forecast.yaml (the classical/tabular
+# task): different input representation (sequence tensors, not flat
+# features), different model family, different results/checkpoint paths.
+# Same target column and same real train/val/test split
+# (configs/splits.yaml, reused via the classical pipeline's already-built
+# dataset_with_split.csv) as the classical task, so results are directly,
+# honestly comparable.
+
+task_name: flare_forecast_sequence
+task_type: classification
+
+target_column: label_primary
+
+seed: 44
+
+decision_threshold: 0.5   # fallback only -- see modeling/sequence_train.py
+
+threshold_selection:
+  metric: tss
+  grid_min: 0.01
+  grid_max: 0.99
+  grid_steps: 99
+
+metrics: [tss, hss, pod, far, precision, recall, f1, brier, log_score, pr_auc, roc_auc]
+
+# ENGINEERING DECISION (mirroring martian/configs/task_storm_detection.yaml's
+# real, working sequence hyperparameters as a starting point -- not
+# thesis-specified, Table 3.3 leaves every one of these [INSERT]):
+sequence:
+  models:
+    - rnn_type: lstm
+      hyperparameters: {hidden_size: 32, num_layers: 1, dropout: 0.2}
+  training:
+    epochs: 50
+    learning_rate: 0.001
+    early_stopping_patience: 5
+    batch_size: 256
+
+paths:
+  checkpoint_dir: "checkpoints/task_flare_forecast_sequence"
+  results: "results/task_flare_forecast_sequence/metrics.json"
+  feasibility_report: "results/task_flare_forecast_sequence/feasibility_report.json"

@@ -1,0 +1,81 @@
+# Flare-occurrence forecasting task: binary classification of
+# labeling/flare_labels.py's `label_primary` target (by default -- see
+# `target_columns` below to also train the four individual class-threshold
+# targets `label_flare_{b,c,m,x}_or_above`, each iterated the same way,
+# each getting its own model group and metrics, exactly like martian's
+# per-horizon iteration).
+#
+# There is currently only ONE modeling task in this delivery (unlike
+# martian's three fully-separated tasks) -- see modeling/registry.py's
+# header for why there is no task_type split yet.
+
+task_name: flare_forecast
+task_type: classification
+
+target_columns: [label_primary]
+
+seed: 44
+
+# FALLBACK ONLY -- used when the val split is too small or single-class to
+# select a real threshold from (see threshold_selection below). The real,
+# used-in-practice threshold is tau* per Chapter 3.6.2/3.8: "conversion to
+# a binary alert uses a threshold tau* selected on validation data only...
+# the test set plays no role in threshold selection." modeling/train.py
+# sweeps a grid over threshold_selection.metric on the val split, and
+# records which of the two actually applied (decision_threshold_source)
+# in every model's result.
+decision_threshold: 0.5
+
+threshold_selection:
+  metric: tss   # TSS is this literature's standard skill score for threshold selection (Bloomfield et al. 2012; Barnes et al. 2016)
+  grid_min: 0.01
+  grid_max: 0.99
+  grid_steps: 99
+
+metrics: [tss, hss, pod, far, precision, recall, f1, brier, log_score, pr_auc, roc_auc]
+
+# --- Model hierarchy: baselines -> classical ------------------------------
+# No sequence-model tier yet (unlike martian's LSTM/GRU tier) -- this
+# delivery has no torch dependency and no sequence-feasibility/windowing
+# infrastructure built for solar yet. See planning/MODELING_DOCUMENTATION.md.
+
+baselines:
+  - name: climatology
+    hyperparameters: {mode: train_mean}   # constant base rate -- the standard climatological baseline for a binary target
+  - name: persistence
+    hyperparameters: {source_column: feat_persistence_elevated_flux_run_steps}
+
+classical_models:
+  - name: logistic_regression
+    # max_iter raised 500 -> 3000 2026-07-28 alongside the new SHARP
+    # scaling step (preprocessing/scaling.py): a real diagnostic on the
+    # real disk-integrated train split showed lbfgs still hit the 500-iter
+    # cap post-scaling (ConvergenceWarning, not the prior ABNORMAL 0-iter
+    # failure) -- real condition number ~1.9e25 (expected: lag1/2/5/10 +
+    # trailing mean/std/max/min + diff/slope of the same SHARP variable are
+    # highly correlated) makes convergence slow along some directions even
+    # though predictions barely change past ~500 iterations (train accuracy
+    # 0.7663 @ 500 iter vs 0.7660 @ full convergence ~2756 iter on a 40k
+    # subsample). Raised anyway since it's cheap and removes a spurious
+    # warning on the real, much larger full train split.
+    hyperparameters: {max_iter: 3000, class_weight: balanced}
+  - name: random_forest_classifier
+    hyperparameters: {n_estimators: 200, max_depth: 8, min_samples_leaf: 3, class_weight: balanced}
+  - name: gradient_boosting_classifier
+    hyperparameters: {n_estimators: 200, max_depth: 3, learning_rate: 0.05}
+  - name: knn_classifier
+    hyperparameters: {n_neighbors: 15}
+
+metric_definitions_note: >
+  FAR here is the meteorological "false alarm RATE" (false positive rate,
+  FP / (FP + TN) -- the quantity TSS/Peirce-Skill-Score classically
+  subtracts from POD), NOT "false alarm ratio" (FP / (FP + TP), which would
+  be numerically redundant with precision = 1 - false_alarm_ratio).
+  RESEARCHER VERIFICATION REQUIRED if the thesis text uses "FAR" to mean
+  the ratio instead of the rate.
+
+paths:
+  dataset: "results/task_flare_forecast/dataset.csv"
+  feature_manifest: "results/task_flare_forecast/feature_manifest.json"
+  results: "results/task_flare_forecast/metrics.json"
+  checkpoint_dir: "checkpoints/task_flare_forecast"

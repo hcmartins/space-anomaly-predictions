@@ -1,0 +1,22 @@
+# GOES sequence-tensor construction for the LSTM (Chapter 3.2.1's X_G(t0),
+# Chapter 3.6's Table 3.3). Consumes preprocessing/goes_preprocessing.py's
+# resampled, background-normalized output -- never the raw disk-integrated
+# series feature.py/alignment.py use for the classical/tabular pipeline.
+#
+# ENGINEERING DECISION (all values below): d_G, T_G, and the look-back
+# length are marked [INSERT] in the thesis text. d_G=2 is the thesis's own
+# literal worked example (both XRS channels); look_back_hours=6h is the
+# thesis's own worked example for Delta_G. tau_G (the sequence cadence) is
+# inherited from configs/goes_preprocessing.yaml's resample_cadence_minutes
+# (12 min, matching SHARP) rather than duplicated here, so the two configs
+# can never silently diverge.
+feature_columns:
+  - goes_seq_xrsb_flux_w_m2
+  - goes_seq_xrsa_flux_w_m2
+
+look_back_hours: 6
+
+# Algorithm 3.1 step 9's literal policy: "if it contains a flagged gap then
+# discard and continue" -- zero tolerance, not a coverage-fraction
+# threshold. A step counts as "flagged" if it was interpolated
+# (goes_seq_interpolated_any) or is still NaN (gap exceeded g_max).
