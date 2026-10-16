@@ -1,0 +1,49 @@
+# Blind dev/test tuning of the Table 4.6 matching tolerance
+# (temporal_tolerance_sols, spatial_region_radius_cells) against the Guha et
+# al. (2024) MY36 documented dust-storm catalogue -- added 2026-08-12 in
+# response to CHAPTER_4_PARAMETER_VALUES.md's open item 4 (the +/-2-sol /
+# 1-cell tolerance in configs/catalogue_validation.yaml was a carried-over
+# placeholder, never independently tuned against this catalogue's own
+# registration accuracy).
+#
+# This performs the tolerance SEARCH on a DEV half of the 98 documented
+# MY36 events only, then reports Table 4.6b's headline hit/miss/POD/
+# precision numbers on the held-out TEST half under the frozen, dev-
+# selected tolerance -- see labeling/catalogue_tolerance_tuning.py. The
+# ORIGINAL Table 4.6 (configs/catalogue_validation.yaml, full 98-event
+# catalogue, untuned +/-2-sol/1-cell tolerance) is left completely
+# untouched by this file -- Table 4.6b is an ADDITION, not a replacement,
+# so both the "as originally specified" and the honest "after tuning, held
+# out" numbers exist side by side and neither silently overwrites the
+# other.
+
+dev_test_split:
+  dev_fraction: 0.5
+  seed: 42
+  # Fixed-seed RANDOM split of the 98 documented events by event_id -- not
+  # chronological and not storm-number parity, to avoid any systematic bias
+  # by season or detection order that either of those would risk
+  # introducing. n=98 is small enough that no stratification is attempted.
+  # RESEARCHER VERIFICATION REQUIRED if a different split fraction or
+  # mechanism (e.g. stratified by month) is later preferred -- this is an
+  # engineering decision made under the 2026-08-12 implementation task, not
+  # a value taken from any prior document.
+
+tolerance_grid:
+  temporal_tolerance_sols: [0, 1, 2, 3, 4]
+  spatial_region_radius_cells: [0, 1, 2, 3]
+  # Small, bounded grids centred on the original +/-2-sol/1-cell placeholder
+  # -- consistent with this repo's existing sensitivity-sweep convention
+  # (configs/anomaly_definition.yaml's k/m sweep, configs/grid.yaml's
+  # resolution sweep): a handful of discrete, defensible candidates, not an
+  # unbounded or continuous search. 5 x 4 = 20 combinations, each a cheap
+  # re-run of run_catalogue_validation against the dev subset only.
+
+selection_metric: "f1"
+# F1 of episode detection = harmonic mean of dev-side POD and dev-side
+# episode_precision. Chosen 2026-08-12 (researcher decision, recorded in
+# CHAPTER_4_PARAMETER_VALUES.md) over raw POD (trivially maximized by an
+# infinitely loose tolerance -- unsafe as a search objective) or a
+# precision-floor / TSS-style alternative, for a single, standard, balanced
+# detection-matching criterion that cannot be gamed by loosening the
+# tolerance indefinitely.

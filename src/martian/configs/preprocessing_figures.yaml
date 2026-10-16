@@ -1,0 +1,80 @@
+# Figures 4.5-4.8 (Chapter 4 preprocessing/spatiotemporal-structure figures)
+# -- CHAPTER_4_PARAMETER_VALUES.md open item 3, implemented 2026-08-12 in
+# evaluation/preprocessing_figures.py. All four were previously marked
+# "[FIGURE TO REGENERATE FROM LEVEL 3 DATA]" in the chapter draft; no
+# generation script existed anywhere in this repository before this file.
+
+representative_cell:
+  cell_id: 1393
+  excluded_cell_ids: [1296]
+  selection_rule: >
+    Most-observed cell in the MY36 training partition among cells with
+    physically plausible retrieval density and CDOD values. Cell 1296
+    (lat=0.0, lon=0.0 exactly) was found and excluded during this
+    implementation: it has 466 aggregated cell-sols across the full run --
+    by far the most of any single cell (next-highest genuine cell has 259)
+    -- but a mean dust_optical_depth of ~2e-11 (indistinguishable from
+    zero) and a mean of ~125 raw retrievals per cell-sol (vs ~2.3 average
+    everywhere else in the run). This is consistent with a real, distinct
+    EMIRS observation mode (e.g. full-disk or calibration frames, which do
+    not have a single nadir ground footprint) being assigned a placeholder
+    (0,0) geolocation that the impossible_coordinate_or_timestamp QC rule's
+    simple range check does not catch, since (0,0) is a valid coordinate
+    pair on its own. This is a genuine, previously undocumented real-data
+    finding (2026-08-12) distinct from caveat 7's already-documented
+    unparseable-timestamp fill rows -- see
+    CHAPTER_4_PARAMETER_VALUES.md. It affects 466/142,849 (0.33%) of
+    aggregated cell-sols in the canonical run; NOT corrected in the
+    canonical run's own headline statistics (out of scope for a figure-
+    generation task), flagged here so it is not silently absorbed into any
+    representative-cell selection or spatial figure. Cell 1393 (lat=8.34,
+    lon=125.30; 259 aggregated cell-sols; mean CDOD 0.273, std 0.178; mean
+    ~2.03 retrievals/cell-sol, matching the run's own reported ~2.28
+    average) is used instead.
+
+missingness_map:
+  # The 2D cell-sol missingness/gap-fill maps (Figure 4.6 panels a/b) are
+  # restricted to the representative cell's own latitude band (all 72
+  # longitude cells in that band), not the full 2,592-cell grid, purely for
+  # legibility -- a 2,592-cell x ~600-sol heatmap is unreadable at any
+  # printable size. This is a display choice, not a data restriction: every
+  # other figure/table in this document uses the full grid.
+
+acf:
+  max_lag_sols: 20
+  # Pooled panel autocorrelation: for each lag k, averages
+  # (value(cell,sol) - mean) * (value(cell,sol+k) - mean) across every
+  # (cell, sol) pair in the training split whose sol values are genuinely
+  # k apart AND both genuinely observed (not trailing-filled) -- gaps are
+  # never bridged, so a lag-k pair is only counted when sol_i+k truly
+  # exists for that cell. PACF is derived from the pooled ACF via the
+  # standard Durbin-Levinson recursion, a documented simplification (it
+  # treats the pooled, cross-cell ACF as if from one stationary process --
+  # RESEARCHER VERIFICATION REQUIRED if a per-cell PACF pooled by other
+  # means is later preferred).
+
+semivariogram:
+  distance_bins_km: [0, 300, 600, 1000, 1500, 2000, 3000, 5000, 8000, 12000]
+  latitude_bands:
+    low: [-30, 30]
+    mid_north: [30, 90]
+    mid_south: [-90, -30]
+  # Same-sol spatial pairs only (a genuine spatial semivariogram compares
+  # simultaneous observations) -- computed on dust_optical_depth_z (the
+  # climatological z-score, Eq. 4.2) rather than raw CDOD, so the seasonal
+  # cycle itself doesn't dominate the spatial-structure signal. Ls quartiles
+  # are computed from the training split's own solar_longitude_ls
+  # distribution (quartile boundaries stated in the figure's provenance,
+  # not hard-coded, since they depend on which sols are populated).
+
+episode_composite:
+  window_sols_before: 3
+  window_sols_after: 3
+  # Composite is built on QUALIFYING storm_episode onsets only (the
+  # persistence+area-gated label, k=2/m=3 primary regime), restricted to
+  # the training split, averaging dust_optical_depth_z across all member
+  # cells of each qualifying episode at each relative-sol offset in
+  # [-window_sols_before, +window_sols_after]. A cell-sol contributes at a
+  # given offset only if a genuine (non-interpolated) observation exists
+  # for that cell at that absolute sol -- offsets with no genuine
+  # observation are excluded from the mean, never filled or imputed.

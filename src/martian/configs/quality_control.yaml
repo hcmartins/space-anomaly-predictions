@@ -1,0 +1,154 @@
+# Quality-control rule pipeline for Martian EMIRS-analogue retrievals.
+#
+# Applied as a FIRST-FAILING-RULE hierarchy in the fixed priority order below
+# (id ascending): a retrieval is rejected under the FIRST enabled rule it
+# fails; if it passes every enabled rule it is accepted. Rule ids must form a
+# contiguous 1..N sequence with no gaps or duplicates — enforced at load time
+# by preprocessing/quality_control.py.
+#
+# `source` records whether the RULE ITSELF (not necessarily its numeric
+# threshold) is grounded in the supplied Chapter 4 text:
+#   VERIFIED_PRODUCT_DOCUMENTATION -> named explicitly in enhanced Ch.4 §4.3's
+#     QC hierarchy: "missing variable, invalid quality flag, negative optical
+#     depth, physically impossible temperature, excessive uncertainty and
+#     viewing-geometry exceedance" (6 rules, in this order)
+#   RESEARCHER VERIFICATION REQUIRED -> engineering addition for this task,
+#     not itemised anywhere in the supplied thesis text
+#
+# ALL numeric thresholds are RESEARCHER VERIFICATION REQUIRED regardless of
+# whether the rule's existence is chapter-grounded, because no real EMIRS
+# product specification has been consulted in this environment — see
+# planning/DATA_AUDIT.md and each rule's own `threshold_source` field.
+
+rules:
+  - id: 1
+    name: missing_required_variable
+    enabled: true
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: first first-failing rule, 'missing variable'."
+    parameters:
+      required_variables:
+        - latitude
+        - longitude
+        - utc_timestamp
+        - mars_year
+        - sol
+        - solar_longitude_ls
+        - local_true_solar_time
+        - dust_optical_depth
+        - water_ice_optical_depth
+        - surface_temperature_k
+        - quality_flag
+      note: >
+        Deliberately does NOT include atm_temp_k_level_* or emission_angle_deg.
+        Per-level temperature gaps are handled by pressure-level-coverage
+        accounting at the aggregation stage (configs/aggregation.yaml), not by
+        outright retrieval rejection here — a partially-missing vertical
+        profile is a coverage/quality issue, not grounds to discard the whole
+        retrieval's surface-level data.
+
+  - id: 2
+    name: invalid_quality_flag
+    enabled: true
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: second first-failing rule, 'invalid quality flag'."
+    parameters:
+      pass_value: 0
+
+  - id: 3
+    name: impossible_coordinate_or_timestamp
+    enabled: true
+    source: "RESEARCHER VERIFICATION REQUIRED"
+    citation: >
+      NOT itemised as a distinct rule in the supplied Chapter 4 QC hierarchy
+      (which lists only 6 rules total). Added for this task as a
+      physical-plausibility check analogous to the confirmed
+      negative-optical-depth and impossible-temperature rules, motivated by
+      latitude/longitude/utc_timestamp/mars_year/sol themselves being flagged
+      RESEARCHER VERIFICATION REQUIRED in configs/emirs_variables.yaml.
+    parameters:
+      latitude_range: [-90, 90]
+      longitude_range: [0, 360]
+      mars_year_range: [1, 99]
+      sol_range: [0, 700]
+
+  - id: 4
+    name: negative_optical_depth
+    enabled: true
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: third first-failing rule, 'negative optical depth'."
+    parameters:
+      variables: [dust_optical_depth, water_ice_optical_depth]
+
+  - id: 5
+    name: physically_impossible_temperature
+    enabled: true
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: fourth first-failing rule, 'physically impossible temperature'."
+    threshold_source: >
+      RESEARCHER VERIFICATION REQUIRED — mirrors configs/emirs_variables.yaml
+      valid_range for consistency; NOT an independently verified instrument
+      specification.
+    parameters:
+      surface_temperature_k_range: [130, 300]
+      atmospheric_temperature_k_range: [80, 320]
+
+  - id: 6
+    name: excessive_retrieval_uncertainty
+    enabled: true
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: fifth first-failing rule, 'excessive uncertainty'."
+    threshold_source: >
+      dust_optical_depth/surface_temperature_k thresholds: RESEARCHER
+      VERIFICATION REQUIRED — see planning/DECISIONS_REQUIRED.md #13.
+      water_ice_optical_depth threshold: raised from an unverified 0.5 guess
+      to 0.65 on 2026-07-29, grounded in the real dissertation's Fig 3.4.2
+      descriptive statistics (real iceuncert median / real tauice median ≈
+      0.59 — see configs/emirs_simulation_calibration.yaml) — the first real
+      evidence this threshold has had; 0.65 keeps ~0.06 headroom above that
+      real ratio for per-retrieval noise around the median.
+    parameters:
+      max_relative_uncertainty:
+        dust_optical_depth: 0.5
+        water_ice_optical_depth: 0.65
+        surface_temperature_k: 0.5
+      epsilon: 1.0e-6
+
+  - id: 7
+    name: unacceptable_viewing_geometry
+    enabled: false   # DISABLED for real data: no emission_angle_deg (or any viewing-geometry
+                      # field) is documented in configs/real_emirs_schema.yaml's real EMIRS
+                      # product schema -- not itemised there, not fabricated here. The check
+                      # function itself (preprocessing/quality_control.py's
+                      # _check_unacceptable_viewing_geometry) returns "no failures" when the
+                      # column is absent, so this rule is inert (n_flagged=0) rather than
+                      # crashing, but it is also explicitly disabled here so its disabled
+                      # status is visible in config, not just an accident of the real data's
+                      # missing column.
+    source: VERIFIED_PRODUCT_DOCUMENTATION
+    citation: "Enhanced Ch.4 §4.3: sixth first-failing rule, 'viewing-geometry exceedance'."
+    threshold_source: >
+      RESEARCHER VERIFICATION REQUIRED — no numeric emission-angle threshold
+      is given anywhere in the supplied Chapter 4 text for EMIRS. The SHARP
+      mu >= 0.8 limb-exclusion convention documented elsewhere in the thesis
+      (Table 7.1) applies to the SOLAR domain and must NOT be borrowed here
+      without independent justification against the real EMIRS geometry
+      field.
+    parameters:
+      max_emission_angle_deg: 70
+
+  - id: 8
+    name: duplicate_retrieval
+    enabled: true
+    source: "RESEARCHER VERIFICATION REQUIRED"
+    citation: >
+      NOT itemised in the supplied Chapter 4 QC hierarchy text (which lists
+      only 6 rules). Folded in here as a QC-pipeline rejection rule per this
+      task's explicit request. Duplicate detection already exists as a
+      separate, harder validation gate in data_sources/schema.py
+      (validate_schema's check_duplicates_on), which raises on ANY duplicate
+      found in a provider's raw output rather than rejecting individual rows;
+      this rule instead rejects duplicate rows one-by-one (keeping the first
+      occurrence) as part of the accept/reject QC pipeline.
+    parameters:
+      key_columns: [latitude, longitude, utc_timestamp]

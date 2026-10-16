@@ -1,0 +1,101 @@
+# Mars Climate Database configuration.
+#
+# RealMCDClimatologyProvider (data_sources/real_mcd_provider.py) is the only
+# climatology provider in this pipeline -- it reads a PRECOMPUTED climatology
+# netCDF file. TWO build scripts can produce it:
+#   (a) build_mcd_climatology.py — queries the MCD's own Fortran call_mcd
+#       routine via a compiled aymeric-spiga/mcd-python wrapper + a
+#       separately-downloaded full MCD installation. STILL BLOCKED — neither
+#       the compiled wrapper nor an MCD installation exists in this
+#       environment.
+#   (b) build_mcd_climatology_from_montabone.py (added 2026-08-04) — builds
+#       dust_optical_depth's mu_clim/sigma_clim from REAL, already-downloaded
+#       Montabone et al. gridded CDOD climatology files
+#       (data_cache/griddedcdod_MY{34,35,36}_v2-5.nc). REAL AND RUNNABLE
+#       NOW — no compile step or further download needed. Does NOT cover
+#       surface_temperature_k (see real.variables below and that script's
+#       own module docstring) -- no real source exists for it, and
+#       temperature-anomaly forecasting was descoped from this pipeline as a
+#       result.
+# Not wired into mars.run_all yet — RealEMIRSObservationProvider has no real
+# downloaded FITS files (see configs/real_emirs_ingestion.yaml), so the full
+# pipeline still cannot run end-to-end. See mars/validate_inputs.py.
+#
+# Real MCD access (confirmed 2026-08-03, researcher-supplied guidance from
+# the LMD/IPSL team — see planning/DECISIONS_REQUIRED.md #2):
+#   - Scripted Python access: aymeric-spiga/mcd-python
+#     (https://github.com/aymeric-spiga/mcd-python), an f2py wrapper around
+#     the MCD's Fortran call_mcd routine. Requires (a) compiling the wrapper
+#     against gfortran + netCDF dev libraries + numpy — a Linux build
+#     environment; the compile step is the fiddly part, not the querying —
+#     and (b) a SEPARATELY-downloaded full MCD installation (data files +
+#     access software), requested directly from the LMD/IPSL team
+#     (forget@lmd.jussieu.fr, millour@lmd.jussieu.fr). The wrapper's source
+#     code alone does not include the climate database itself.
+#   - Interpolation: the MCD's own documented query behaviour is LINEAR
+#     interpolation in (Ls, local time, latitude, longitude) from the
+#     database's native grid — NOT a "built-in high-resolution grid
+#     interpolation" as an earlier chapter draft stated. CONFIRMED.
+#   - Dust scenario: "climatology" (average solar/EUV conditions) is the
+#     correct scenario for a standard-year climatology, matching this
+#     pipeline's Eq. 4.1 mu_clim/sigma_clim use case. The MCD also ships
+#     dust-storm and warm/cold scenarios, useful for a future sensitivity
+#     analysis but not the primary regime. CONFIRMED.
+#   - Variability (sigma_clim): the full MCD provides day-to-day/RMS
+#     variability plus a high-resolution add-on — THIS is what sigma_clim
+#     should ideally be built from (build method (a) above, still blocked).
+#     Build method (b)'s pooled-real-data std (see below) is a different,
+#     also-real, but not identical statistic. CONFIRMED.
+#   - Licence: free for research use; the MCD must be cited (Millour et al.,
+#     MCD v6.1) and the LMD/IPSL team kept informed of usage; no commercial
+#     use. CONFIRMED.
+mcd_version: "MCD v6.1 (target build per aymeric-spiga/mcd-python and LMD guidance — confirm the exact installed version string once build_mcd_climatology.py has actually been run against a real downloaded installation; not yet run in this environment)"
+scenario: "climatology (average solar/EUV conditions)"
+interpolation: "Linear interpolation in (Ls, local time, latitude, longitude) from the MCD's native grid"
+citation: "Millour et al. (2014, 2015, 2022) — MCD v6.1; thesis reference list #79-81. Cite the MCD in any publication using it."
+licence: "Free for research use. Must cite the MCD and keep the LMD/IPSL team (forget@lmd.jussieu.fr, millour@lmd.jussieu.fr) informed of usage. No commercial use."
+
+# --- Real-provider-specific settings (RealMCDClimatologyProvider) ---
+real:
+  # Populate this yourself if using build method (a) below: run
+  # build_mcd_climatology.py or build_mcd_climatology_from_montabone.py
+  # (src/martian root) to write this file. RealMCDClimatologyProvider raises
+  # a clear, actionable error if it does not exist — never a silent empty or
+  # fabricated result. CURRENT FILE (as of 2026-08-04, if generated) was
+  # built by build_mcd_climatology_from_montabone.py, method (b) above —
+  # dust_optical_depth only, real MY34-36 pooled climatology.
+  climatology_netcdf_path: "data_cache/mcd/mcd_climatology_5deg.nc"
+  ls_bin_deg: 30.0              # solar-longitude bin width for the precomputed grid (12 bins). Shared by both build scripts.
+  ltst_bin_hours: 2.0           # local-true-solar-time bin width. Only used by build method (a) -- method (b)'s LTST axis is degenerate (2 identical bins), see build_mcd_climatology_from_montabone.py's docstring.
+  # variables actually covered by a real source right now. Do NOT add
+  # surface_temperature_k here until a real temperature climatology source
+  # is found -- no such source exists today, and RealMCDClimatologyProvider
+  # correctly raises a clear error if queried for it (see
+  # data_sources/real_mcd_provider.py). Temperature-anomaly forecasting is
+  # descoped from this pipeline as a result.
+  variables: [dust_optical_depth]
+
+  # --- build method (a): MCD's own Fortran call_mcd, via aymeric-spiga/mcd-python ---
+  # STILL BLOCKED: no compiled `fmcd` module or downloaded MCD installation
+  # exists in this environment. See build_mcd_climatology.py's own header.
+  wrapper_repo: "https://github.com/aymeric-spiga/mcd-python"
+  dust_scenario_code: 1         # 1 = "climatology" (average solar) in the MCD's scena argument. CONFIRM against your MCD v6.1 user manual before trusting this exact integer code — not independently verified here.
+  n_sigma_draws: 30             # Monte-Carlo draws of the day-to-day perturbation (perturkey=2) used to estimate sigma_clim
+  grid_resolution_deg: 5.0      # must match configs/grid.yaml's resolution_deg
+
+  # --- build method (b): real Montabone et al. gridded CDOD climatology ---
+  # REAL AND RUNNABLE NOW -- files already downloaded into data_cache/
+  # (2026-08-04). See build_mcd_climatology_from_montabone.py's own header
+  # for exactly what this data is, its real citation/licence, and the
+  # engineering decisions behind pooling it into mu_clim/sigma_clim.
+  montabone:
+    data_directory: "data_cache"
+    mars_years: [34, 35, 36]     # real Mars Years actually downloaded; pooled together into ONE climatology (Eq. 4.1's mu_clim/sigma_clim have no mars_year dependence)
+    source_variable: "cdod610"   # CDOD normalized to 610 Pa reference pressure -- the standard citable convention
+    citation: "Montabone, L., Spiga, A., Kass, D. M., Kleinboehl, A., Forget, F., Millour, E., Martian Year 34 Column Dust Climatology from Mars Climate Sounder Observations: Reconstructed Maps and Model Simulations, J. Geophys. Res. - Planets (2019), doi: 10.1029/2019JE006111; Montabone et al., Eight-year Climatology of Dust Optical Depth on Mars, Icarus (2015), 251, 65-95, doi: 10.1016/j.icarus.2014.12.034."
+    licence: "CC BY-SA 3.0 Unported (free to copy/redistribute/modify with attribution) -- see data_cache/*.nc files' own embedded attrs."
+
+note: >
+  No simulated climatology provider exists in this pipeline -- all values
+  above describe RealMCDClimatologyProvider, the only implementation. See
+  data_sources/real_mcd_provider.py.

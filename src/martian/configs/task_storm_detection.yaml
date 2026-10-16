@@ -1,0 +1,91 @@
+# Task C: Storm-episode detection.
+#
+# FULLY SEPARATED from Task A and Task B: own target, own dataset, own
+# feature manifest, own checkpoints, own results, own figures, own seed.
+
+task_name: storm_detection
+task_type: classification
+
+target_variable: storm_episode
+target_column_prefix: "target_storm_horizon_h"
+target_description: >
+  Binary horizon target, reused directly from labeling/anomaly_labels.py's
+  `horizon_{h}sol` column (single source of truth, never recomputed
+  independently here): "any storm_episode within the future horizon" --
+  target_storm_horizon_h{h}(c,s) = any(storm_episode(c,s') for
+  s < s' <= s+h), same cell, same mars_year. This is EVENT DETECTION
+  (does a storm occur), never event classification (which taxonomy class)
+  and never raw atmospheric-anomaly detection -- see
+  planning/LABELING_DOCUMENTATION.md SS6 for that distinction, which this
+  task inherits unchanged.
+
+horizons_sols: [1, 3, 5]
+
+seed: 44
+
+decision_threshold: 0.5   # FALLBACK ONLY since 2026-10-04 -- used when validation cannot define TSS (see threshold_selection)
+# Eq. 6.1 (2026-10-04): every classifier's operating point tau* is selected by
+# maximising TSS on the VALIDATION split over the same fixed grid the solar
+# pipeline and the cross-domain fusion use; the test split plays no role.
+# Before this change every model used the fixed 0.5 above, which (with the
+# sequence models' probabilities clustered at 0.2-0.5) suppressed almost all
+# alerts -- chapter6.md Section 12.
+threshold_selection:
+  enabled: true
+  metric: tss
+  grid_min: 0.01
+  grid_max: 0.99
+  grid_steps: 99
+
+metrics: [tss, hss, pod, far, precision, recall, f1, brier, log_score, pr_auc, roc_auc]
+
+# --- Model hierarchy: baselines -> classical -> sequence -----------------
+
+baselines:
+  - name: climatology
+    hyperparameters: {mode: train_mean}   # constant base rate -- the standard "climatological average likelihood" baseline for a binary target
+  - name: persistence
+    hyperparameters: {source_column: atmospheric_anomaly}
+  - name: seasonal_mean
+    hyperparameters: {}
+
+classical_models:
+  - name: logistic_regression
+    hyperparameters: {max_iter: 500, class_weight: balanced}
+  - name: random_forest_classifier
+    hyperparameters: {n_estimators: 200, max_depth: 8, min_samples_leaf: 3, class_weight: balanced}
+  - name: gradient_boosting_classifier
+    hyperparameters: {n_estimators: 200, max_depth: 3, learning_rate: 0.05}
+  - name: knn_classifier
+    hyperparameters: {n_neighbors: 15}
+
+sequence:
+  enabled: true
+  window_length_primary: 10
+  window_length_sensitivity: [3, 5, 10]
+  models:
+    - rnn_type: lstm
+      hyperparameters: {hidden_size: 16, num_layers: 1, dropout: 0.0}
+    - rnn_type: gru
+      hyperparameters: {hidden_size: 16, num_layers: 1, dropout: 0.0}
+  training:
+    epochs: 30
+    learning_rate: 0.001
+    early_stopping_patience: 5
+
+metric_definitions_note: >
+  FAR here is the meteorological "false alarm RATE" (false positive rate,
+  FP / (FP + TN) -- the quantity TSS/Peirce-Skill-Score classically
+  subtracts from POD), NOT "false alarm ratio" (FP / (FP + TP), which would
+  be numerically redundant with precision = 1 - false_alarm_ratio).
+  RESEARCHER VERIFICATION REQUIRED if the thesis text uses "FAR" to mean
+  the ratio instead of the rate.
+
+paths:
+  dataset: "results/task_storm_detection/dataset.csv"
+  feature_manifest: "results/task_storm_detection/feature_manifest.json"
+  results: "results/task_storm_detection/metrics.json"
+  predictions: "results/task_storm_detection/predictions.csv"
+  checkpoint_dir: "checkpoints/task_storm_detection"
+  figures_dir: "figures_out/task_storm_detection"
+  sequence_feasibility_report: "results/task_storm_detection/sequence_feasibility_report.csv"

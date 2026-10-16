@@ -1,0 +1,74 @@
+# Missing-data (gap-filling) settings for cell-sol aggregated data.
+#
+# Governs preprocessing/missing_data.py. Runs strictly chronologically per
+# (cell_id, mars_year) series, sol-ascending, and only ever fills FORWARD
+# (trailing / last-observation-carried-forward) — never bidirectionally, and
+# never using an observation from a later sol. See that module's docstring
+# for the exact algorithm.
+#
+# Source: CLAIMS_TRACEABILITY.md row 11 ("Causal short-gap fill <=2 sols;
+# bidirectional interpolation restricted to pre-boundary training period",
+# Enh. Ch.4 SS4.4). This delivery is STRICTER than that traceability row: per
+# this task's explicit instruction, bidirectional interpolation is NOT
+# implemented at all (trailing fill only, unconditionally), so the
+# "restricted to pre-boundary training period" carve-out never applies here.
+
+# primary.max_trailing_fill_gap_sols CHANGED 2026-08-13, from 2 to 1: a real
+# missing-data sensitivity sweep (n_min x fill-gap x window-completeness,
+# 18 combinations, gradient-boosting proxy model, TRAIN/VAL evidence only --
+# see run_missing_data_sensitivity_sweep.py and
+# outputs/real/missing_data_sensitivity_sweep_20260813.csv) selected gap=1
+# as part of the lowest-combined-rank configuration (val TSS mean 0.0530,
+# val MAE mean 0.1125, vs gap=2's val TSS mean 0.0458 / val MAE mean
+# 0.1128) -- see CHAPTER_4_PARAMETER_VALUES.md Section 11 item 7 for the
+# full sweep table and the honest caveat that the n_min axis of the same
+# sweep was a no-op (aggregation.yaml's min_obs_per_cell_sol only flags,
+# never excludes, a cell-sol -- see that file's own note).
+primary:
+  max_trailing_fill_gap_sols: 1
+
+sensitivity:
+  max_trailing_fill_gap_sols: [0, 1, 2, 3]
+
+# Columns eligible for trailing fill -- physically-measured / derived
+# quantities only. A filled cell-sol carries forward the most recent
+# observed value(s) for exactly these columns; every other column (including
+# any current or future LABEL column) is left NaN for a filled row, never
+# fabricated. atm_temp_k_level_NN (+ their _uncertainty companions) are
+# appended programmatically by preprocessing/missing_data.py, not listed by
+# hand here, to avoid duplicating the 14-level list (same pattern as
+# configs/aggregation.yaml).
+fill_variables:
+  - dust_optical_depth
+  - dust_optical_depth_uncertainty
+  - water_ice_optical_depth
+  - water_ice_optical_depth_uncertainty
+  - surface_temperature_k
+  - surface_temperature_k_uncertainty
+  - surface_pressure_mbar
+  - surface_emissivity
+  - emission_angle_deg
+  - solar_longitude_ls
+  - local_true_solar_time
+  - pressure_level_coverage_frac
+  - uncertainty_summary
+
+# Column-name substrings that must NEVER appear in fill_variables. Enforced
+# structurally (raises) by preprocessing/missing_data.py at config-load time
+# and again at call time -- not just a convention. No label columns exist yet
+# in this repository (labeling is Phase 3, not yet implemented), but this
+# guard is written now so a future label column can never be added to
+# fill_variables by accident.
+reserved_label_patterns:
+  - label
+  - is_storm
+  - event_
+  - target_
+  - anomaly
+
+note: >
+  "Do not interpolate a cell-sol into existence when no defensible
+  observation is available" is implemented by DROPPING (never emitting) any
+  reindexed sol whose gap since the last real observation exceeds
+  max_trailing_fill_gap_sols -- such a row never appears in the output at
+  all, rather than appearing with a fabricated or NaN placeholder value.

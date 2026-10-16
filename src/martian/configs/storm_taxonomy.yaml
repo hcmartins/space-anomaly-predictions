@@ -1,0 +1,39 @@
+# Consistent local / regional / planet-encircling storm taxonomy.
+#
+# This is the ONLY place these thresholds are defined. It is consumed by:
+#   - data_sources/simulated_events.py        (ground-truth event generation)
+#   - data_sources/simulated_documented_events.py (via the ground-truth events it wraps)
+#   - labeling/storm_taxonomy.py (planned, Phase 3) for reporting on observed episodes
+# No script may redefine "local"/"regional"/"planet_encircling" independently.
+#
+# classification_target: "reporting_only" means these labels are descriptive
+# metadata attached to an anomaly episode — they are NOT the machine-learning
+# target. The ML target is the generic anomaly episode defined in
+# configs/anomaly_definition.yaml (Phase 3), independent of taxonomy class.
+
+local:
+  max_area_cells: 20          # ~1.7e6 km^2 at the equator (see configs/grid.yaml arithmetic, Phase 0 plan)
+  max_duration_sols: 3
+
+regional:
+  min_area_cells: 21
+  max_area_cells: 200         # ~1.8e7 km^2 at the equator
+  max_duration_sols: 20
+
+planet_encircling:
+  min_area_cells: 201
+  min_duration_sols: 20
+  min_longitude_sectors_spanned: 3   # out of 3 x 120-degree sectors -> effectively global
+
+classification_target: "reporting_only"
+
+citation_note: >
+  Numeric thresholds are anchored loosely to the qualitative local/regional/global
+  usage in Wang & Richardson (2015) and Zurek & Martin (1993) — both already in
+  the thesis bibliography — and to the 5-degree cell geometry planned for
+  configs/grid.yaml (~296 km side at the equator). NEEDS RESEARCHER VERIFICATION
+  against a literature area/duration table before being asserted as validated
+  thresholds — see planning/DECISIONS_REQUIRED.md, Decision #7. Until verified,
+  every downstream figure/table using this taxonomy must display it as
+  "descriptive, threshold pending verification", not as an established
+  classification.

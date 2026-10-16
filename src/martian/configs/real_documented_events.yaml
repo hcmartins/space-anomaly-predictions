@@ -1,0 +1,42 @@
+# Real, independently-sourced documented dust-storm catalogue for Section
+# 4.4.1 / Table 4.6 label validation -- Guha et al. (2024)'s EMM/EXI Mars
+# Year 36 dust-storm database, the best available real-source match for
+# this pipeline's real EMIRS coverage (MY36-37): same mission (Emirates Mars
+# Mission), same period, and it directly reports the fields this pipeline's
+# validation needs (storm onset/end time, centroid lat/lon, areal extent) --
+# unlike MDAD (Battalio & Wang 2021, MY24-32) or MDSSD (MY24-33), both of
+# which end before EMIRS's real coverage begins (2021-02-20, MY36) and
+# therefore cannot validate this pipeline's real labels at all.
+#
+# Source: "Seasonal and Diurnal Variations of Dust Storms in Martian Year 36
+# Based on the EMM-EXI Database" (Guha et al., J. Geophys. Res. Planets,
+# 2024, 129, e2023JE008156, doi:10.1029/2023JE008156). Dataset itself:
+# doi:10.5281/zenodo.10275974 (Zenodo, CC-BY-4.0 -- free to redistribute/
+# reuse with attribution). Downloaded and placed here 2026-08-05.
+
+catalogue_path: "data_cache/emm_exi_dust_storms/DustStormDatabaseEXI_MY36_V1.xlsx"
+citation: "Guha, B. K., et al. (2024), Seasonal and Diurnal Variations of Dust Storms in Martian Year 36 Based on the EMM-EXI Database, J. Geophys. Res. Planets, 129, e2023JE008156, doi:10.1029/2023JE008156."
+source_doi: "10.5281/zenodo.10275974"
+licence: "CC BY 4.0 (Creative Commons Attribution 4.0 International) -- free to copy/redistribute/adapt with attribution."
+covers_mars_year: 36
+
+note: >
+  MY36 only -- this catalogue does not cover MY37, so Table 4.6 validation
+  is only meaningful for the MY36 portion of this pipeline's real EMIRS
+  coverage (mars_year_range [36, 37]). Real MY37 retrievals/episodes have no
+  documented-catalogue coverage and are excluded from matching, not silently
+  treated as "no event occurred" -- see labeling/catalogue_validation.py.
+
+schema_note: >
+  Real source columns: Image (EXI source image filename, real UTC timestamp
+  embedded), Storm no. (groups multiple image-detections of the SAME storm
+  event -- collapsed to one row per event by data_sources/real_documented_events.py),
+  Centroid Latitude/Longitude (degrees; source uses West/negative longitude,
+  converted to this pipeline's 0-360 East convention at load time), MarsLs,
+  MarsUT, MarsLTST_ZeroLongitude, MarsLTST_CentroidLongitude, Size (areal
+  extent, km^2), Month, Year (real Earth calendar month/year of detection).
+  No local/regional/planet-encircling classification column exists in the
+  real source -- this pipeline's own storm_taxonomy classification
+  (configs/storm_taxonomy.yaml) is never applied to the documented side,
+  only to this pipeline's own detected episodes, so the two are never
+  conflated.

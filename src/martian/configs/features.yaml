@@ -1,0 +1,56 @@
+# Shared causal feature-engineering settings (preprocessing/features.py).
+#
+# Consumed by ALL THREE Phase 5 modeling tasks via the SAME feature-family
+# builder -- each task then selects its own subset into its own feature
+# manifest (modeling/datasets.py); this file itself carries no per-task
+# target information, so it cannot be a leakage vector.
+#
+# Source: planning/IMPLEMENTATION_PLAN.md Phase 2 plan for
+# preprocessing/features.py ("current state; lags 1-3; trailing 5-sol
+# mean/std/max/min; first difference; slope; persistence-run counter;
+# spatial-neighbour mean/max/exceedance-count; Ls/LTST harmonics; QC/
+# interpolation indicators"). Every feature at (cell, sol=s) reads only
+# rows with sol <= s for the SAME cell, or sol == s for a SPATIAL neighbour
+# (never a future sol, never a future cell-sol) -- enforced by construction
+# in preprocessing/features.py and proven by tests/test_features.py.
+
+variables:
+  - dust_optical_depth
+
+z_score_variables:
+  - dust_optical_depth_z
+
+lags_sols: [1, 2, 3]
+trailing_window_sols: 5
+
+# Minimum fraction of the trailing_window_sols window that must be genuinely
+# present (observed OR causally trailing-filled -- i.e. any value the
+# lookup can find, same test build_features already uses) for a
+# trailing-stat (mean/std/max/min) feature to be EMITTED at all; below the
+# threshold the feature is left NaN, exactly as an entirely-empty window
+# already is, never fabricated from fewer points than the threshold
+# requires. Added 2026-08-13 for the missing-data sensitivity comparison
+# (CHAPTER_4_PARAMETER_VALUES.md Section 11 item 7) -- the chapter's own
+# §4.4 specifies exactly 60% and 80% as the two sensitivity thresholds to
+# compare against no threshold.
+#
+# primary CHANGED 2026-08-13, from null (no threshold) to 0.6: the same
+# 18-combination sensitivity sweep that selected missing_data.yaml's
+# gap=1 (see that file's own note) selected completeness=0.6 as part of the
+# lowest-combined-rank configuration (val TSS mean 0.0530, val MAE mean
+# 0.1125) -- see run_missing_data_sensitivity_sweep.py,
+# outputs/real/missing_data_sensitivity_sweep_20260813.csv, and
+# CHAPTER_4_PARAMETER_VALUES.md Section 11 item 7.
+min_window_completeness_frac: 0.6
+sensitivity_min_window_completeness_frac: [null, 0.6, 0.8]
+
+# Feature-family toggles -- all on by default; kept configurable so a
+# sensitivity run can isolate one family's contribution without editing code.
+enable_current_state: true
+enable_lags: true
+enable_trailing_stats: true
+enable_first_difference_and_slope: true
+enable_persistence_counter: true
+enable_spatial_neighbour_stats: true
+enable_ls_ltst_harmonics: true
+enable_qc_indicators: true
