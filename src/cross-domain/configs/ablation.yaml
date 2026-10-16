@@ -1,0 +1,68 @@
+# Table 5.2's ablation configurations (Section 5.6.1). Structural registry
+# only in this delivery -- evaluation/ablation.py loads this, it does not
+# launch seven real training runs. `isolates` mirrors the thesis's own
+# "what it isolates" column; `trainable_parameters` is populated for real
+# once each variant is actually built/trained (a later phase).
+
+configurations:
+  - id: A1
+    name: unimodal_baseline
+    description: "Chapter 3 / Chapter 4 models, unchanged"
+    isolates: "reference skill"
+    use_fusion_pathway: false
+    use_alignment_loss: false
+    other_domain_embedding: none
+
+  - id: A2
+    name: capacity_matched_unimodal
+    description: "A1 with projection and head widened to match A7's trainable count"
+    isolates: "pure capacity effect"
+    use_fusion_pathway: false
+    use_alignment_loss: false
+    other_domain_embedding: none
+
+  - id: A3
+    name: fusion_with_noise_auxiliary
+    description: "other-domain embedding replaced by Gaussian noise with matched moments"
+    isolates: "regularisation-by-noise effect"
+    use_fusion_pathway: true
+    use_alignment_loss: true
+    other_domain_embedding: moment_matched_noise
+
+  - id: A4
+    name: fusion_with_shuffled_auxiliary
+    description: "other-domain embeddings permuted within the batch"
+    isolates: "distribution kept, information destroyed"
+    use_fusion_pathway: true
+    use_alignment_loss: true
+    other_domain_embedding: within_batch_shuffled
+
+  - id: A5
+    name: alignment_only
+    description: "Eq. (5.4) active, heads read own-domain projection only"
+    isolates: "alignment without interaction"
+    use_fusion_pathway: false
+    use_alignment_loss: true
+    other_domain_embedding: none
+
+  - id: A6
+    name: fusion_without_alignment
+    description: "lambda_align = 0"
+    isolates: "interaction without alignment"
+    use_fusion_pathway: true
+    use_alignment_loss: false
+    other_domain_embedding: real
+
+  - id: A7
+    name: full_model
+    description: "Eq. (5.8), the complete fusion objective"
+    isolates: null
+    use_fusion_pathway: true
+    use_alignment_loss: true
+    other_domain_embedding: real
+
+decisive_comparisons:
+  - [A7, A2]   # does fusion outperform an equally large unimodal model?
+  - [A7, A3]   # does the content of the auxiliary embedding matter, or only its presence?
+  - [A7, A4]   # the sharpest control -- within-batch shuffling preserves the marginal distribution exactly
+  - [A5, A6, A7]   # decomposes the contributions of alignment and interaction
