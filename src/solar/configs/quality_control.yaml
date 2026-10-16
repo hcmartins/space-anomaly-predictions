@@ -1,0 +1,138 @@
+# Quality-control rule pipelines for real GOES XRS and SHARP records.
+#
+# Applied as a FIRST-FAILING-RULE hierarchy in fixed priority order (id
+# ascending), same mechanics as martian/preprocessing/quality_control.py: a
+# row is rejected under the FIRST enabled rule it fails; if it passes every
+# enabled rule it is accepted. Rule ids must form a contiguous 1..N sequence
+# per domain (goes/sharp) -- enforced at load time by
+# preprocessing/quality_control.py.
+#
+# `source` distinguishes:
+#   VERIFIED_REAL_ARCHIVE_STRUCTURE -> the rule targets a column/field
+#     confirmed to exist in the real downloaded data (see
+#     src/solar/planning/INGESTION_DOCUMENTATION.md's verification log).
+#   RESEARCHER VERIFICATION REQUIRED -> the rule's THRESHOLD (not
+#     necessarily its existence) has not been independently verified
+#     against NOAA/JSOC product documentation in this environment -- most
+#     notably, `pass_value: 0` for the quality-flag rules is the common
+#     literature convention (0 = nominal/no flags set) but has not been
+#     confirmed against the actual bitmask semantics of xrsa_flag/xrsb_flag
+#     or JSOC's QUALITY keyword for this project's specific data. Verify
+#     against a sample of real accepted vs. rejected rows before treating
+#     rejection counts as final.
+
+goes:
+  rules:
+    - id: 1
+      name: missing_required_column
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      parameters:
+        required_columns: [time_utc, xrsa_flux_w_m2, xrsb_flux_w_m2]
+
+    - id: 2
+      name: invalid_quality_flag
+      enabled: true
+      source: "RESEARCHER VERIFICATION REQUIRED"
+      note: >
+        pass_value=0 assumes xrsa_quality/xrsb_quality (netCDF xrsa_flag/
+        xrsb_flag) follow the common convention of 0 = nominal. Confirmed
+        real column names and dtype (float32) via a live download; the
+        VALUE semantics (which nonzero codes mean what) have not been
+        independently verified against NOAA product documentation.
+      parameters:
+        column: xrsb_quality
+        pass_value: 0
+
+    - id: 3
+      name: non_positive_value
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      note: "A soft X-ray flux measurement cannot be <= 0 W/m^2; non-positive values are fill/error codes, not real physics."
+      parameters:
+        columns: [xrsa_flux_w_m2, xrsb_flux_w_m2]
+
+    - id: 4
+      name: duplicate_row
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      parameters:
+        key_columns: [time_utc, satellite]
+
+    - id: 5
+      name: non_finite_value
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      note: >
+        Not observed in real GOES data as of 2026-07-26, but added
+        defensively alongside the SHARP rule below (found via a real
+        infinity value crashing model training at full scale) -- a
+        real-world archive artifact is never physically valid regardless of
+        which domain it turns up in.
+      parameters:
+        columns: [xrsa_flux_w_m2, xrsb_flux_w_m2]
+
+sharp:
+  rules:
+    - id: 1
+      name: missing_required_column
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      note: "USFLUX is the single most load-bearing SHARP keyword (total unsigned flux); a record missing it is not usable."
+      parameters:
+        required_columns: [HARPNUM, T_REC, USFLUX]
+
+    - id: 2
+      name: invalid_quality_flag
+      enabled: true
+      source: "RESEARCHER VERIFICATION REQUIRED"
+      note: >
+        pass_value=0 assumes JSOC's QUALITY bitmask follows the common
+        convention of 0 = no quality issues flagged. Not independently
+        verified against JSOC's own QUALITY-keyword documentation for this
+        project's specific export.
+      parameters:
+        column: QUALITY
+        pass_value: 0
+
+    - id: 3
+      name: duplicate_row
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      parameters:
+        key_columns: [HARPNUM, T_REC]
+
+    - id: 4
+      name: non_finite_value
+      enabled: true
+      source: VERIFIED_REAL_ARCHIVE_STRUCTURE
+      note: >
+        Found via a real full-range (2010-2025) run: 17-18 real records
+        (out of ~5M, across a handful of HARPs, e.g. HARPNUM 3672 on
+        2014-01-21) carry literal inf/-inf or absurd magnitudes (e.g.
+        MEANJZH=5.13e+25) in TOTUSJZ/TOTUSJH/ABSNJZH/SAVNCPP/MEANJZH --
+        genuine JSOC data-quality artifacts that pass the QUALITY=0 check
+        above. Crashed sklearn model fitting downstream ("Input X contains
+        infinity") before this rule existed. Checks all 18 physical
+        keywords, not just the 5 observed as bad in this dataset -- the
+        same class of artifact could plausibly appear in any of them.
+      parameters:
+        columns:
+          - USFLUX
+          - TOTUSJZ
+          - TOTUSJH
+          - ABSNJZH
+          - SAVNCPP
+          - MEANPOT
+          - TOTPOT
+          - R_VALUE
+          - MEANGAM
+          - MEANGBT
+          - MEANGBZ
+          - MEANGBH
+          - MEANALP
+          - MEANJZH
+          - MEANJZD
+          - MEANSHR
+          - AREA_ACR
+          - SHRGT45
