@@ -1,0 +1,28 @@
+# Spatial grid definition and numerical justification (examiner ask #4).
+# Referenced by configs/storm_taxonomy.yaml's area-in-cells thresholds.
+# STATUS (updated): consumed live by preprocessing/grid.py
+# (load_primary_grid/assign_cells) and preprocessing/sensitivity.py
+# (grid_resolution_sensitivity), which sweeps sensitivity_resolutions_deg.
+
+resolution_deg: 5.0
+n_lat_bands: 36        # 180 / 5
+n_lon_bands: 72        # 360 / 5
+n_cells: 2592           # 36 * 72
+lon_convention: "0_360_east"
+sensitivity_resolutions_deg: [2.5, 5.0, 10.0]
+
+justification:
+  mars_radius_km: 3389.5
+  mars_circumference_km: 21296.1      # 2 * pi * radius
+  km_per_degree_equator: 59.15        # circumference / 360
+  cell_side_km_equator: 295.8         # 5 * km_per_degree_equator
+  cell_area_km2_equator: 87498        # side^2; cells taper in longitude toward the poles
+  emirs_footprint_km: [100, 300]      # documented instrument footprint scale (RESEARCHER
+                                       # VERIFICATION REQUIRED against the real instrument spec)
+  rationale: >
+    A 5-degree cell (~296 km side at the equator) is roughly one to three EMIRS
+    footprints wide, giving enough independent samples per cell-sol to support
+    uncertainty-weighted averaging while remaining fine enough to resolve regional
+    (10^6-10^7 km^2) dust activity. 2.5-degree and 10-degree grids are planned as
+    sensitivity cases (Phase 2) to quantify the coverage/resolution trade-off
+    explicitly rather than asserting 5 degrees without justification.

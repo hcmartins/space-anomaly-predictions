@@ -1,0 +1,50 @@
+# Cell-sol aggregation settings for QC-accepted Martian retrievals.
+#
+# "Primary" settings are used for the headline pipeline run; "sensitivity"
+# settings are swept one-factor-at-a-time (holding the other at its primary
+# value) by preprocessing/sensitivity.py, which recomputes low_support_flag
+# from the already-aggregated observation_count / pressure_level_coverage_frac
+# columns rather than re-aggregating raw data for every threshold.
+
+primary:
+  min_obs_per_cell_sol: 1
+  min_pressure_level_coverage_frac: 0.5
+
+sensitivity:
+  min_obs_per_cell_sol: [1, 3, 5]
+  min_pressure_level_coverage_frac: [0.5, 0.7, 0.9]
+
+# Variables aggregated with inverse-variance (uncertainty-weighted) means —
+# each must have a "<variable>_uncertainty" companion column (see
+# configs/emirs_variables.yaml). atm_temp_k_level_* columns are handled
+# per-level by preprocessing/aggregation.py using the same rule; they are not
+# repeated here to avoid duplicating the 14-level list.
+uncertainty_weighted_variables:
+  - dust_optical_depth
+  - water_ice_optical_depth
+  - surface_temperature_k
+
+# Variables aggregated with a simple arithmetic mean (no uncertainty
+# companion is documented for these fields — see configs/emirs_variables.yaml).
+# surface_emissivity and emission_angle_deg were dropped from this list:
+# neither has a documented equivalent in configs/real_emirs_schema.yaml's
+# real EMIRS product (l3emiss only documents kinetic_temp/_uncertainty/_wave,
+# no emissivity value; no viewing-geometry field exists at all) -- not
+# fabricated here, matching how quality_control.yaml's rule 7
+# (unacceptable_viewing_geometry) was disabled for the same reason.
+simple_mean_variables:
+  - surface_pressure_mbar
+  - latitude
+  - longitude
+  - solar_longitude_ls
+  - local_true_solar_time
+
+epsilon: 1.0e-6
+
+note: >
+  interpolation_flag is always False on the output of aggregate_by_cell_sol
+  itself (this stage never fills anything). It becomes meaningful downstream,
+  on the TRAILING-FILLED series produced by the now-implemented
+  preprocessing/missing_data.py (True only for a carried-forward row) — see
+  planning/DATA_DICTIONARY.md's "Missing-data / causal-fill bookkeeping"
+  section and planning/PREPROCESSING_DOCUMENTATION.md §6.

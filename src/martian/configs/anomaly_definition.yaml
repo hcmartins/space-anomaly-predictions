@@ -1,0 +1,69 @@
+# Anomaly / storm-episode label definitions (Chapter 4 Eq. 4.1-4.3 equivalent).
+# Dust-only: no real climatological source exists for surface_temperature_k
+# (RealMCDClimatologyProvider covers dust_optical_depth only -- see
+# data_sources/real_mcd_provider.py), so temperature is descoped rather than
+# faked.
+#
+# z_v(c,s) = (x_v(c,s) - mu_v(c,s)) / max(sigma_v(c,s), epsilon)          [Eq. 4.1]
+# dust exceedance:        z_dust > tau                    (one-sided, high only)
+# atmospheric_anomaly(c,s) = dust_exceedance(c,s)                        [Eq. 4.2]
+# storm_episode: connected spatiotemporal component of atmospheric_anomaly
+#   cells/sols (8-neighbour spatial + longitude wraparound + same-cell/
+#   spatial-neighbour temporal linking across |delta_sol|<=1) that meets a
+#   persistence (duration_sols >= P) AND spatial-extent (peak_area_cells >=
+#   A_min) gate                                                            [Eq. 4.3]
+#
+# Source: planning/CLAIMS_TRACEABILITY.md rows 1-3 (Enh. Ch.4 SS4.2.1, Eq.
+# 4.1-4.3). tau/persistence/area values below are grounded there EXCEPT
+# where this task's explicit instruction overrides them -- see the "primary
+# regime" note.
+
+epsilon: 1.0e-6
+connectivity: 8
+longitude_wraparound: true
+dust_exceedance: "one_sided_high"       # z_dust > tau only (never z_dust < -tau)
+
+tau_primary: 2.0
+tau_sensitivity: [1.5, 2.0, 2.5]
+
+# PRIMARY REGIME (real data): P=2 sols, A_min=3 cells -- the examiner-
+# suggested stricter values, promoted from sensitivity to primary on
+# 2026-08-05 now that real data is actually flowing through the pipeline.
+#
+# HISTORY: during the earlier controlled-simulation phase, primary was
+# deliberately the most permissive possible gate (P=1, A_min=1) -- "reproduce
+# the currently evidenced settings" per that phase's explicit instruction --
+# with these stricter values held in a `proposed_real_data_evaluation`
+# sensitivity block, explicitly named to signal they were meant to become
+# primary once real data was available. That switch was not made when the
+# pipeline first ran against real data (2026-08-05); this reconciles it.
+# P=1/A_min=1 is now the permissive END of the sensitivity sweep below
+# instead, not deleted -- still useful to show how much the stricter primary
+# regime actually changes the label population relative to the maximally
+# permissive case.
+persistence_sols_primary: 2
+min_area_cells_primary: 3
+
+# Sensitivity sweep, primary value included in both lists per this project's
+# convention (see tau_sensitivity above).
+sensitivity:
+  persistence_sols: [1, 2, 3]
+  min_area_cells: [1, 3, 5]
+
+horizons_sols: [1, 3, 5]
+horizon_definition: >
+  Y_h(c,s) = 1 iff storm_episode(c, s') == True for ANY future sol s' with
+  s < s' <= s + h, for the SAME cell c and the SAME mars_year (never a
+  different cell, never crossing a mars_year boundary numerically since sol
+  indices restart at 0 each Mars year). "Any event within the future
+  horizon" is interpreted here as location-specific (does THIS cell
+  experience a storm episode within the next h sols), not planet-wide --
+  documented as an explicit interpretive choice, since the task wording does
+  not disambiguate cell-level vs. planet-wide.
+unobserved_horizon_policy: mask   # 2026-10-04
+unobserved_horizon_note: >
+  Y_h(c,s) is DEFINED only when cell c has at least one OBSERVED sol in
+  (s, s+h]; otherwise it is NaN (unknown) and the row is dropped from that
+  horizon's dataset -- never counted as "no episode". Y_h is a MEMBERSHIP
+  target (the cell is part of a qualifying episode during the horizon), not an
+  onset target: a cell already inside a continuing episode is positive.

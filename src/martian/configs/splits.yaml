@@ -1,0 +1,58 @@
+# Chronological split boundaries, per planning/IMPLEMENTATION_PLAN.md Phase 4.
+#
+# STATUS (updated -- this is now the live config for the fully-implemented,
+# leak-audited splitter): read by splitting.chronological_split.load_splits_config
+# and enforced by splitting/chronological_split.py's own scaler-leakage and
+# "no episode crosses a split boundary" checks (tests/test_chronological_split.py),
+# plus a SEPARATE runtime re-check on every mars.run_all run (mars/leakage_checks.py,
+# Step 11). It is also still read by labeling/reporting.py for the descriptive
+# "prevalence by split" report; that usage predates the full splitter and remains
+# purely descriptive there, but the split boundaries themselves are the same
+# leak-audited ones used everywhere else -- see planning/MODELING_DOCUMENTATION.md §5.
+#
+# Real MY36 (full year, Ls 0-360 deg) / MY37 (partial, Ls ~0-270 deg,
+# "ongoing" -- see Chapter 4 Table 4.4) train/test split. test_sol_range's
+# upper bound of 501 corresponds to Ls~270 deg at the real ~668-sol Martian
+# year length; this pipeline requires real downloaded EMIRS FITS files
+# (configs/real_emirs_ingestion.yaml) before any of this can be populated.
+#
+# val_sol_range CHANGED 2026-08-13 (CHAPTER_4_PARAMETER_VALUES.md caveat 9 /
+# Section 11 item 5): the original [601, 668] window contained ZERO real
+# aggregated cell-sols (real MY36 QC-accepted coverage runs sol 12-464 only),
+# so the sequence models' early-stopping criterion was silently evaluated on
+# the MY37 test split instead -- real test-set leakage. The boundary is now
+# sol 432, chosen as the earliest sol (scanning 370-459) at which the train/
+# val cut crosses ZERO anomaly episodes (qualifying or not, full
+# episode_catalogue) while keeping validation non-trivial: train=66,987 /
+# val=14,368 real MY36 cell-sols (82.3% / 17.7%), val positives
+# h1=67 / h3=203 / h5=291 / storm_episode=188, and window-length-10
+# sequence-construction feasibility confirmed for 687/946 val cells. See
+# tests/test_chronological_split.py for the causality/episode-safety/
+# non-emptiness checks and CHAPTER_4_PARAMETER_VALUES.md Section 11 item 5
+# for the full boundary-scan justification (candidates 370-459, only
+# zero-crossing boundaries considered, upper bound left at 668 rather than
+# hard-coded to 464 so a later re-ingestion is not silently truncated).
+
+# SPLIT REDESIGN 2026-10-04 (harmonised-label rerun; author decision). Under the
+# harmonised labels (configs/harmonisation.yaml) the former MY36 val window
+# (sols 432-668, Ls 216-237) contains ZERO positives at every horizon, so Eq. 6.1
+# threshold selection was impossible. MY36's harmonised episodes sit in sols
+# 300-350 (Ls 141-167), and no zero-crossing MY36 train/val boundary gives both
+# sides usable positives (boundary scan in martian_rerun_20261004.md). New design:
+#   train = ALL of MY36 (sols 1-668; real coverage 12-464)
+#   val   = MY37 sols 1-380   (real coverage 188-380, Ls 88-~182; 99/255/313
+#           positives at h1/h3/h5)
+#   embargo = MY37 sols 381-385 UNASSIGNED (= max horizon 5 sols), so no val
+#           target's (s, s+h] window reaches into the test period
+#   test  = MY37 sols 386-668 (Ls ~188-360; 492/1,318/1,917 positives). This
+#           also brings in the 10,685 late-MY37 cell-sols the old sol-501 bound
+#           left unused; northern winter is NOT represented in train, so test
+#           results must also be reported per season.
+# Zero anomaly episodes (qualifying or not) cross either boundary
+# (splitting.chronological_split.find_episodes_crossing_split_boundary).
+train_mars_year: 36
+train_sol_range: [1, 668]
+val_mars_year: 37
+val_sol_range: [1, 380]
+test_mars_year: 37
+test_sol_range: [386, 668]

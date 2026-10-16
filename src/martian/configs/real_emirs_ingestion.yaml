@@ -1,0 +1,30 @@
+# Real EMIRS ingestion access configuration.
+#
+# AUTOMATED DOWNLOAD NOW AVAILABLE: download_emirs_sdc.py (src/martian root)
+# uses the EMM Science Data Center's REST API (AWS Cognito auth + API
+# Gateway, per real researcher-supplied SDC documentation, 2026-08-04) to
+# bulk-download real l3atm/l3emiss FITS files directly into
+# `local_fits_directory` below -- see that script's own header for usage,
+# credential handling (env vars only, never hard-coded, never written to any
+# file), and the specific API call shapes that are RESEARCHER VERIFICATION
+# REQUIRED against the SDC's own "Software" tab reference scripts. An
+# earlier direct portal fetch attempt (2026-07-29, against
+# https://sdc.emiratesmarsmission.ae/data/science, not the REST API) returned
+# HTTP 403 -- that page requires interactive browser access; the REST API
+# used by download_emirs_sdc.py is a different, documented endpoint.
+#
+# Manual download (browsing the portal yourself and placing files here) also
+# still works -- data_sources/real_emirs_fits.py scans this directory
+# recursively regardless of how files got here.
+local_fits_directory: "data_cache/emirs/raw"
+
+products: [l3atm, l3emiss]
+fits_extensions: [".fits", ".fit"]
+
+# Real filename convention observed in the reference study's downloads is
+# NOT documented precisely enough to hardcode a pattern here (it only shows
+# the *converted CSV* naming, "emm_emr_<level>.csv", not the original FITS
+# filenames) -- product-family membership (l3atm vs l3emiss) is therefore
+# determined by which real columns a given FITS file's HDU actually
+# contains (see data_sources/real_emirs_fits.py::identify_product), not by
+# filename pattern matching.

@@ -1,0 +1,29 @@
+# Physical harmonisation of the EMIRS dust observation to the Montabone
+# reference convention (2026-10-04; martian_harmonisation_target_study.md).
+#
+# EMIRS l3atm `taudust` = column EXTINCTION optical depth at 1075 cm^-1
+# (9.30 um) at the observed surface pressure. The Montabone reference
+# (`cdod610`, used for mu_clim/sigma_clim) = column ABSORPTION optical depth at
+# 9.3 um normalised to 610 Pa. Both are at the same wavelength, so only an
+# extinction->absorption ratio and a pressure normalisation are needed, applied
+# PER RETRIEVAL before cell-sol aggregation (p_s varies with topography, so no
+# single constant can be absorbed into mu/sigma):
+#
+#     tau*_i = (tau_ext,i / extinction_to_absorption_ratio) * (reference_pressure_pa / p_s,i)
+#
+# dust_optical_depth_uncertainty is scaled by the same per-retrieval factor so
+# the inverse-variance weights stay consistent (QC rule 6 is relative and
+# therefore unaffected).
+enabled: true
+variable: dust_optical_depth
+uncertainty_variable: dust_optical_depth_uncertainty
+pressure_column: surface_pressure_mbar   # EMIRS l3atm pres0, in mbar (real accepted range 3.8-13.8)
+pressure_column_to_pa: 100.0
+reference_pressure_pa: 610.0
+extinction_to_absorption_ratio: 1.3     # Montabone et al. (2015), Icarus 251, 65-95, Sec. 2.3.4, doi:10.1016/j.icarus.2014.12.034
+# Source statement (LMD Mars dust climatology product page, which documents the
+# Montabone gridded CDOD used here): "To get the extinction optical depth, you
+# can multiply the absorption optical depth by 1.3" -- "See detailed discussion
+# in Montabone et al., Icarus, 2015, Section 2.3.4". The same page gives the
+# pressure convention applied above: local column OD = cdod610 x p_s(Pa)/610.
+sensitivity_extinction_to_absorption_ratio: [1.2, 1.3, 1.4, 1.5]   # reported by run_harmonisation_target_study.py

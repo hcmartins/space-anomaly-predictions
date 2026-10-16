@@ -1,0 +1,30 @@
+# Independent-catalogue label-validation matching rule (Table 4.6).
+#
+# Matches this pipeline's own detected storm_episode catalogue
+# (labels/episode_catalogue.csv, qualifying episodes only) against the real,
+# independently-sourced documented dust-storm catalogue
+# (configs/real_documented_events.yaml, data_sources/real_documented_events.py).
+#
+# RESEARCHER VERIFICATION REQUIRED IN FULL: neither threshold below is
+# confirmed against a real catalogue's own registration accuracy -- these
+# are this project's own starting-point choices, unchanged from the
+# pre-real-data design (see CHAPTER_4_PARAMETER_VALUES.md's open-items
+# section for how to firm these up against a real accuracy estimate).
+
+temporal_tolerance_sols: 2
+# Each documented event's [onset_sol, end_sol] window (same mars_year) is
+# expanded by this many sols on each side before checking overlap against a
+# detected episode's own [onset_sol, end_sol] window -- interval overlap, not
+# "onset within N sols" (a match against a wide multi-sol documented event
+# can show a large onset-to-onset offset while still legitimately satisfying
+# the interval-overlap rule).
+
+spatial_region_radius_cells: 1
+# BFS grid-neighbour radius (reusing preprocessing.grid.neighbours) expanded
+# from the documented event's own centroid cell before checking whether any
+# of a candidate episode's member cells falls inside the resulting region.
+
+unmatched_episode_label: "false_positive_candidate"
+# A detected episode with no matching documented event is labeled this,
+# never asserted a confirmed false alarm -- the documented catalogue itself
+# is not claimed to be exhaustive.

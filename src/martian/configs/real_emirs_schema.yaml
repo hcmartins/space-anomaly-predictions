@@ -1,0 +1,237 @@
+# Real EMIRS L3 schema (l3atm + l3emiss), sourced from a real prior study on
+# this exact dataset (a real MSc dissertation using the EMM EMIRS instrument,
+# uploaded by the researcher 2026-07-29), whose Table 3.1 cites the real EMM
+# EMIRS Data Product Guide (https://s3.eu-west-1.amazonaws.com/emm.sdc-
+# documentation/emirs/EMIRS_Data_Products_Guide.pdf) as its source.
+#
+# DELIBERATELY SEPARATE from configs/emirs_variables.yaml (the existing
+# simulated schema): that file was built against a DIFFERENT, unverified
+# "enhanced Chapter 4" text (14 pressure levels in Pa, field names like
+# dust_optical_depth/surface_temperature_k). This schema uses the REAL
+# field names and the REAL 19-level pressure-scale-height vertical grid
+# instead of forcing a fit onto the speculative one -- see
+# data_sources/real_emirs_provider.py's module docstring for the full
+# reconciliation note.
+#
+# verification_status CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE means: this field
+# name/description is taken directly from a real prior study's own real,
+# working ingestion of this exact instrument's data (not from thesis text
+# describing an intended design) -- the strongest evidence tier this project
+# uses anywhere.
+
+product_family:
+  name: "EMIRS Level-3 atmospheric and emissivity products"
+  processing_level: "L3"
+  products: [l3atm, l3emiss]
+  merge_keys: [utc, longitude, latitude]
+  version: "RESEARCHER VERIFICATION REQUIRED — not stated in the source document"
+
+# temp (l3atm) is a 19-value array: retrieved atmospheric temperature every
+# 0.25 pressure-scale-heights from 0.25 to 4.75 scale heights above the
+# surface. The reference document's own documented choice is to use the
+# MEAN of these 19 values as the representative temperature -- reused here
+# unchanged (see data_sources/real_emirs_fits.py::collapse_temp_profile),
+# not silently reinterpreted as something else.
+vertical_grid:
+  n_levels: 19
+  units: "pressure scale heights above surface"
+  range: [0.25, 4.75]
+  step: 0.25
+  collapse_method: mean
+  grounding_note: >
+    Confirmed by the real prior study's Table 3.1 and its own documented
+    preprocessing choice (its Fig 3.3.2g helper method).
+
+variables:
+  - name: chi2temp
+    product: l3atm
+    dtype: float64
+    description: "Quality of atmospheric temperature fit -- chi-squared difference between best fit and observed"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: zh2o
+    product: l3atm
+    dtype: float64
+    description: "Water vapor condensation level used in the retrieval"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: kinetic_temp
+    product: l3emiss
+    dtype: int64
+    description: "Surface kinetic temperature"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: pres0
+    product: l3atm
+    dtype: float64
+    description: "Estimated surface pressure"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: longitude
+    product: [l3atm, l3emiss]
+    dtype: float64
+    description: "Longitude at the center of the IFOV footprint"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: latitude
+    product: [l3atm, l3emiss]
+    dtype: float64
+    description: "Latitude at the center of the IFOV footprint"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: tauice
+    product: l3atm
+    dtype: float64
+    description: "Water ice column extinction optical depth at 825cm-1"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: chi2a
+    product: l3atm
+    dtype: float64
+    description: "Quality of aerosol fit (chi-square difference)"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: kinetic_temp_uncertainty
+    product: l3emiss
+    dtype: float64
+    description: "Uncertainty in surface kinetic temperature"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: iceuncert
+    product: l3atm
+    dtype: float64
+    description: "Estimated uncertainty in water ice optical depth"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: temp
+    product: l3atm
+    dtype: float64
+    vector_field: true
+    description: >
+      Array of retrieved atmospheric temperatures: 19 values every 0.25
+      pressure scale heights, 0.25 to 4.75 scale heights above the surface.
+      Collapsed to its mean at load time -- see vertical_grid above.
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: taudust
+    product: l3atm
+    dtype: float64
+    description: "Dust column extinction optical depth at 1075cm-1"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: zdust
+    product: l3atm
+    dtype: float64
+    description: "Height of the top of dust used in retrieval"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: kinetic_temp_wave
+    product: l3emiss
+    dtype: int64
+    description: "Wavenumber at which surface temperature was determined"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: dustuncert
+    product: l3atm
+    dtype: float64
+    description: "Estimated uncertainty in dust optical depth"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: wateruncert
+    product: l3atm
+    dtype: float64
+    description: "Estimated uncertainty in water vapor abundance"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: prum
+    product: l3atm
+    dtype: float64
+    description: "Water vapor column abundance (precipitable microns)"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: utc
+    product: [l3atm, l3emiss]
+    dtype: "23 ASCII characters -> datetime64[ns, UTC] at load time"
+    description: "UTC string corresponding to the start of the scan, converted from sclk (spacecraft clock) time"
+    verification_status: CONFIRMED_BY_REAL_DATA_PRODUCT_GUIDE
+
+  - name: qls
+    product: l3atm
+    dtype: float32
+    description: >
+      Areocentric solar longitude (Ls, degrees) at the time of observation.
+      The EMM EMIRS Data Product Guide's Appendix A documents this field as
+      `l_sub_s`; every real downloaded l3atm file (all ~30 file-format
+      versions checked, 2026-08-04) actually names it `qls` instead --
+      `l_sub_s` is not present in any real file. Confirmed genuinely Ls (not
+      a quality flag despite the "q" prefix, which also fronts several
+      unrelated per-footprint geometry fields like qnvv/qvv/qobsrad in the
+      same files): its value for a 2021-02-20 file (~6.4 degrees) is exactly
+      right for a date just past EMIRS's documented MY36/vernal-equinox
+      science start (Ls=0).
+    verification_status: CONFIRMED_AGAINST_REAL_DOWNLOADED_DATA
+
+  - name: qlt
+    product: l3atm
+    dtype: float32
+    description: >
+      Local true solar time (LTST, decimal hours) at the center of the IFOV
+      footprint. The EMM EMIRS Data Product Guide's Appendix A documents
+      this field as `ltime` (present on l3atm per the guide); every real
+      downloaded l3atm file actually names it `qlt` instead. Confirmed
+      genuinely LTST by cross-checking against l3emiss's own `ltime` column
+      (present there under that exact documented name) for matching
+      (utc, latitude, longitude) footprints -- values match row-for-row.
+    verification_status: CONFIRMED_AGAINST_REAL_DOWNLOADED_DATA
+
+# Maps this schema's real field names onto the pipeline's canonical column
+# names (the QC/aggregation/labeling/features code's expected names) --
+# applied by data_sources/real_emirs_fits.py::apply_pipeline_column_mapping,
+# called from RealEMIRSObservationProvider.load() after mars_year/sol have
+# been derived from the original `utc` column (so this mapping runs last,
+# and `utc` is still named `utc` -- not yet `utc_timestamp` -- everywhere
+# upstream of it). qls/qlt are real, native l3atm columns (see their entries
+# above for why they're mapped from these names, not the Data Product
+# Guide's documented-but-absent l_sub_s/ltime) -- solar_longitude_ls/
+# local_true_solar_time are therefore real observed values, not computed.
+pipeline_column_mapping:
+  taudust: dust_optical_depth
+  dustuncert: dust_optical_depth_uncertainty
+  tauice: water_ice_optical_depth
+  iceuncert: water_ice_optical_depth_uncertainty
+  kinetic_temp: surface_temperature_k
+  kinetic_temp_uncertainty: surface_temperature_k_uncertainty
+  pres0: surface_pressure_mbar   # units are mbar (real accepted range 3.8-13.8; renamed 2026-10-04 from surface_pressure_pa, whose "assumed Pa" label was wrong)
+  utc: utc_timestamp
+  temp: atmospheric_temperature_mean_k
+  qls: solar_longitude_ls
+  qlt: local_true_solar_time
+
+# RECONCILING THE REAL 19-LEVEL VERTICAL GRID: the simulated schema this
+# pipeline's QC/aggregation code was originally built for (configs/
+# aggregation.yaml, preprocessing/quality_control.py's
+# physically_impossible_temperature rule) assumed a 14-level Pa-based grid
+# with a documented PER-LEVEL uncertainty companion column. The real 19-level
+# grid above has no documented per-level uncertainty field at all (only a
+# single surface kinetic_temp_uncertainty exists) -- exploding `temp` into 19
+# synthetic atm_temp_k_level_* columns would require FABRICATING a per-level
+# uncertainty that does not exist in the real product, which this project's
+# conventions forbid. Real data therefore keeps ONLY the single collapsed
+# mean (atmospheric_temperature_mean_k, per vertical_grid.collapse_method
+# above) and does NOT populate any atm_temp_k_level_* column. Consequently
+# pressure_level_coverage_frac is always NaN for real data, which
+# preprocessing/aggregation.py's compute_low_support_flag already documents
+# and treats as "not applicable" rather than a failure -- this real-data case
+# was anticipated when that function was written, not worked around here.
+
+# No native quality/QC-flag field exists in this real schema (unlike
+# configs/emirs_variables.yaml's speculative quality_flag, assumed present
+# from unverified "enhanced Ch4" text). chi2temp/chi2a ARE real,
+# quality-relevant fields (goodness-of-fit) usable for a genuine QC rule
+# later at the preprocessing/quality_control.py stage -- not fabricated
+# here. See data_sources/real_emirs_provider.py's module docstring.
+quality_flag_note: >
+  No native QC/quality-flag column in the real product as documented by the
+  reference study. RealEMIRSObservationProvider sets quality_flag=0 (pass)
+  for every row at the provider level pending a real QC rule built on
+  chi2temp/chi2a at the preprocessing stage.

@@ -1,0 +1,25 @@
+# mars.run_all config -- the only run config in this repository. Real data
+# only: no simulated fallback exists.
+#
+# THIS CONFIG IS NOT CURRENTLY RUNNABLE. RealEMIRSObservationProvider
+# (data_sources/real_emirs_provider.py) requires real EMIRS FITS files that
+# have not been downloaded yet (see configs/real_emirs_ingestion.yaml --
+# populate `local_fits_directory` yourself). RealMCDClimatologyProvider
+# (data_sources/real_mcd_provider.py) IS ready: its precomputed real dust
+# climatology already exists (data_cache/mcd/mcd_climatology_5deg.nc, built
+# from real Montabone et al. MY34-36 data -- see
+# build_mcd_climatology_from_montabone.py).
+#
+# Running this config today will fail cleanly and honestly at Step 3
+# (data_cache/emirs/raw missing), rather than doing partial work on
+# fabricated data. This is the correct, expected behaviour until real EMIRS
+# files are obtained -- not a bug to work around.
+#
+# Run with:
+#   python -m mars.run_all --config configs/run.yaml
+
+seed: 42
+mars_year_range: [36, 37]   # real MY36 (full, train+val) / MY37 (partial, "ongoing", test) -- configs/splits.yaml
+output_root: "outputs"
+configs_dir: "configs"
+tasks: [dust_regression, storm_detection]

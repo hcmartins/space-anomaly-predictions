@@ -1,0 +1,27 @@
+# Causal Savitzky-Golay filter settings.
+#
+# Source: CLAIMS_TRACEABILITY.md row 12 ("Causal Savitzky-Golay, window 7,
+# order 2, trailing position; perturbation-verified no-look-ahead", Enh.
+# Ch.4 SS4.3.1/SS4.4). planning/ENVIRONMENT.md pins the implementation to
+# scipy.signal (savgol_coeffs' `pos` parameter gives the trailing-coefficient
+# trick directly; savgol_filter's default centered mode is used ONLY by the
+# separate, clearly-named descriptive-comparison function -- see
+# preprocessing/causal_filters.py).
+
+variable: dust_optical_depth
+window_length: 7
+polyorder: 2
+
+# "causal_trailing": savgol_coeffs(window_length, polyorder, pos=window_length-1)
+#   -- the filter estimates the value AT the most recent (last) point of the
+#   window using only that point and points before it. No future observation
+#   is ever read.
+mode: causal_trailing
+
+# The centered variant (savgol_coeffs default pos = window_length // 2, i.e.
+# scipy's ordinary savgol_filter) exists ONLY for descriptive, side-by-side
+# comparison figures (e.g. Figure 4.3). It must NEVER be used to produce a
+# model feature or label. preprocessing/causal_filters.py enforces this with
+# a column-naming guard (`assert_feature_safe`) rather than relying on this
+# comment alone -- see tests/test_causal_filters.py.
+descriptive_only_mode: centered

@@ -1,0 +1,35 @@
+# Shared evaluation settings: confidence intervals, reliability diagrams,
+# and failure-analysis binning. Consumed by evaluation/*.py, applied
+# identically across all three tasks so every task's report is comparable.
+
+bootstrap:
+  # Block-by-cell (not a plain i.i.d. row bootstrap): nearby cell-sols are
+  # spatially/temporally correlated, so resampling whole cells (with
+  # replacement) is a closer approximation to independent resampling than
+  # resampling individual rows would be. Adapted from the
+  # "temporal_block"/block_length_sols=10 concept in
+  # planning/IMPLEMENTATION_PLAN.md's configs/uncertainty.yaml, which
+  # assumed a single time series; our data is a (cell x sol) panel, so
+  # blocking by cell_id is the natural adaptation -- RESEARCHER
+  # VERIFICATION REQUIRED if a different blocking unit is intended.
+  n_replicates: 200
+  ci_level: 0.90
+  block_by: cell_id
+  seed: 42
+
+reliability_diagram:
+  n_bins: 10
+
+failure_analysis:
+  latitude_band_width_deg: 30
+  local_time_bin_width_hours: 6
+  retrieval_density_bins: [1, 2, 3, 5]   # observation_count bin edges
+  uncertainty_bins: 4                     # quartile bins of uncertainty_summary
+
+# The "appropriate baseline" each task's learned models are compared
+# against, per this task's explicit instruction -- persistence is the
+# conventional forecast-skill reference for a continuous target;
+# climatology is the conventional no-skill reference for a binary event.
+primary_baseline_by_task:
+  dust_regression: persistence
+  storm_detection: climatology
