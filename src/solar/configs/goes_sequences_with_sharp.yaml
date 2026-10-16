@@ -1,0 +1,46 @@
+# GOES + SHARP sequence-tensor construction -- closes the gap between
+# Chapter 5's described solar input ("GOES irradiance sequence AND SHARP
+# magnetic-descriptor sequence") and goes_sequences.yaml's GOES-only
+# feature set. Additive sibling config -- goes_sequences.yaml itself is
+# untouched and remains the GOES-only checkpoint's config of record.
+#
+# ENGINEERING DECISION: the 18 columns after the 2 GOES channels are the
+# real, literal SHARP_PHYSICAL_KEYWORDS (data_sources/schema.py), the same
+# set the classical/tabular pipeline already uses -- not a hand-picked
+# subset. `n_active_regions_tracked` (a region count, not one of the 18
+# physical descriptors) is deliberately excluded, matching "SHARP
+# magnetic-descriptor sequence" literally. d_G+d_SHARP = 2 + 18 = 20.
+# look_back_hours and the gap-discard policy are unchanged from
+# goes_sequences.yaml (see that file's own comment for rationale) --
+# only the feature set differs.
+feature_columns:
+  - goes_seq_xrsb_flux_w_m2
+  - goes_seq_xrsa_flux_w_m2
+  - USFLUX
+  - TOTUSJZ
+  - TOTUSJH
+  - ABSNJZH
+  - SAVNCPP
+  - MEANPOT
+  - TOTPOT
+  - R_VALUE
+  - MEANGAM
+  - MEANGBT
+  - MEANGBZ
+  - MEANGBH
+  - MEANALP
+  - MEANJZH
+  - MEANJZD
+  - MEANSHR
+  - AREA_ACR
+  - SHRGT45
+
+look_back_hours: 6
+
+# Algorithm 3.1 step 9's literal policy: "if it contains a flagged gap then
+# discard and continue" -- zero tolerance, not a coverage-fraction
+# threshold. A step counts as "flagged" if it was interpolated
+# (goes_seq_interpolated_any), still NaN (gap exceeded g_max), OR has a
+# real SHARP-side gap (sharp_seq_missing_any, from preprocessing/
+# sharp_sequences.py, propagated via build_goes_sequences's
+# extra_gap_flag_columns parameter).

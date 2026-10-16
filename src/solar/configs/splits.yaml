@@ -1,0 +1,62 @@
+# Chronological (never shuffled) train/val/test date ranges for the
+# disk-integrated, SHARP-cadence timeline. Mirrors martian/configs/splits.yaml's
+# design (contiguous, non-overlapping, strictly time-ordered ranges) but
+# SHARP/GOES have no analogue to Mars's cyclical mars_year/sol calendar --
+# boundaries here are plain UTC date cutoffs instead of (mars_year, sol)
+# pairs. Validated at load time (splitting/chronological_split.py) to be
+# non-overlapping and chronologically ordered train < val < test.
+#
+# VALIDATED AGAINST REAL FULL-RANGE DATA on 2026-07-26 (see
+# planning/SPLITTING_DOCUMENTATION.md and planning/REAL_FULL_RANGE_RUN.md).
+# THESIS-SPECIFIED (not an engineering choice): Chapter 3.3.1 defines
+# train = Solar Cycle 24, test = Solar Cycle 25 (the actual generalization
+# test this project is built around) -- test_start below is fixed at the
+# Cycle 24/25 boundary (commonly cited as December 2019; 2020-01-01 used
+# here as a clean round cutoff -- RESEARCHER VERIFICATION REQUIRED against
+# the official Solar Cycle 25 Prediction Panel announcement before citing
+# the exact boundary date in the thesis text itself).
+#
+# ENGINEERING DECISION (not thesis-specified) -- where val sits within
+# Cycle 24: the previous placeholder put val at 2016-2017 and test at
+# 2018-2019. Checked against the real ingested data, 2018-2019 (the
+# approach to the Cycle 24 minimum) turned out to contain essentially no
+# flare activity (0 X-class, 17 M-class-or-above minutes across two full
+# years) -- unusable for threshold tuning/early-stopping, and if used as
+# test would have made the primary M-class-or-above classification task
+# look artificially trivial or unevaluable. Because chronological_split.py
+# requires train entirely < val entirely < test (no interleaving) and test
+# must start at the Cycle 25 boundary per the thesis, val was widened to
+# 2017-2019 (pulling 2017 -- the year of the 2017-09-06 X9.3 flare -- out of
+# what used to be train) so it has genuine positive-class signal (733
+# X-class, 6,166 M-class-or-above minutes) instead of shrinking or moving
+# test. Real per-split stats (GOES minutes, SHARP HARPNUMs), confirmed
+# 2026-07-26:
+#   train 2010-05-01..2016-12-31: 5.08M GOES rows, 825 X-class / 21,406
+#     M-or-above minutes; 2.56M SHARP rows, 3,827 distinct HARPNUMs.
+#   val   2017-01-01..2019-12-31: 5.22M GOES rows, 733 X-class / 6,166
+#     M-or-above minutes; 0.20M SHARP rows, 326 distinct HARPNUMs.
+#   test  2020-01-01..2025-07-24: 6.07M GOES rows, 2,579 X-class / 92,551
+#     M-or-above minutes; 2.21M SHARP rows, 3,277 distinct HARPNUMs (pure
+#     Cycle 25 -- true out-of-cycle generalization test).
+train_start: "2010-05-01"
+train_end: "2016-12-31"
+val_start: "2017-01-01"
+val_end: "2019-12-31"
+test_start: "2020-01-01"
+test_end: "2025-07-24"
+
+# A row's label horizon (labeling/flare_labels.py, configs/labeling.yaml's
+# forecast_horizon_hours) looks INTO THE FUTURE from its own timestamp. A
+# row sitting near a split boundary can therefore have a label informed by
+# GOES observations that fall inside the NEXT split. This is not a
+# feature-input leak (preprocessing/ is strictly causal), but it IS the
+# standard "purged/embargoed time-series CV" concern: a train-split row
+# whose label depends on val-split-period data blurs the independence the
+# split boundary is supposed to guarantee. `embargo_hours` rows at the END
+# of train/val (whose horizon can reach past the boundary) are identified by
+# `find_rows_with_label_horizon_crossing_split_boundary` and can be dropped
+# via `apply_embargo` before modeling. Matches
+# configs/labeling.yaml's default forecast_horizon_hours (24) -- if a
+# non-default horizon is used for labeling, pass that horizon explicitly to
+# these functions instead of relying on this default.
+embargo_hours: 24

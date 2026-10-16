@@ -1,0 +1,72 @@
+# Real NOAA GOES Flare Report ingestion source configuration.
+#
+# Chapter 3.2.1 (thesis) defines the forecasting label via a real flare
+# catalogue F with NOAA-AR-attributed events, distinct from
+# configs/labeling.yaml's current disk-integrated GOES-threshold-only
+# labels (see planning/ for the gap this closes -- Phase 1 of scoping out
+# per-active-region forecasting).
+#
+# VERIFIED_REAL_ARCHIVE_STRUCTURE (confirmed against the live NCEI service
+# 2026-07-26, not transcribed from the ReadMe alone -- see
+# planning/FLARE_CATALOGUE_DOCUMENTATION.md for the verification log):
+#   - Real directory listing at index_url/csv/ contains one mission-length
+#     file (currently sci_xrsf-l2-flrpt_geo_s19950103_e20260724_v1-0-1.csv)
+#     plus one file per year; this project uses the mission file only.
+#   - Real CSV header (fetched live): time,start_time,end_time,flare_id,
+#     xrsb_irrad,flare_class,xrsb_irrad_source,background_irrad,
+#     integrated_irrad_peak,integrated_irrad_end,flare_loc_swpc_hgs_lon,
+#     flare_loc_swpc_hgs_lat,flare_loc_swpc_source,flare_loc_xrs_hgs_lon,
+#     flare_loc_xrs_hgs_lat,flare_loc_xrs_hpc_x,flare_loc_xrs_hpc_y,
+#     flare_loc_xrs_source,sequential_flare_num,event_id_swpc,
+#     peak_saturated,active_region -- this project uses only the columns
+#     mapped below; flare location columns are not currently used.
+#   - Real coverage confirmed 1995-01-03 through the live end date (spans
+#     both Solar Cycle 24 and 25 with no gap -- unlike the legacy
+#     goes-xrs-report_[YEAR].txt catalogue, which stops at 2017).
+#   - `active_region` is genuinely often blank -- confirmed 99/2246 (4.4%)
+#     of real 2017 flares have one; NOT rare-edge-case-only. Notably, in
+#     the already-verified 2017-09-04..10 pilot window, the X-class flares
+#     themselves (X3.2, X14.6, X1.2, X2.1) are UNASSIGNED, while several
+#     smaller M/C-class flares from the same real active region (AR 2673,
+#     the abbreviated form of AR 12673 / HARP 7115) ARE assigned. This is
+#     exactly Algorithm 3.2 step 11's "unassigned-flare masking" case, not
+#     a hypothetical -- it will affect this exact well-known event.
+#   - `active_region` values observed as bare NOAA AR numbers WITHOUT the
+#     leading "1" NOAA has used since AR numbering passed 9999 (e.g. "2673"
+#     for AR 12673) -- preprocessing/harp_attribution.py must account for
+#     this when matching against SHARP's NOAA_ARS keyword (RESEARCHER
+#     VERIFICATION REQUIRED: confirm NOAA_ARS reports the same
+#     4-vs-5-digit convention before matching).
+
+index_url: "https://data.ngdc.noaa.gov/platforms/solar-space-observing-satellites/goes/multi/l2/data/xrsf-l2-flrpt_science/csv/"
+mission_file_regex: 'href="(sci_xrsf-l2-flrpt_geo_s\d+_e\d+_v[\d\-]+\.csv)"'
+
+# Filter to this project's real ingested date range (matches
+# solar_ingest.yaml/sharp.yaml) -- the real mission file itself spans
+# 1995-2025+, wider than this project needs.
+date_range:
+  start: "2010-05-01"
+  end: "2025-07-24"
+
+# Real CSV column -> normalized column mapping (data_sources/schema.py's
+# FLARE_CATALOGUE_NORMALIZED_COLUMNS), confirmed against the live header
+# above.
+column_mapping:
+  flare_id: flare_id
+  time_utc_peak: time
+  time_utc_start: start_time
+  time_utc_end: end_time
+  flare_class: flare_class
+  xrsb_irrad_peak_w_m2: xrsb_irrad
+  active_region: active_region
+
+request:
+  timeout_seconds: 180   # the mission file is ~12MB as of 2026-07-26 -- larger than any single GOES/SHARP file this project fetches
+  max_retries: 3
+  retry_backoff_seconds: 5
+  user_agent: "space-anomaly-predictions-research/1.0"
+
+output:
+  raw_cache_dir: "data_cache/flare_catalogue/raw"
+  normalized_output_dir: "data_cache/flare_catalogue/normalized"
+  manifest_dir: "data_cache/flare_catalogue/manifests"
