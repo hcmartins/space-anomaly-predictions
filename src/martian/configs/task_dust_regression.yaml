@@ -1,0 +1,64 @@
+# Task A: Dust-optical-depth forecasting.
+#
+# FULLY SEPARATED from Task B and Task C: own target, own dataset, own
+# feature manifest, own checkpoints, own results, own figures, own seed.
+# See planning/MODELING_DOCUMENTATION.md for the cross-task-leakage argument.
+
+task_name: dust_regression
+task_type: regression
+
+target_variable: dust_optical_depth
+target_column_prefix: "target_dust_optical_depth_h"
+target_description: >
+  Future AGGREGATED dust optical depth at cell c, horizon h sols ahead:
+  target_dust_optical_depth_h{h}(c,s) = dust_optical_depth(c, s+h), read
+  from a GENUINELY OBSERVED (never trailing-filled) future cell-sol only.
+  A row with no exact observed match at sol s+h is dropped from the
+  dataset, never fabricated -- consistent with every other "never
+  interpolate a target/label" rule already enforced elsewhere in this
+  pipeline (see preprocessing/missing_data.py, labeling/anomaly_labels.py).
+
+horizons_sols: [1, 3, 5]
+
+seed: 42
+
+metrics: [mae, rmse, mse, r2, bias, correlation]
+
+# --- Model hierarchy: baselines -> classical -> sequence -----------------
+
+baselines:
+  - name: climatology
+    hyperparameters: {mode: column, column: dust_optical_depth_mu}
+  - name: persistence
+    hyperparameters: {source_column: dust_optical_depth}
+  - name: seasonal_mean
+    hyperparameters: {}
+
+classical_models:
+  - name: random_forest_regressor
+    hyperparameters: {n_estimators: 200, max_depth: 8, min_samples_leaf: 3}
+  - name: gradient_boosting_regressor
+    hyperparameters: {n_estimators: 200, max_depth: 3, learning_rate: 0.05}
+
+sequence:
+  enabled: true
+  window_length_primary: 10
+  window_length_sensitivity: [3, 5, 10]
+  models:
+    - rnn_type: lstm
+      hyperparameters: {hidden_size: 16, num_layers: 1, dropout: 0.0}
+    - rnn_type: gru
+      hyperparameters: {hidden_size: 16, num_layers: 1, dropout: 0.0}
+  training:
+    epochs: 30
+    learning_rate: 0.001
+    early_stopping_patience: 5
+
+paths:
+  dataset: "results/task_dust_regression/dataset.csv"
+  feature_manifest: "results/task_dust_regression/feature_manifest.json"
+  results: "results/task_dust_regression/metrics.json"
+  predictions: "results/task_dust_regression/predictions.csv"
+  checkpoint_dir: "checkpoints/task_dust_regression"
+  figures_dir: "figures_out/task_dust_regression"
+  sequence_feasibility_report: "results/task_dust_regression/sequence_feasibility_report.csv"
