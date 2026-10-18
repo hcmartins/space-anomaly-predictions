@@ -13,3 +13,10 @@ src/martian/output/
 src/martian/outputs/
 src/cross-domain/outputs/
 /outputs/
+
+# Thesis write-up material kept locally, not part of the reproducible code
+CHAPTER_*_PARAMETER_VALUES.md
+src/extract_worked_examples.py
+src/fill_worked_examples.py
+src/martian/prepare_worked_example_inputs.py
+generate_figures.ipynb
