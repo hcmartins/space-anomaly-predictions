@@ -1,0 +1,127 @@
+{
+  "splits": {
+    "train": {
+      "n": 32956,
+      "metrics": {
+        "mae": 0.0994834667282761,
+        "rmse": 0.2619555519519782,
+        "mse": 0.06862071119846556,
+        "r2": -0.6397227384178099,
+        "bias": 0.00039300961117674056,
+        "correlation": 0.16385336796883357
+      },
+      "ci": {
+        "mae": [
+          0.09641411434042083,
+          0.10342516255001265
+        ],
+        "rmse": [
+          0.2426586141241615,
+          0.2890446267845765
+        ],
+        "mse": [
+          0.05888320658837611,
+          0.08354680730901054
+        ],
+        "r2": [
+          -0.7500167078820165,
+          -0.5570859080355214
+        ],
+        "bias": [
+          -0.0011581673245926103,
+          0.0019395900174544998
+        ],
+        "correlation": [
+          0.12894091626375095,
+          0.1932330274552425
+        ]
+      }
+    },
+    "val": {
+      "n": 3077,
+      "metrics": {
+        "mae": 0.17922470776659416,
+        "rmse": 0.3303971130254081,
+        "mse": 0.10916225229552427,
+        "r2": -1.1263018970663685,
+        "bias": -0.037591495871012154,
+        "correlation": -0.03989713307628595
+      },
+      "ci": {
+        "mae": [
+          0.16948371296378173,
+          0.18863386473275134
+        ],
+        "rmse": [
+          0.297502586608956,
+          0.3610219977365944
+        ],
+        "mse": [
+          0.08850781407392161,
+          0.13033688804728524
+        ],
+        "r2": [
+          -1.4253263612567055,
+          -0.8319783586936925
+        ],
+        "bias": [
+          -0.04578713529158147,
+          -0.030402838544635265
+        ],
+        "correlation": [
+          -0.061918785355680336,
+          -0.012174545815284212
+        ]
+      }
+    },
+    "test": {
+      "n": 13456,
+      "metrics": {
+        "mae": 0.18718506858692702,
+        "rmse": 0.4147546912419258,
+        "mse": 0.17202145390718523,
+        "r2": -1.0391837086993019,
+        "bias": 0.02291317928994178,
+        "correlation": 0.015885521182826448
+      },
+      "ci": {
+        "mae": [
+          0.1804481504950739,
+          0.1932012863854719
+        ],
+        "rmse": [
+          0.38295114467858415,
+          0.45287718333661225
+        ],
+        "mse": [
+          0.14665158026999484,
+          0.2050977631241243
+        ],
+        "r2": [
+          -1.2882058904291664,
+          -0.8142246515716882
+        ],
+        "bias": [
+          0.01830432728136329,
+          0.02651764424310629
+        ],
+        "correlation": [
+          0.0010333825723020003,
+          0.0357288321137193
+        ]
+      }
+    }
+  },
+  "figures": {
+    "observed_vs_predicted": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\persistence_h1_obs_vs_pred.png",
+    "residual_analysis": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\persistence_h1_residuals.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_persistence_h1_uncertainty.csv"
+  }
+}

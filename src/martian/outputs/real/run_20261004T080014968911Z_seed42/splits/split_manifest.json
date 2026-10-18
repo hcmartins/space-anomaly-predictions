@@ -1,0 +1,44 @@
+{
+  "splits": {
+    "train": {
+      "n_rows": 81181,
+      "mars_years": [
+        36
+      ],
+      "sol_min": 12,
+      "sol_max": 464,
+      "atmospheric_anomaly_prevalence": 0.0969315480223205,
+      "storm_episode_prevalence": 0.04584816644288688
+    },
+    "val": {
+      "n_rows": 11139,
+      "mars_years": [
+        37
+      ],
+      "sol_min": 188,
+      "sol_max": 380,
+      "atmospheric_anomaly_prevalence": 0.06329113924050633,
+      "storm_episode_prevalence": 0.030882484962743515
+    },
+    "test": {
+      "n_rows": 48273,
+      "mars_years": [
+        37
+      ],
+      "sol_min": 386,
+      "sol_max": 668,
+      "atmospheric_anomaly_prevalence": 0.06438381704058169,
+      "storm_episode_prevalence": 0.03208833095104924
+    },
+    "unassigned": {
+      "n_rows": 2015,
+      "mars_years": [
+        37
+      ],
+      "sol_min": 381,
+      "sol_max": 385,
+      "atmospheric_anomaly_prevalence": 0.01488833746898263,
+      "storm_episode_prevalence": 0.006947890818858561
+    }
+  }
+}

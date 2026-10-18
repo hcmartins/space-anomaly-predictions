@@ -1,0 +1,177 @@
+{
+  "task_name": "dust_regression",
+  "model_kind": "sequence",
+  "model_name": "gru_w5",
+  "horizon_sols": 1,
+  "exact_parameters": {
+    "hidden_size": 16,
+    "num_layers": 1,
+    "dropout": 0.0,
+    "window_length_sols": 5
+  },
+  "random_seed": 42,
+  "feature_order": [
+    "feat_dust_optical_depth_lag1",
+    "feat_dust_optical_depth_lag2",
+    "feat_dust_optical_depth_lag3",
+    "feat_dust_optical_depth_trailing5_mean",
+    "feat_dust_optical_depth_trailing5_std",
+    "feat_dust_optical_depth_trailing5_max",
+    "feat_dust_optical_depth_trailing5_min",
+    "feat_dust_optical_depth_diff1",
+    "feat_dust_optical_depth_slope5",
+    "feat_dust_optical_depth_neighbour_mean",
+    "feat_dust_optical_depth_neighbour_max",
+    "feat_dust_optical_depth_z_lag1",
+    "feat_dust_optical_depth_z_lag2",
+    "feat_dust_optical_depth_z_lag3",
+    "feat_dust_optical_depth_z_trailing5_mean",
+    "feat_dust_optical_depth_z_trailing5_std",
+    "feat_dust_optical_depth_z_trailing5_max",
+    "feat_dust_optical_depth_z_trailing5_min",
+    "feat_dust_optical_depth_z_diff1",
+    "feat_dust_optical_depth_z_slope5",
+    "feat_dust_optical_depth_z_neighbour_mean",
+    "feat_dust_optical_depth_z_neighbour_max",
+    "feat_persistence_run_sols",
+    "feat_neighbour_exceedance_count",
+    "feat_ls_sin",
+    "feat_ls_cos",
+    "feat_ltst_sin",
+    "feat_ltst_cos",
+    "feat_is_observed",
+    "feat_interpolation_flag",
+    "feat_low_support_flag",
+    "feat_observation_count",
+    "dust_optical_depth",
+    "dust_optical_depth_z",
+    "dust_anomaly",
+    "atmospheric_anomaly"
+  ],
+  "n_train": 15057,
+  "n_val": 1434,
+  "convergence_status": "early_stopped",
+  "runtime_seconds": 0.9503349000588059,
+  "training_history": [
+    {
+      "epoch": 0,
+      "train_loss": 0.0662865862250328,
+      "val_loss": 0.0868920087814331
+    },
+    {
+      "epoch": 1,
+      "train_loss": 0.06027080863714218,
+      "val_loss": 0.08219199627637863
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.054999757558107376,
+      "val_loss": 0.07833178341388702
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.05042708292603493,
+      "val_loss": 0.07526415586471558
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.04648597911000252,
+      "val_loss": 0.07288530468940735
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.043104931712150574,
+      "val_loss": 0.07107498496770859
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.04020953178405762,
+      "val_loss": 0.06972149014472961
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.03772653639316559,
+      "val_loss": 0.06872423738241196
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.03558856248855591,
+      "val_loss": 0.06799643486738205
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.03373810276389122,
+      "val_loss": 0.06746865063905716
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.032129205763339996,
+      "val_loss": 0.06709042936563492
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.030727434903383255,
+      "val_loss": 0.06682874262332916
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.029520142823457718,
+      "val_loss": 0.06666381657123566
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.028499571606516838,
+      "val_loss": 0.06658332794904709
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.02765611559152603,
+      "val_loss": 0.06657662987709045
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.02698553167283535,
+      "val_loss": 0.06663025170564651
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.026483092457056046,
+      "val_loss": 0.06672558188438416
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.026132997125387192,
+      "val_loss": 0.06683921068906784
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.02590722218155861,
+      "val_loss": 0.06694561243057251
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.025772305205464363,
+      "val_loss": 0.06702137738466263
+    }
+  ],
+  "checkpoint_path": "outputs\\real\\run_20261004T080014968911Z_seed42\\models\\dust_regression\\gru_w5_h1.pt",
+  "software_versions": {
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "sklearn": "1.9.0",
+    "scipy": "1.18.0",
+    "torch": "2.12.1+cpu",
+    "torch_cuda_available": false
+  },
+  "hardware_info": {
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows",
+    "cpu_count": 12,
+    "gpu_available": false,
+    "gpu_name": null
+  },
+  "extra": {}
+}

@@ -1,0 +1,6 @@
+**Table 4.6b -- Blind Dev/Test Validation of the Catalogue-Matching Tolerance**
+*Data source: REAL (Martian Chapter 4 mars.run_all pipeline)*
+
+| mars_year | n_documented_events | n_qualifying_episodes | n_hits | n_misses | pod | n_matched_episodes | n_false_positive_candidates | episode_precision | mean_temporal_offset_sols | temporal_tolerance_sols | spatial_region_radius_cells | selection_metric | dev_f1_at_selected_tolerance | dev_fraction | split_seed | n_dev_events | n_test_events |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 36 | 49 | 109 | 5 | 44 | 0.10204081632653061 | 4 | 105 | 0.03669724770642202 | 7.428571428571429 | 3 | 3 | f1 | 0.05063291139240506 | 0.5 | 42 | 49 | 49 |

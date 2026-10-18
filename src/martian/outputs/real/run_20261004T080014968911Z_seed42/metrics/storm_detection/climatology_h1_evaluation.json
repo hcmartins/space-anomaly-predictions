@@ -1,0 +1,299 @@
+{
+  "splits": {
+    "train": {
+      "n": 32956,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 1.0,
+        "far": 1.0,
+        "precision": 0.04864061172472387,
+        "recall": 1.0,
+        "f1": 0.09276888798865708,
+        "brier": 0.04627470261576855,
+        "log_score": 0.1944929862356436,
+        "pr_auc": 0.04864061172472387,
+        "roc_auc": 0.5,
+        "tp": 1603,
+        "fp": 31353,
+        "tn": 0,
+        "fn": 0,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.04864061172472387
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          1.0,
+          1.0
+        ],
+        "far": [
+          1.0,
+          1.0
+        ],
+        "precision": [
+          0.046290994156772285,
+          0.051281870520610576
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          0.08848588772465431,
+          0.09756064820667577
+        ],
+        "brier": [
+          0.0441536587194656,
+          0.04865901652454477
+        ],
+        "log_score": [
+          0.1875065556275135,
+          0.2023465925191815
+        ],
+        "pr_auc": [
+          0.046290994156772285,
+          0.051281870520610576
+        ],
+        "roc_auc": [
+          0.5,
+          0.5
+        ],
+        "tp": [
+          1500.9,
+          1710.4499999999998
+        ],
+        "fp": [
+          30305.15,
+          32575.85
+        ],
+        "tn": [
+          0.0,
+          0.0
+        ],
+        "fn": [
+          0.0,
+          0.0
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "val": {
+      "n": 3077,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 1.0,
+        "far": 1.0,
+        "precision": 0.03217419564510887,
+        "recall": 1.0,
+        "f1": 0.062342569269521406,
+        "brier": 0.031410159638206134,
+        "log_score": 0.14553119991178604,
+        "pr_auc": 0.03217419564510887,
+        "roc_auc": 0.5,
+        "tp": 99,
+        "fp": 2978,
+        "tn": 0,
+        "fn": 0,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.03217419564510887
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          1.0,
+          1.0
+        ],
+        "far": [
+          1.0,
+          1.0
+        ],
+        "precision": [
+          0.027394396295333474,
+          0.03897090473492174
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          0.053327906491337916,
+          0.07501827919940343
+        ],
+        "brier": [
+          0.02709534501701977,
+          0.037545676552332034
+        ],
+        "log_score": [
+          0.1313187863967203,
+          0.1657407595726044
+        ],
+        "pr_auc": [
+          0.027394396295333474,
+          0.03897090473492174
+        ],
+        "roc_auc": [
+          0.5,
+          0.5
+        ],
+        "tp": [
+          85.0,
+          119.0
+        ],
+        "fp": [
+          2879.0,
+          3089.35
+        ],
+        "tn": [
+          0.0,
+          0.0
+        ],
+        "fn": [
+          0.0,
+          0.0
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "test": {
+      "n": 13456,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 1.0,
+        "far": 1.0,
+        "precision": 0.03656361474435196,
+        "recall": 1.0,
+        "f1": 0.07054774878118726,
+        "brier": 0.03537257067724249,
+        "log_score": 0.15858284387510463,
+        "pr_auc": 0.03656361474435196,
+        "roc_auc": 0.5,
+        "tp": 492,
+        "fp": 12964,
+        "tn": 0,
+        "fn": 0,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.03656361474435196
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          1.0,
+          1.0
+        ],
+        "far": [
+          1.0,
+          1.0
+        ],
+        "precision": [
+          0.03336558992515075,
+          0.040021517253825
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          0.0645765420316117,
+          0.07696286226965447
+        ],
+        "brier": [
+          0.03248565362507488,
+          0.038494084200025085
+        ],
+        "log_score": [
+          0.14907373107854618,
+          0.16886468559336082
+        ],
+        "pr_auc": [
+          0.03336558992515075,
+          0.040021517253825
+        ],
+        "roc_auc": [
+          0.5,
+          0.5
+        ],
+        "tp": [
+          449.95,
+          543.1999999999999
+        ],
+        "fp": [
+          12551.8,
+          13384.5
+        ],
+        "tn": [
+          0.0,
+          0.0
+        ],
+        "fn": [
+          0.0,
+          0.0
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    }
+  },
+  "decision_threshold": 0.01,
+  "decision_threshold_source": "validation_selected (maximizing tss, val_tss=0.0000)",
+  "figures": {
+    "confusion_matrix": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\climatology_h1_confusion_matrix.png",
+    "reliability_diagram": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\climatology_h1_reliability.png",
+    "pr_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\climatology_h1_pr_curve.png",
+    "roc_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\climatology_h1_roc_curve.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_uncertainty.csv",
+    "event_category": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_event_category.csv",
+    "label_persistence": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_label_persistence.csv",
+    "spatial_extent": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_climatology_h1_spatial_extent.csv"
+  }
+}
