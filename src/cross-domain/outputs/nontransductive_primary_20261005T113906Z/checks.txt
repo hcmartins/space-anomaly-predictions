@@ -1,0 +1,5 @@
+reconstruction: 20 rebuilt models (A3/A4/A6/A7 x 5 seeds) reproduce the sweep's tau* exactly and its test probabilities to max |dp| = 2.98e-08 (prototype_rescore verification.json)
+prototype: in all 20 models the stored prototypes equal the mean projection of the full training split (< 1e-5); validation/test probabilities and tau* recomputed from the saved models equal the saved prototype predictions (< 1e-6)
+prototype independence: predict_*_only takes only the own-domain input; the other domain enters only through the stored training prototype buffer, so no validation or test input of either domain contributes to it (code: fusion/model.py predict_solar_only / predict_martian_only; training/train_fusion.py::_update_prototypes)
+gate: primary TSS and counts of A3/A4/A6/A7 equal prototype_rescore metrics.csv for every domain, seed and stratum
+gate: all 72 rows of prototype_paired_20261005T091916Z (TSS and ROC-AUC) reproduced exactly

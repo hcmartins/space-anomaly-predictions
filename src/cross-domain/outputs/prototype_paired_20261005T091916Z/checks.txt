@@ -1,0 +1,5 @@
+gate 1: 80 prototype TSS values recomputed from predictions_prototype_*.csv equal metrics.csv; seed means equal summary.csv
+gate 2: solar moving-block (120 rows) canonical A5-A7 interval [0.1730, 0.2499] = uncertainty_report.md [0.1730, 0.2499]
+gate 3: Martian sol-block canonical A7-A1 interval [-0.1626, -0.0310] = saved P1_12 table [-0.1626, -0.0310]
+gate 4: cell-block stream replayed; all 45 saved paired_within_season.csv rows reproduced
+(a) solar TSS replicates equal paired_bootstrap_difference on the same files

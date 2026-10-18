@@ -1,0 +1,8 @@
+seed-44 pooled TSS solar A7 = 0.321053 -> 0.321 (Chapter 6 section 8: 0.321) OK
+seed-44 pooled TSS solar A5 = 0.532226 -> 0.532 (Chapter 6 section 8: 0.532) OK
+seed-44 pooled TSS martian A7 = 0.592808 -> 0.593 (Chapter 6 section 8: 0.593) OK
+seed-44 pooled TSS martian A5 = 0.644906 -> 0.645 (Chapter 6 section 8: 0.645) OK
+(a) solar A5-A7 TSS 0.2112 [0.1730, 0.2499] reproduces uncertainty_report.md (0.2112, 0.173, 0.2499) OK
+(a) martian A5-A7 TSS 0.0521 [0.0125, 0.0957] reproduces uncertainty_report.md (0.0521, 0.0125, 0.0957) OK
+(b) replayed run_fusion_supplementary.py cell-block stream: all 45 saved paired_within_season.csv rows reproduced exactly OK
+(b) every within-season A5/A7 TSS, ROC-AUC and Brier value reproduces fusion_supplementary metrics_per_seed.csv OK

@@ -1,0 +1,10 @@
+{
+  "rule": "max(1, min(len(X_solar_train) // batch_size_solar, len(X_martian_train) // batch_size_martian))  (training/train_fusion.py line 65)",
+  "n_solar_train": 28719,
+  "n_martian_train": 22213,
+  "batch_size_solar": 64,
+  "batch_size_martian": 64,
+  "steps_per_epoch": 347,
+  "binding_domain": "martian",
+  "note": "computed from the actual export arrays with the training code's own formula; train_fusion.py does not log it"
+}

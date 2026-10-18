@@ -1,0 +1,81 @@
+domain,configuration,seed,season,tau_fused,n_selected,n_missed_event,n_false_alarm_gt_0.5,n_shared_with_A1,n_fusion_only,alpha_verified
+solar,A3,44,ALL,0.04,5105,279,4826,4663,442,True
+solar,A3,45,ALL,0.04,5070,404,4666,4706,364,True
+solar,A3,46,ALL,0.06,5316,465,4851,4913,403,True
+solar,A3,47,ALL,0.06,4885,388,4497,4757,128,True
+solar,A3,48,ALL,0.04,5580,595,4985,5007,573,True
+solar,A4,44,ALL,0.04,5112,281,4831,4666,446,True
+solar,A4,45,ALL,0.04,5074,410,4664,4710,364,True
+solar,A4,46,ALL,0.06,5313,461,4852,4908,405,True
+solar,A4,47,ALL,0.06,4884,388,4496,4757,127,True
+solar,A4,48,ALL,0.04,5579,594,4985,5004,575,True
+solar,A6,44,ALL,0.03,5122,419,4703,4894,228,True
+solar,A6,45,ALL,0.04,5565,576,4989,4853,712,True
+solar,A6,46,ALL,0.05,5162,407,4755,5008,154,True
+solar,A6,47,ALL,0.04,5282,468,4814,4882,400,True
+solar,A6,48,ALL,0.04,5066,475,4591,4968,98,True
+solar,A7,44,ALL,0.04,5112,281,4831,4666,446,True
+solar,A7,45,ALL,0.04,5074,410,4664,4710,364,True
+solar,A7,46,ALL,0.06,5313,461,4852,4908,405,True
+solar,A7,47,ALL,0.06,4884,388,4496,4757,127,True
+solar,A7,48,ALL,0.04,5579,594,4985,5004,575,True
+martian,A3,44,ALL,0.02,167,43,124,29,138,True
+martian,A3,44,Northern Autumn,0.02,16,16,0,16,0,True
+martian,A3,44,Northern Winter,0.02,151,27,124,13,138,True
+martian,A3,45,ALL,0.01,89,12,77,17,72,True
+martian,A3,45,Northern Autumn,0.01,10,10,0,10,0,True
+martian,A3,45,Northern Winter,0.01,79,2,77,7,72,True
+martian,A3,46,ALL,0.01,73,0,73,10,63,True
+martian,A3,46,Northern Autumn,0.01,0,0,0,0,0,True
+martian,A3,46,Northern Winter,0.01,73,0,73,10,63,True
+martian,A3,47,ALL,0.01,38,5,33,15,23,True
+martian,A3,47,Northern Autumn,0.01,5,5,0,5,0,True
+martian,A3,47,Northern Winter,0.01,33,0,33,10,23,True
+martian,A3,48,ALL,0.01,105,12,93,19,86,True
+martian,A3,48,Northern Autumn,0.01,10,10,0,10,0,True
+martian,A3,48,Northern Winter,0.01,95,2,93,9,86,True
+martian,A4,44,ALL,0.02,168,44,124,29,139,True
+martian,A4,44,Northern Autumn,0.02,16,16,0,16,0,True
+martian,A4,44,Northern Winter,0.02,152,28,124,13,139,True
+martian,A4,45,ALL,0.01,90,12,78,17,73,True
+martian,A4,45,Northern Autumn,0.01,10,10,0,10,0,True
+martian,A4,45,Northern Winter,0.01,80,2,78,7,73,True
+martian,A4,46,ALL,0.01,74,0,74,10,64,True
+martian,A4,46,Northern Autumn,0.01,0,0,0,0,0,True
+martian,A4,46,Northern Winter,0.01,74,0,74,10,64,True
+martian,A4,47,ALL,0.01,38,4,34,14,24,True
+martian,A4,47,Northern Autumn,0.01,4,4,0,4,0,True
+martian,A4,47,Northern Winter,0.01,34,0,34,10,24,True
+martian,A4,48,ALL,0.01,104,10,94,17,87,True
+martian,A4,48,Northern Autumn,0.01,8,8,0,8,0,True
+martian,A4,48,Northern Winter,0.01,96,2,94,9,87,True
+martian,A6,44,ALL,0.02,119,29,90,23,96,True
+martian,A6,44,Northern Autumn,0.02,16,16,0,16,0,True
+martian,A6,44,Northern Winter,0.02,103,13,90,7,96,True
+martian,A6,45,ALL,0.01,215,22,193,23,192,True
+martian,A6,45,Northern Autumn,0.01,13,13,0,13,0,True
+martian,A6,45,Northern Winter,0.01,202,9,193,10,192,True
+martian,A6,46,ALL,0.01,173,16,157,24,149,True
+martian,A6,46,Northern Autumn,0.01,11,11,0,11,0,True
+martian,A6,46,Northern Winter,0.01,162,5,157,13,149,True
+martian,A6,47,ALL,0.01,262,23,239,26,236,True
+martian,A6,47,Northern Autumn,0.01,13,13,0,13,0,True
+martian,A6,47,Northern Winter,0.01,249,10,239,13,236,True
+martian,A6,48,ALL,0.01,177,22,155,27,150,True
+martian,A6,48,Northern Autumn,0.01,13,13,0,13,0,True
+martian,A6,48,Northern Winter,0.01,164,9,155,14,150,True
+martian,A7,44,ALL,0.02,168,44,124,29,139,True
+martian,A7,44,Northern Autumn,0.02,16,16,0,16,0,True
+martian,A7,44,Northern Winter,0.02,152,28,124,13,139,True
+martian,A7,45,ALL,0.01,90,12,78,17,73,True
+martian,A7,45,Northern Autumn,0.01,10,10,0,10,0,True
+martian,A7,45,Northern Winter,0.01,80,2,78,7,73,True
+martian,A7,46,ALL,0.01,74,0,74,10,64,True
+martian,A7,46,Northern Autumn,0.01,0,0,0,0,0,True
+martian,A7,46,Northern Winter,0.01,74,0,74,10,64,True
+martian,A7,47,ALL,0.01,38,4,34,14,24,True
+martian,A7,47,Northern Autumn,0.01,4,4,0,4,0,True
+martian,A7,47,Northern Winter,0.01,34,0,34,10,24,True
+martian,A7,48,ALL,0.01,104,10,94,17,87,True
+martian,A7,48,Northern Autumn,0.01,8,8,0,8,0,True
+martian,A7,48,Northern Winter,0.01,96,2,94,9,87,True
