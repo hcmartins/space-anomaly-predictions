@@ -1,0 +1,141 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "total": 0.6252518230968662,
+      "loss_solar": 0.3453201709975427,
+      "loss_martian": 0.25774137740176417,
+      "alignment_loss": 0.2032368960132774,
+      "balance_loss": 0.0,
+      "val_score": -0.23119929432868958
+    },
+    {
+      "epoch": 1,
+      "total": 0.4407580130725498,
+      "loss_solar": 0.312359185057346,
+      "loss_martian": 0.11834730583133031,
+      "alignment_loss": 0.07717035247565862,
+      "balance_loss": 0.0,
+      "val_score": -0.2325470745563507
+    },
+    {
+      "epoch": 2,
+      "total": 0.42390158708054326,
+      "loss_solar": 0.3064552177956881,
+      "loss_martian": 0.11064348027367757,
+      "alignment_loss": 0.041637848563470824,
+      "balance_loss": 0.0,
+      "val_score": -0.21737973392009735
+    },
+    {
+      "epoch": 3,
+      "total": 0.4251153549388781,
+      "loss_solar": 0.3123560790885079,
+      "loss_martian": 0.10690528040574676,
+      "alignment_loss": 0.030174231812926895,
+      "balance_loss": 0.0,
+      "val_score": -0.21211841702461243
+    },
+    {
+      "epoch": 4,
+      "total": 0.41924498958099815,
+      "loss_solar": 0.3027591395704478,
+      "loss_martian": 0.11121425246524622,
+      "alignment_loss": 0.02329605582414426,
+      "balance_loss": 0.0,
+      "val_score": -0.217243030667305
+    },
+    {
+      "epoch": 5,
+      "total": 0.423338642553225,
+      "loss_solar": 0.30842254615740405,
+      "loss_martian": 0.10991198086161005,
+      "alignment_loss": 0.02023577228220722,
+      "balance_loss": 0.0,
+      "val_score": -0.21818901598453522
+    },
+    {
+      "epoch": 6,
+      "total": 0.4100972972273483,
+      "loss_solar": 0.2984956802655366,
+      "loss_martian": 0.10670556487134451,
+      "alignment_loss": 0.018580294172588187,
+      "balance_loss": 0.0,
+      "val_score": -0.2118963599205017
+    },
+    {
+      "epoch": 7,
+      "total": 0.41450236789259515,
+      "loss_solar": 0.3065178824175332,
+      "loss_martian": 0.10325248848904536,
+      "alignment_loss": 0.016492350378559544,
+      "balance_loss": 0.0,
+      "val_score": -0.21787045896053314
+    },
+    {
+      "epoch": 8,
+      "total": 0.4153721003607989,
+      "loss_solar": 0.30745644021446494,
+      "loss_martian": 0.10341895003709137,
+      "alignment_loss": 0.013918324705127423,
+      "balance_loss": 0.0,
+      "val_score": -0.2170398235321045
+    },
+    {
+      "epoch": 9,
+      "total": 0.42066156001015426,
+      "loss_solar": 0.30672634708606544,
+      "loss_martian": 0.10947742919177246,
+      "alignment_loss": 0.01378978353788169,
+      "balance_loss": 0.0,
+      "val_score": -0.21000836789608002
+    },
+    {
+      "epoch": 10,
+      "total": 0.41954078153849333,
+      "loss_solar": 0.3041340162070409,
+      "loss_martian": 0.11109702537099292,
+      "alignment_loss": 0.011954653833694864,
+      "balance_loss": 0.0,
+      "val_score": -0.21306563913822174
+    },
+    {
+      "epoch": 11,
+      "total": 0.4162133440847699,
+      "loss_solar": 0.3026094510077743,
+      "loss_martian": 0.10933145344987383,
+      "alignment_loss": 0.01141047623325193,
+      "balance_loss": 0.0,
+      "val_score": -0.21550026535987854
+    },
+    {
+      "epoch": 12,
+      "total": 0.4097897090468695,
+      "loss_solar": 0.2966355566762023,
+      "loss_martian": 0.10886894668900657,
+      "alignment_loss": 0.011549032458321591,
+      "balance_loss": 0.0,
+      "val_score": -0.22347788512706757
+    },
+    {
+      "epoch": 13,
+      "total": 0.41212631379836573,
+      "loss_solar": 0.3039323636451441,
+      "loss_martian": 0.10399087108617987,
+      "alignment_loss": 0.010700398535059727,
+      "balance_loss": 0.0,
+      "val_score": -0.21077823638916016
+    },
+    {
+      "epoch": 14,
+      "total": 0.4121446855130044,
+      "loss_solar": 0.30050485712135216,
+      "loss_martian": 0.10736909362967918,
+      "alignment_loss": 0.011111578467283237,
+      "balance_loss": 0.0,
+      "val_score": -0.21148377656936646
+    }
+  ],
+  "convergence_status": "early_stopped_epoch_14",
+  "runtime_seconds": 82.69762140000239
+}

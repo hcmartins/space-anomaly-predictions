@@ -1,0 +1,105 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "total": 0.6629035113008978,
+      "loss_solar": 0.36792274626771726,
+      "loss_martian": 0.2603470086407249,
+      "alignment_loss": 0.32718777394603926,
+      "balance_loss": 0.0,
+      "val_score": -0.2537917494773865
+    },
+    {
+      "epoch": 1,
+      "total": 0.4505482524289865,
+      "loss_solar": 0.31899759074624745,
+      "loss_martian": 0.11904477817073507,
+      "alignment_loss": 0.10006876717662433,
+      "balance_loss": 0.0,
+      "val_score": -0.2246430516242981
+    },
+    {
+      "epoch": 2,
+      "total": 0.43416930189737324,
+      "loss_solar": 0.3098939290050127,
+      "loss_martian": 0.11686249216884288,
+      "alignment_loss": 0.044663509957878836,
+      "balance_loss": 0.0,
+      "val_score": -0.21983352303504944
+    },
+    {
+      "epoch": 3,
+      "total": 0.4232902535014606,
+      "loss_solar": 0.3018026930368599,
+      "loss_martian": 0.11505615429399851,
+      "alignment_loss": 0.03298643265477776,
+      "balance_loss": 0.0,
+      "val_score": -0.21385668218135834
+    },
+    {
+      "epoch": 4,
+      "total": 0.42224674223135805,
+      "loss_solar": 0.30864310539421497,
+      "loss_martian": 0.10763982133751987,
+      "alignment_loss": 0.02701913658126931,
+      "balance_loss": 0.0,
+      "val_score": -0.22232139110565186
+    },
+    {
+      "epoch": 5,
+      "total": 0.4158343495398502,
+      "loss_solar": 0.3041598480999985,
+      "loss_martian": 0.10603018282169224,
+      "alignment_loss": 0.02277725850975393,
+      "balance_loss": 0.0,
+      "val_score": -0.21055209636688232
+    },
+    {
+      "epoch": 6,
+      "total": 0.4132155406286119,
+      "loss_solar": 0.2954336209410549,
+      "loss_martian": 0.11220107150266768,
+      "alignment_loss": 0.02211849706285024,
+      "balance_loss": 0.0,
+      "val_score": -0.222769096493721
+    },
+    {
+      "epoch": 7,
+      "total": 0.4275449351635721,
+      "loss_solar": 0.31066521370960587,
+      "loss_martian": 0.11174120066381497,
+      "alignment_loss": 0.01727003874981867,
+      "balance_loss": 0.0,
+      "val_score": -0.21679307520389557
+    },
+    {
+      "epoch": 8,
+      "total": 0.4206338619722069,
+      "loss_solar": 0.3071473291954321,
+      "loss_martian": 0.10855237529841212,
+      "alignment_loss": 0.014816411495777733,
+      "balance_loss": 0.0,
+      "val_score": -0.2173757553100586
+    },
+    {
+      "epoch": 9,
+      "total": 0.41896892972397876,
+      "loss_solar": 0.3016637134277168,
+      "loss_martian": 0.11224733369816793,
+      "alignment_loss": 0.016160094883743814,
+      "balance_loss": 0.0,
+      "val_score": -0.22007198631763458
+    },
+    {
+      "epoch": 10,
+      "total": 0.41522430420265416,
+      "loss_solar": 0.30183053602832194,
+      "loss_martian": 0.10852784841114746,
+      "alignment_loss": 0.01444703130043442,
+      "balance_loss": 0.0,
+      "val_score": -0.2138449102640152
+    }
+  ],
+  "convergence_status": "early_stopped_epoch_10",
+  "runtime_seconds": 64.55871500005014
+}
