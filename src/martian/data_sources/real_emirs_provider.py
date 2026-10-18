@@ -1,6 +1,4 @@
-"""Real EMIRS observation provider -- the first of `src/martian`'s four data
-providers to go real, replacing `data_sources/real_stubs.py`'s
-`RealEMIRSObservationProvider` stub (removed there; see that module).
+"""Real EMIRS observation provider.
 
 Grounded in a real prior MSc dissertation on this exact instrument's data
 (uploaded by the researcher 2026-07-29), whose Table 3.1 cites the real EMM
