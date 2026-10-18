@@ -1,3 +1,12 @@
+"""P1.12 companion to run_fusion_code_audit.py: Martian seed-44 paired TSS
+differences between fusion configurations under three resampling units
+(single cell-sol, whole cell, whole sol), B = 1000, rng seed 20260818.
+
+    cd src/cross-domain
+    python run_fusion_code_audit_paired.py
+
+Writes outputs/fusion_code_audit_20261004T203942Z/P1_12_martian_paired_differences_by_block_unit.csv.
+"""
 import numpy as np, pandas as pd, sys
 sys.path.insert(0,'.')
 from uncertainty_analysis import block_indices, percentile_interval

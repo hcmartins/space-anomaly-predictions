@@ -163,7 +163,7 @@ def test_query_unsupported_variable_raises_clear_error(tmp_path):
 
 def test_query_raises_clear_error_when_netcdf_missing(tmp_path):
     provider = _make_provider(tmp_path, populate=False)
-    with pytest.raises(FileNotFoundError, match="build_mcd_climatology.py"):
+    with pytest.raises(FileNotFoundError, match="build_mcd_climatology_from_montabone.py"):
         provider.query(
             latitude=0.0, longitude=90.0, solar_longitude_ls=0.0,
             local_true_solar_time=0.0, variable="surface_temperature_k",
