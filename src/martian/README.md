@@ -118,9 +118,11 @@ its own directory; nothing is ever overwritten by a later run.
 
 ## Documentation index
 
+References below and in planning/ to `CHAPTER_4_PARAMETER_VALUES.md` point to the
+thesis parameter log, which is kept with the thesis write-up rather than in this repository.
+
 | Document | Covers |
 |---|---|
-| `CHAPTER_4_PARAMETER_VALUES.md` | Real, resolved values for every chapter [INSERT]/[CONFIRM] marker, and what remains blocked pending real EMIRS data |
 | `planning/PIPELINE_DOCUMENTATION.md` | Step-by-step pipeline mapping (some detail predates the real-only simplification) |
 | `planning/CONFIGURATION_DOCUMENTATION.md` | Every `configs/*.yaml` file: what it governs, who reads it |
 | `planning/DATA_DICTIONARY.md` | Every persisted data/label column |

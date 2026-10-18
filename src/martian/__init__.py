@@ -1,8 +1,7 @@
-"""Martian Chapter 4 pipeline package (simulated-data implementation).
+"""Martian dust-storm detection and dust regression pipeline (Chapter 4).
 
-See REPO_MANIFEST.md for the full target layout and planning/ for the audit,
-claims-traceability, implementation-plan, environment, decisions, and
-reproduce-commands documents produced before this code was written.
+Real EMIRS observations and the Montabone CDOD climatology. Entry point:
+`python -m mars.run_all` with cwd = src/martian; see README.md and planning/.
 """
 
 __version__ = "0.1.0"

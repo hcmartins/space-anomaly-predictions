@@ -3,10 +3,8 @@
 dust_optical_depth) consumed by
 data_sources/real_mcd_provider.py::RealMCDClimatologyProvider, from the
 REAL, downloaded Montabone et al. gridded column-dust-optical-depth (CDOD)
-climatology files (data_cache/griddedcdod_MY{34,35,36}_v2-5.nc) -- no
-compiled `fmcd` module and no separate MCD installation download are needed
-for this path (unlike build_mcd_climatology.py, which calls the MCD's own
-Fortran `call_mcd` routine and remains blocked on external prerequisites).
+climatology files (data_cache/griddedcdod_MY{34,35,36}_v2-5.nc). No compiled
+MCD `fmcd` module or MCD installation is needed.
 
 WHAT THIS DATA IS: real, gridded, per-sol column dust optical depth,
 reconstructed from real Mars Reconnaissance Orbiter/Mars Climate Sounder
@@ -38,7 +36,7 @@ variability at once. ENGINEERING DECISION: this is a defensible, real,
 NaN-aware statistic (missing satellite coverage in a given cell/sol is
 excluded from the pool, never imputed) -- it is NOT the same statistical
 quantity as the MCD's own internal "day-to-day RMS variability field" (that
-would require the GCM path in build_mcd_climatology.py), and this file's
+would require querying the MCD's own GCM), and this file's
 netCDF attributes say so explicitly.
 
 The diurnally-averaged nature of this dataset (each file's own title states

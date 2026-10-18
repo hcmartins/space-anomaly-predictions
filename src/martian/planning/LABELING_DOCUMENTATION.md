@@ -210,10 +210,10 @@ mars_year boundary (same cell/sol number but different year never merges), pole-
 neighbour-count correctness, empty-input handling, and hand-computed episode
 duration/peak-area summarisation.
 
-`tests/test_storm_taxonomy.py`, `tests/test_label_spec.py`,
+`tests/test_storm_taxonomy.py`,
 `tests/test_labeling_reporting.py` — taxonomy classification per band (including the
 "matches no band" and "planet_encircling requires all three conditions" cases),
-runtime config loading, JSON specification content, split-boundary assignment,
+runtime config loading, split-boundary assignment,
 season-quadrant assignment, prevalence arithmetic, and figure data-source stamping.
 
 `tests/test_real_documented_events.py` — the real Guha et al. catalogue loader:

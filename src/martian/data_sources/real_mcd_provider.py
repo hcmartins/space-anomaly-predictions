@@ -1,13 +1,9 @@
-"""Real MCD climatology provider -- replaces data_sources/real_stubs.py's
-RealMCDClimatologyProvider stub (removed there; see that module).
+"""Real climatology provider (mu_clim/sigma_clim for Eq. 4.1).
 
 Reads a PRECOMPUTED climatology netCDF file (mu_clim/sigma_clim on a
-(Ls, LTST, lat, lon) grid) built OFFLINE by build_mcd_climatology.py against
-a real, locally-installed Mars Climate Database (via aymeric-spiga/mcd-python's
-f2py wrapper around the MCD's Fortran call_mcd routine -- see that script's
-own header for the full build prerequisites: a compiled `fmcd` module + a
-real, separately-downloaded MCD installation, neither of which this
-repository can provide on its own).
+(Ls, LTST, lat, lon) grid) built OFFLINE by
+build_mcd_climatology_from_montabone.py from the real Montabone et al.
+gridded CDOD climatology files (see that script's header).
 
 This provider does NOT call the MCD live at query time -- it interpolates the
 precomputed grid, LINEARLY in (Ls, local time, latitude, longitude), matching
@@ -55,12 +51,9 @@ class RealMCDClimatologyProvider(MCDClimatologyProvider):
             raise FileNotFoundError(
                 f"Real MCD climatology file not found at {self._netcdf_path}. This "
                 "file is NOT generated automatically by this pipeline -- run "
-                "build_mcd_climatology.py (src/martian root) against a compiled "
-                "`fmcd` module (https://github.com/aymeric-spiga/mcd-python) and a "
-                "real, separately-downloaded MCD installation first. See "
-                "configs/mcd.yaml's `real` section and that script's own header "
-                "for the full prerequisites (gfortran + netCDF dev libraries + a "
-                "Linux build environment, plus the MCD data files themselves)."
+                "build_mcd_climatology_from_montabone.py (src/martian root) first, "
+                "with the Montabone CDOD files in data_cache/. See "
+                "configs/mcd.yaml's `real` section."
             )
         self._dataset = xr.load_dataset(self._netcdf_path)
         return self._dataset
@@ -118,14 +111,9 @@ class RealMCDClimatologyProvider(MCDClimatologyProvider):
 
     def describe(self) -> dict:
         # PREFER the loaded file's OWN embedded provenance attrs when the
-        # file exists -- different build scripts (build_mcd_climatology.py
-        # via call_mcd vs build_mcd_climatology_from_montabone.py via real
-        # downloaded Montabone CDOD files) produce genuinely different real
-        # products with different citations/versions/verification status.
-        # Reading configs/mcd.yaml's generic MCD-proper fields unconditionally
-        # would misattribute a Montabone-built file to "MCD v6.1 / Millour et
-        # al." when it was never built from a live or precomputed call_mcd
-        # query at all. Fall back to the generic config only when no file
+        # file exists -- a Montabone-built file carries its own citation and
+        # version. Reading configs/mcd.yaml's generic MCD-proper fields
+        # unconditionally would misattribute it to "MCD v6.1 / Millour et al." Fall back to the generic config only when no file
         # exists yet (still useful to document intent before it's built).
         if self._netcdf_path.exists():
             ds = self._load_dataset()
