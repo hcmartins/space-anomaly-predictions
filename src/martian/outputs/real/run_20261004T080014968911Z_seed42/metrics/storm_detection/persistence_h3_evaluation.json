@@ -1,0 +1,299 @@
+{
+  "splits": {
+    "train": {
+      "n": 60733,
+      "metrics": {
+        "tss": 0.38582357940134643,
+        "hss": 0.3250354693221242,
+        "pod": 0.4407755225689185,
+        "far": 0.054951943167572084,
+        "precision": 0.3155497722836695,
+        "recall": 0.4407755225689185,
+        "f1": 0.3677957532861476,
+        "brier": 0.08236049594125106,
+        "log_score": 2.27570575204339,
+        "pr_auc": 0.16948195274156086,
+        "roc_auc": 0.6929117897006732,
+        "tp": 1455,
+        "fp": 3156,
+        "tn": 54276,
+        "fn": 1846,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.054352658357071114
+      },
+      "ci": {
+        "tss": [
+          0.3668705138454106,
+          0.4058442452191143
+        ],
+        "hss": [
+          0.30645381846636394,
+          0.3417767509086169
+        ],
+        "pod": [
+          0.4222911393794847,
+          0.4602585384273749
+        ],
+        "far": [
+          0.05316663900344853,
+          0.05678921166651399
+        ],
+        "precision": [
+          0.29728200431135565,
+          0.3320659724708237
+        ],
+        "recall": [
+          0.4222911393794847,
+          0.4602585384273749
+        ],
+        "f1": [
+          0.34876827024122947,
+          0.3844959573250351
+        ],
+        "brier": [
+          0.07970146209236657,
+          0.08471439180861431
+        ],
+        "log_score": [
+          2.202233904631282,
+          2.3407463342390367
+        ],
+        "pr_auc": [
+          0.15601117502028447,
+          0.18137983444658223
+        ],
+        "roc_auc": [
+          0.6834352569227053,
+          0.7029221226095571
+        ],
+        "tp": [
+          1317.75,
+          1570.1
+        ],
+        "fp": [
+          3033.75,
+          3302.05
+        ],
+        "tn": [
+          52521.85,
+          56178.549999999996
+        ],
+        "fn": [
+          1714.95,
+          1983.1499999999999
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "val": {
+      "n": 8522,
+      "metrics": {
+        "tss": 0.2872151739612018,
+        "hss": 0.23718490365883707,
+        "pod": 0.3215686274509804,
+        "far": 0.03435345348977864,
+        "precision": 0.22404371584699453,
+        "recall": 0.3215686274509804,
+        "f1": 0.2640901771336554,
+        "brier": 0.0536259094109364,
+        "log_score": 1.4817393725211705,
+        "pr_auc": 0.09234582916131405,
+        "roc_auc": 0.6436075869806008,
+        "tp": 82,
+        "fp": 284,
+        "tn": 7983,
+        "fn": 173,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.02992255339122272
+      },
+      "ci": {
+        "tss": [
+          0.229480424192311,
+          0.3419503865169307
+        ],
+        "hss": [
+          0.19402398705774515,
+          0.2833877570741971
+        ],
+        "pod": [
+          0.2638834208223972,
+          0.37636746143057503
+        ],
+        "far": [
+          0.030910166771439283,
+          0.03839311383004056
+        ],
+        "precision": [
+          0.18518042464057888,
+          0.26320474777448066
+        ],
+        "recall": [
+          0.2638834208223972,
+          0.37636746143057503
+        ],
+        "f1": [
+          0.22074222437680197,
+          0.308036394537889
+        ],
+        "brier": [
+          0.04763492924662532,
+          0.060462825489270663
+        ],
+        "log_score": [
+          1.316202448565137,
+          1.6706504143776753
+        ],
+        "pr_auc": [
+          0.07209003044677388,
+          0.11606412715226735
+        ],
+        "roc_auc": [
+          0.6147402120961556,
+          0.6709751932584653
+        ],
+        "tp": [
+          64.95,
+          99.04999999999998
+        ],
+        "fp": [
+          255.9,
+          315.09999999999997
+        ],
+        "tn": [
+          7740.85,
+          8218.15
+        ],
+        "fn": [
+          146.79999999999998,
+          204.04999999999998
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "test": {
+      "n": 37943,
+      "metrics": {
+        "tss": 0.24916045098841455,
+        "hss": 0.2019038613234617,
+        "pod": 0.2921092564491654,
+        "far": 0.042948805460750854,
+        "precision": 0.19662921348314608,
+        "recall": 0.2921092564491654,
+        "f1": 0.23504273504273504,
+        "brier": 0.06604643807816989,
+        "log_score": 1.8249314422792877,
+        "pr_auc": 0.08202672919947246,
+        "roc_auc": 0.6245802254942072,
+        "tp": 385,
+        "fp": 1573,
+        "tn": 35052,
+        "fn": 933,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.03473631499881401
+      },
+      "ci": {
+        "tss": [
+          0.23042217678395271,
+          0.2692957109072372
+        ],
+        "hss": [
+          0.18501508789903715,
+          0.21989586487516066
+        ],
+        "pod": [
+          0.27178412351109077,
+          0.3120286446689916
+        ],
+        "far": [
+          0.041311482185102714,
+          0.04458882809419313
+        ],
+        "precision": [
+          0.18178054951003678,
+          0.21259485846719245
+        ],
+        "recall": [
+          0.27178412351109077,
+          0.3120286446689916
+        ],
+        "f1": [
+          0.2185203378428268,
+          0.25252004349030804
+        ],
+        "brier": [
+          0.06331265520685408,
+          0.06889951649193646
+        ],
+        "log_score": [
+          1.7493941998386533,
+          1.903764933895944
+        ],
+        "pr_auc": [
+          0.07353461388305568,
+          0.09093370463604332
+        ],
+        "roc_auc": [
+          0.6152110883919762,
+          0.6346478554536187
+        ],
+        "tp": [
+          347.95,
+          427.04999999999995
+        ],
+        "fp": [
+          1509.85,
+          1631.05
+        ],
+        "tn": [
+          34209.05,
+          36183.45
+        ],
+        "fn": [
+          876.85,
+          1006.0999999999999
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    }
+  },
+  "decision_threshold": 0.01,
+  "decision_threshold_source": "validation_selected (maximizing tss, val_tss=0.2872)",
+  "figures": {
+    "confusion_matrix": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\persistence_h3_confusion_matrix.png",
+    "reliability_diagram": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\persistence_h3_reliability.png",
+    "pr_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\persistence_h3_pr_curve.png",
+    "roc_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\persistence_h3_roc_curve.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_uncertainty.csv",
+    "event_category": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_event_category.csv",
+    "label_persistence": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_label_persistence.csv",
+    "spatial_extent": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_persistence_h3_spatial_extent.csv"
+  }
+}

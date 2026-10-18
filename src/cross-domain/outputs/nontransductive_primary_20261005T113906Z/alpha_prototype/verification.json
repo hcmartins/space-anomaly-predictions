@@ -1,0 +1,262 @@
+{
+  "A3_seed44": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9797363243488917e-08,
+      "tau": 0.05,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.88345336496576e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A3_seed45": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9795837352963872e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.958679201636727e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A3_seed46": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980194091506405e-08,
+      "tau": 0.060000000000000005,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9324340844461005e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A3_seed47": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.979431157346113e-08,
+      "tau": 0.08,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.844848634442343e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A3_seed48": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980117796980153e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9592132522182624e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A4_seed44": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9795837352963872e-08,
+      "tau": 0.05,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9136657753170425e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A4_seed45": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.979812618875144e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9759979258692226e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A4_seed46": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9800415024539006e-08,
+      "tau": 0.060000000000000005,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9451751704101525e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A4_seed47": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980117796980153e-08,
+      "tau": 0.06999999999999999,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.80776977223951e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A4_seed48": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980117796980153e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.8340911839563887e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A6_seed44": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980117796980153e-08,
+      "tau": 0.03,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9763031039742316e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A6_seed45": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.979431157346113e-08,
+      "tau": 0.05,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.930908205023286e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A6_seed46": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9795837352963872e-08,
+      "tau": 0.05,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.94097900477297e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A6_seed47": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9792785682936085e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9663848821748218e-08,
+      "tau": 0.03,
+      "accepted": true
+    }
+  },
+  "A6_seed48": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9792785682936085e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9759979258692226e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A7_seed44": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9795837352963872e-08,
+      "tau": 0.05,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.85125731913638e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A7_seed45": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.979812618875144e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9759979258692226e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A7_seed46": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9800415024539006e-08,
+      "tau": 0.060000000000000005,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9451751704101525e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A7_seed47": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.9795837352963872e-08,
+      "tau": 0.06999999999999999,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.904510498780155e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  },
+  "A7_seed48": {
+    "prototype_vs_recomputed_from_X_train": 0.0,
+    "solar": {
+      "max_abs_test_prob_vs_saved": 2.980117796980153e-08,
+      "tau": 0.04,
+      "accepted": true
+    },
+    "martian": {
+      "max_abs_test_prob_vs_saved": 2.9397583034551644e-08,
+      "tau": 0.02,
+      "accepted": true
+    }
+  }
+}

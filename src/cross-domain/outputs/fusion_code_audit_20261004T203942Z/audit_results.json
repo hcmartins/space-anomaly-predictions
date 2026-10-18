@@ -1,0 +1,93 @@
+{
+  "P1.7": {
+    "A7_total_trainable": 1122,
+    "A7_parts": {
+      "projection_solar": 528,
+      "projection_martian": 272,
+      "scorer_solar_task": 144,
+      "scorer_martian_task": 144,
+      "head_solar": 17,
+      "head_martian": 17
+    },
+    "A2": {
+      "solar": {
+        "target": 689,
+        "trainable_params": 691,
+        "encoder_hidden_size": 32,
+        "projection": "Linear(32, 16) = 528",
+        "head": "Linear(16, 9) -> Tanh -> Linear(9, 1) = 163",
+        "head_hidden_size": 9,
+        "frozen_encoder_params_excluded": 6912
+      },
+      "martian": {
+        "target": 433,
+        "trainable_params": 435,
+        "encoder_hidden_size": 16,
+        "projection": "Linear(16, 16) = 272",
+        "head": "Linear(16, 9) -> Tanh -> Linear(9, 1) = 163",
+        "head_hidden_size": 9,
+        "frozen_encoder_params_excluded": 3456
+      }
+    },
+    "history_A2_target_actual": {
+      "ablation_run_20261004T092140839716Z": {
+        "solar": [
+          689,
+          691
+        ],
+        "martian": [
+          433,
+          435
+        ]
+      },
+      "ablation_run_20261004T093038696539Z": {
+        "solar": [
+          689,
+          691
+        ],
+        "martian": [
+          433,
+          435
+        ]
+      },
+      "ablation_run_20261004T093747158390Z": {
+        "solar": [
+          689,
+          691
+        ],
+        "martian": [
+          433,
+          435
+        ]
+      },
+      "ablation_run_20261004T094336212986Z": {
+        "solar": [
+          689,
+          691
+        ],
+        "martian": [
+          433,
+          435
+        ]
+      },
+      "ablation_run_20261004T095004027406Z": {
+        "solar": [
+          689,
+          691
+        ],
+        "martian": [
+          433,
+          435
+        ]
+      }
+    }
+  },
+  "P1.12": {
+    "bootstrap_seed": 20260818,
+    "resamples": 1000,
+    "n_test_windows": 9922,
+    "n_cells": 785,
+    "n_sols": 105,
+    "reproduced_report_one_cell_sol_TSS_intervals": true
+  }
+}

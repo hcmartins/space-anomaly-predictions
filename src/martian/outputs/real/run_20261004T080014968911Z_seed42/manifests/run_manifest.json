@@ -1,0 +1,86 @@
+{
+  "run_id": "run_20261004T080014968911Z_seed42",
+  "data_source": "real",
+  "config": {
+    "seed": 42,
+    "mars_year_range": [
+      36,
+      37
+    ],
+    "output_root": "outputs",
+    "configs_dir": "configs",
+    "tasks": [
+      "dust_regression",
+      "storm_detection"
+    ]
+  },
+  "seed_strategy": {
+    "global_generation_seed": 42,
+    "task_seeds": {
+      "dust_regression": 42,
+      "storm_detection": 44
+    },
+    "bootstrap_seed": "see configs/evaluation.yaml bootstrap.seed",
+    "note": "see planning/SEED_STRATEGY.md for the full rationale"
+  },
+  "started_at_utc": "2026-10-04T08:00:14.975027+00:00",
+  "software_versions": {
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "sklearn": "1.9.0",
+    "scipy": "1.18.0",
+    "torch": "2.12.1+cpu",
+    "torch_cuda_available": false
+  },
+  "hardware_info": {
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows",
+    "cpu_count": 12,
+    "gpu_available": false,
+    "gpu_name": null
+  },
+  "steps_completed": [
+    "3_qc_and_gridding",
+    "4_aggregate_cell_sols",
+    "5_causal_missing_data",
+    "6_causal_filtering",
+    "7_climatological_deviations",
+    "8_build_labels_and_episodes",
+    "9_validate_labels_against_documented_catalogue",
+    "10_build_causal_features",
+    "11_chronological_splits",
+    "12_leakage_checks",
+    "13_train_evaluate_uncertainty_figures",
+    "14_final_report",
+    "15_checksums"
+  ],
+  "step_timings_seconds": {
+    "3_qc_and_gridding": 1350.3135725000175,
+    "4_aggregate_cell_sols": 146.69791650003754,
+    "5_causal_missing_data": 24.223754600039683,
+    "6_causal_filtering": 7.915715100010857,
+    "7_climatological_deviations": 9.980650900048204,
+    "8_build_labels_and_episodes": 39.06640769995283,
+    "9_validate_labels_against_documented_catalogue": 9.460823300061747,
+    "10_build_causal_features": 176.0710015000077,
+    "11_chronological_splits": 0.057786299963481724,
+    "12_leakage_checks": 0.0053943999810144305,
+    "13_train_evaluate_uncertainty_figures": 2630.498286899994,
+    "14_final_report": 0.006670999922789633,
+    "15_checksums": 1.7161038999911398
+  },
+  "leakage_checks": {
+    "episode_boundary_check": "passed",
+    "feature_manifest_target_leakage_check": "passed",
+    "tasks_checked": [
+      "dust_regression",
+      "storm_detection"
+    ]
+  },
+  "status": "completed",
+  "finished_at_utc": "2026-10-04T09:13:31.779684+00:00",
+  "error": null
+}

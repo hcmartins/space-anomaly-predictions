@@ -1,0 +1,171 @@
+{
+  "splits": {
+    "train": {
+      "n": 28397,
+      "metrics": {
+        "mae": 0.06641154134156649,
+        "rmse": 0.1392627672617569,
+        "mse": 0.01939411834540227,
+        "r2": 0.3128113315287153,
+        "bias": 6.666730212545256e-05,
+        "correlation": 0.5803936210629524
+      },
+      "ci": {
+        "mae": [
+          0.0651233450114649,
+          0.06801384908816435
+        ],
+        "rmse": [
+          0.13248585180644665,
+          0.14708654487320014
+        ],
+        "mse": [
+          0.01755250566139091,
+          0.02163445168739168
+        ],
+        "r2": [
+          0.28919827474992754,
+          0.3321717455509594
+        ],
+        "bias": [
+          -0.001782039066583895,
+          0.0018105726484109093
+        ],
+        "correlation": [
+          0.5584236344505631,
+          0.5994566655598114
+        ]
+      }
+    },
+    "val": {
+      "n": 4653,
+      "metrics": {
+        "mae": 0.09431533917327296,
+        "rmse": 0.18990475199445828,
+        "mse": 0.03606381483007671,
+        "r2": -0.02006320094881353,
+        "bias": -0.02221870202049328,
+        "correlation": 0.05749920191585572
+      },
+      "ci": {
+        "mae": [
+          0.09027229250438513,
+          0.09855479411805355
+        ],
+        "rmse": [
+          0.17589776046932812,
+          0.20190415176749188
+        ],
+        "mse": [
+          0.030940029556149638,
+          0.04076532120186815
+        ],
+        "r2": [
+          -0.02921209922863207,
+          -0.012366912937880574
+        ],
+        "bias": [
+          -0.026667535997406264,
+          -0.018420987451772553
+        ],
+        "correlation": [
+          0.03799483246220885,
+          0.08037489043206825
+        ]
+      }
+    },
+    "test": {
+      "n": 19560,
+      "metrics": {
+        "mae": 0.09420633718210551,
+        "rmse": 0.2022487509419907,
+        "mse": 0.040904557257595384,
+        "r2": -0.011526567530029563,
+        "bias": -0.0012350430361418702,
+        "correlation": 0.18209921685713
+      },
+      "ci": {
+        "mae": [
+          0.09179739372497007,
+          0.0967271921396845
+        ],
+        "rmse": [
+          0.1816872113116824,
+          0.224518564461018
+        ],
+        "mse": [
+          0.03301025404268278,
+          0.050408618431394374
+        ],
+        "r2": [
+          -0.020471301321909753,
+          -0.0025998101768816254
+        ],
+        "bias": [
+          -0.003966676114429763,
+          0.0015698921011459695
+        ],
+        "correlation": [
+          0.15530214367103498,
+          0.20887709045591177
+        ]
+      }
+    }
+  },
+  "baseline_comparison": [
+    {
+      "metric": "mae",
+      "model": 0.09420633718210551,
+      "baseline": 0.11443861881506845,
+      "relative_skill": 0.17679592643160158,
+      "model_beats_baseline": true
+    },
+    {
+      "metric": "rmse",
+      "model": 0.2022487509419907,
+      "baseline": 0.33896045091308524,
+      "relative_skill": 0.4033264046080395,
+      "model_beats_baseline": true
+    },
+    {
+      "metric": "mse",
+      "model": 0.040904557257595384,
+      "baseline": 0.11489418728320208,
+      "relative_skill": 0.6439806205620311,
+      "model_beats_baseline": true
+    },
+    {
+      "metric": "r2",
+      "model": -0.011526567530029563,
+      "baseline": -1.8412120967315855,
+      "relative_skill": 0.9937396850963065,
+      "model_beats_baseline": true
+    },
+    {
+      "metric": "bias",
+      "model": -0.0012350430361418702,
+      "baseline": 0.002792775376054714,
+      "relative_skill": -1.4422278450072077,
+      "model_beats_baseline": false
+    },
+    {
+      "metric": "correlation",
+      "model": 0.18209921685713,
+      "baseline": 0.08478606251593446,
+      "relative_skill": 1.1477494231190033,
+      "model_beats_baseline": true
+    }
+  ],
+  "figures": {
+    "observed_vs_predicted": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\random_forest_regressor_h5_obs_vs_pred.png",
+    "residual_analysis": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\random_forest_regressor_h5_residuals.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_random_forest_regressor_h5_uncertainty.csv"
+  }
+}

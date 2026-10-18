@@ -1,0 +1,2 @@
+mars_year,n_documented_events,n_qualifying_episodes,n_hits,n_misses,pod,n_matched_episodes,n_false_positive_candidates,episode_precision,mean_temporal_offset_sols
+36,98,109,7,91,0.07142857142857142,2,107,0.01834862385321101,6.0

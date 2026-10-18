@@ -1,0 +1,123 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "total": 0.5825873017311096,
+      "loss_solar": 0.33927745472972604,
+      "loss_martian": 0.21405444851397437,
+      "alignment_loss": 0.27415684138234137,
+      "balance_loss": 0.0,
+      "val_score": -0.2507537603378296
+    },
+    {
+      "epoch": 1,
+      "total": 0.4361265924804836,
+      "loss_solar": 0.3139431252002029,
+      "loss_martian": 0.11167695934237423,
+      "alignment_loss": 0.08238233823425832,
+      "balance_loss": 0.0,
+      "val_score": -0.2163359522819519
+    },
+    {
+      "epoch": 2,
+      "total": 0.4376378799292127,
+      "loss_solar": 0.3135778290737603,
+      "loss_martian": 0.11798632562546978,
+      "alignment_loss": 0.034852200477606794,
+      "balance_loss": 0.0,
+      "val_score": -0.21918821334838867
+    },
+    {
+      "epoch": 3,
+      "total": 0.4270444378385626,
+      "loss_solar": 0.30872798992336997,
+      "loss_martian": 0.11265793177554174,
+      "alignment_loss": 0.028853338481509463,
+      "balance_loss": 0.0,
+      "val_score": -0.2192281186580658
+    },
+    {
+      "epoch": 4,
+      "total": 0.4293146829955516,
+      "loss_solar": 0.3127517042311193,
+      "loss_martian": 0.11136196100123506,
+      "alignment_loss": 0.023499920962899063,
+      "balance_loss": 0.0,
+      "val_score": -0.21541593968868256
+    },
+    {
+      "epoch": 5,
+      "total": 0.41944956092394736,
+      "loss_solar": 0.30392619469323834,
+      "loss_martian": 0.1105858574779731,
+      "alignment_loss": 0.019728587650471186,
+      "balance_loss": 0.0,
+      "val_score": -0.213372141122818
+    },
+    {
+      "epoch": 6,
+      "total": 0.4206878813869328,
+      "loss_solar": 0.30620076780016897,
+      "loss_martian": 0.10967671473964147,
+      "alignment_loss": 0.01794386139912504,
+      "balance_loss": 0.0,
+      "val_score": -0.2137322574853897
+    },
+    {
+      "epoch": 7,
+      "total": 0.4225124042126906,
+      "loss_solar": 0.30634717175184134,
+      "loss_martian": 0.11164682529737867,
+      "alignment_loss": 0.014767518665598603,
+      "balance_loss": 0.0,
+      "val_score": -0.20791831612586975
+    },
+    {
+      "epoch": 8,
+      "total": 0.4182533457316995,
+      "loss_solar": 0.30609083343136206,
+      "loss_martian": 0.10772583653253935,
+      "alignment_loss": 0.01364202733870907,
+      "balance_loss": 0.0,
+      "val_score": -0.2112652063369751
+    },
+    {
+      "epoch": 9,
+      "total": 0.4164346178687615,
+      "loss_solar": 0.3080060153083087,
+      "loss_martian": 0.10406588919739902,
+      "alignment_loss": 0.012474674054136988,
+      "balance_loss": 0.0,
+      "val_score": -0.21589456498622894
+    },
+    {
+      "epoch": 10,
+      "total": 0.41487955974055296,
+      "loss_solar": 0.30403245203948503,
+      "loss_martian": 0.10651137804886278,
+      "alignment_loss": 0.01228279107040927,
+      "balance_loss": 0.0,
+      "val_score": -0.21468302607536316
+    },
+    {
+      "epoch": 11,
+      "total": 0.41751727624997625,
+      "loss_solar": 0.3016957431086889,
+      "loss_martian": 0.11154562717448566,
+      "alignment_loss": 0.011737603992787364,
+      "balance_loss": 0.0,
+      "val_score": -0.21405865252017975
+    },
+    {
+      "epoch": 12,
+      "total": 0.4135499433842447,
+      "loss_solar": 0.30060468794461287,
+      "loss_martian": 0.10868559218406333,
+      "alignment_loss": 0.011513118677093549,
+      "balance_loss": 0.0,
+      "val_score": -0.20944063365459442
+    }
+  ],
+  "convergence_status": "early_stopped_epoch_12",
+  "runtime_seconds": 54.59118210000452
+}

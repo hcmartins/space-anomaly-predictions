@@ -1,0 +1,127 @@
+{
+  "splits": {
+    "train": {
+      "n": 32956,
+      "metrics": {
+        "mae": NaN,
+        "rmse": NaN,
+        "mse": NaN,
+        "r2": NaN,
+        "bias": NaN,
+        "correlation": NaN
+      },
+      "ci": {
+        "mae": [
+          0.18725955715902465,
+          0.19405171728306586
+        ],
+        "rmse": [
+          0.26462895753594695,
+          0.2872843313472016
+        ],
+        "mse": [
+          0.07005873761127726,
+          0.0825323661898675
+        ],
+        "r2": [
+          -0.9761724343095269,
+          -0.7220685743564169
+        ],
+        "bias": [
+          0.10997897421507093,
+          0.11484327668966957
+        ],
+        "correlation": [
+          0.12743786960730302,
+          0.1655911881095642
+        ]
+      }
+    },
+    "val": {
+      "n": 3077,
+      "metrics": {
+        "mae": 0.17058522433831966,
+        "rmse": 0.24020971161027355,
+        "mse": 0.05770070555189078,
+        "r2": -0.12391524631526529,
+        "bias": 0.049418303960874536,
+        "correlation": 0.11911167963552972
+      },
+      "ci": {
+        "mae": [
+          0.16630927956424224,
+          0.17652062773342833
+        ],
+        "rmse": [
+          0.22421437617857715,
+          0.2596319662556413
+        ],
+        "mse": [
+          0.05027208702465242,
+          0.06740875853218249
+        ],
+        "r2": [
+          -0.17685491900096492,
+          -0.07746996303281198
+        ],
+        "bias": [
+          0.040152467252268134,
+          0.05723321074910517
+        ],
+        "correlation": [
+          0.08897472318398336,
+          0.14956986910607095
+        ]
+      }
+    },
+    "test": {
+      "n": 13456,
+      "metrics": {
+        "mae": NaN,
+        "rmse": NaN,
+        "mse": NaN,
+        "r2": NaN,
+        "bias": NaN,
+        "correlation": NaN
+      },
+      "ci": {
+        "mae": [
+          0.2125943567249187,
+          0.2213837264900146
+        ],
+        "rmse": [
+          0.3092655971850519,
+          0.36067436604028363
+        ],
+        "mse": [
+          0.09580249023727372,
+          0.13014491353829435
+        ],
+        "r2": [
+          -0.5174986140915864,
+          -0.33385464897435796
+        ],
+        "bias": [
+          0.11696004955156225,
+          0.12788501787864093
+        ],
+        "correlation": [
+          -0.01136717274023098,
+          0.029464917219685107
+        ]
+      }
+    }
+  },
+  "figures": {
+    "observed_vs_predicted": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\climatology_h1_obs_vs_pred.png",
+    "residual_analysis": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\dust_regression\\climatology_h1_residuals.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\dust_regression\\failure_analysis_climatology_h1_uncertainty.csv"
+  }
+}

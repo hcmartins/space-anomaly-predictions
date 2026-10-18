@@ -1,0 +1,220 @@
+{
+  "data_source": "REAL (Martian Chapter 4 mars.run_all pipeline)",
+  "qc_config": {
+    "rules": [
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: first first-failing rule, 'missing variable'.",
+        "enabled": true,
+        "id": 1,
+        "name": "missing_required_variable",
+        "parameters": {
+          "note": "Deliberately does NOT include atm_temp_k_level_* or emission_angle_deg. Per-level temperature gaps are handled by pressure-level-coverage accounting at the aggregation stage (configs/aggregation.yaml), not by outright retrieval rejection here \u2014 a partially-missing vertical profile is a coverage/quality issue, not grounds to discard the whole retrieval's surface-level data.\n",
+          "required_variables": [
+            "latitude",
+            "longitude",
+            "utc_timestamp",
+            "mars_year",
+            "sol",
+            "solar_longitude_ls",
+            "local_true_solar_time",
+            "dust_optical_depth",
+            "water_ice_optical_depth",
+            "surface_temperature_k",
+            "quality_flag"
+          ]
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+      },
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: second first-failing rule, 'invalid quality flag'.",
+        "enabled": true,
+        "id": 2,
+        "name": "invalid_quality_flag",
+        "parameters": {
+          "pass_value": 0
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+      },
+      {
+        "citation": "NOT itemised as a distinct rule in the supplied Chapter 4 QC hierarchy (which lists only 6 rules total). Added for this task as a physical-plausibility check analogous to the confirmed negative-optical-depth and impossible-temperature rules, motivated by latitude/longitude/utc_timestamp/mars_year/sol themselves being flagged RESEARCHER VERIFICATION REQUIRED in configs/emirs_variables.yaml.\n",
+        "enabled": true,
+        "id": 3,
+        "name": "impossible_coordinate_or_timestamp",
+        "parameters": {
+          "latitude_range": [
+            -90,
+            90
+          ],
+          "longitude_range": [
+            0,
+            360
+          ],
+          "mars_year_range": [
+            1,
+            99
+          ],
+          "sol_range": [
+            0,
+            700
+          ]
+        },
+        "source": "RESEARCHER VERIFICATION REQUIRED"
+      },
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: third first-failing rule, 'negative optical depth'.",
+        "enabled": true,
+        "id": 4,
+        "name": "negative_optical_depth",
+        "parameters": {
+          "variables": [
+            "dust_optical_depth",
+            "water_ice_optical_depth"
+          ]
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+      },
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: fourth first-failing rule, 'physically impossible temperature'.",
+        "enabled": true,
+        "id": 5,
+        "name": "physically_impossible_temperature",
+        "parameters": {
+          "atmospheric_temperature_k_range": [
+            80,
+            320
+          ],
+          "surface_temperature_k_range": [
+            130,
+            300
+          ]
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION",
+        "threshold_source": "RESEARCHER VERIFICATION REQUIRED \u2014 mirrors configs/emirs_variables.yaml valid_range for consistency; NOT an independently verified instrument specification.\n"
+      },
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: fifth first-failing rule, 'excessive uncertainty'.",
+        "enabled": true,
+        "id": 6,
+        "name": "excessive_retrieval_uncertainty",
+        "parameters": {
+          "epsilon": 1e-06,
+          "max_relative_uncertainty": {
+            "dust_optical_depth": 0.5,
+            "surface_temperature_k": 0.5,
+            "water_ice_optical_depth": 0.65
+          }
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION",
+        "threshold_source": "dust_optical_depth/surface_temperature_k thresholds: RESEARCHER VERIFICATION REQUIRED \u2014 see planning/DECISIONS_REQUIRED.md #13. water_ice_optical_depth threshold: raised from an unverified 0.5 guess to 0.65 on 2026-07-29, grounded in the real dissertation's Fig 3.4.2 descriptive statistics (real iceuncert median / real tauice median \u2248 0.59 \u2014 see configs/emirs_simulation_calibration.yaml) \u2014 the first real evidence this threshold has had; 0.65 keeps ~0.06 headroom above that real ratio for per-retrieval noise around the median.\n"
+      },
+      {
+        "citation": "Enhanced Ch.4 \u00a74.3: sixth first-failing rule, 'viewing-geometry exceedance'.",
+        "enabled": false,
+        "id": 7,
+        "name": "unacceptable_viewing_geometry",
+        "parameters": {
+          "max_emission_angle_deg": 70
+        },
+        "source": "VERIFIED_PRODUCT_DOCUMENTATION",
+        "threshold_source": "RESEARCHER VERIFICATION REQUIRED \u2014 no numeric emission-angle threshold is given anywhere in the supplied Chapter 4 text for EMIRS. The SHARP mu >= 0.8 limb-exclusion convention documented elsewhere in the thesis (Table 7.1) applies to the SOLAR domain and must NOT be borrowed here without independent justification against the real EMIRS geometry field.\n"
+      },
+      {
+        "citation": "NOT itemised in the supplied Chapter 4 QC hierarchy text (which lists only 6 rules). Folded in here as a QC-pipeline rejection rule per this task's explicit request. Duplicate detection already exists as a separate, harder validation gate in data_sources/schema.py (validate_schema's check_duplicates_on), which raises on ANY duplicate found in a provider's raw output rather than rejecting individual rows; this rule instead rejects duplicate rows one-by-one (keeping the first occurrence) as part of the accept/reject QC pipeline.\n",
+        "enabled": true,
+        "id": 8,
+        "name": "duplicate_retrieval",
+        "parameters": {
+          "key_columns": [
+            "latitude",
+            "longitude",
+            "utc_timestamp"
+          ]
+        },
+        "source": "RESEARCHER VERIFICATION REQUIRED"
+      }
+    ]
+  },
+  "rule_results": [
+    {
+      "enabled": true,
+      "id": 1,
+      "n_flagged": 0,
+      "n_rejected_here": 0,
+      "name": "missing_required_variable",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": true,
+      "id": 2,
+      "n_flagged": 0,
+      "n_rejected_here": 0,
+      "name": "invalid_quality_flag",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": true,
+      "id": 3,
+      "n_flagged": 531368,
+      "n_rejected_here": 531368,
+      "name": "impossible_coordinate_or_timestamp",
+      "source": "RESEARCHER VERIFICATION REQUIRED"
+    },
+    {
+      "enabled": true,
+      "id": 4,
+      "n_flagged": 0,
+      "n_rejected_here": 0,
+      "name": "negative_optical_depth",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": true,
+      "id": 5,
+      "n_flagged": 7167,
+      "n_rejected_here": 3969,
+      "name": "physically_impossible_temperature",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": true,
+      "id": 6,
+      "n_flagged": 559255,
+      "n_rejected_here": 273700,
+      "name": "excessive_retrieval_uncertainty",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": false,
+      "id": 7,
+      "n_flagged": 0,
+      "n_rejected_here": 0,
+      "name": "unacceptable_viewing_geometry",
+      "source": "VERIFIED_PRODUCT_DOCUMENTATION"
+    },
+    {
+      "enabled": true,
+      "id": 8,
+      "n_flagged": 0,
+      "n_rejected_here": 0,
+      "name": "duplicate_retrieval",
+      "source": "RESEARCHER VERIFICATION REQUIRED"
+    }
+  ],
+  "run_id": "run_20261004T080014968911Z_seed42_qc",
+  "summary": {
+    "n_accepted": 268673,
+    "n_input": 1077710,
+    "n_rejected": 809037,
+    "rejection_reasons": {
+      "duplicate_retrieval": 0,
+      "excessive_retrieval_uncertainty": 273700,
+      "impossible_coordinate_or_timestamp": 531368,
+      "invalid_quality_flag": 0,
+      "missing_required_variable": 0,
+      "negative_optical_depth": 0,
+      "physically_impossible_temperature": 3969,
+      "unacceptable_viewing_geometry": 0
+    }
+  },
+  "written_at_utc": "2026-10-04T08:22:45.339358+00:00"
+}
