@@ -1,0 +1,46 @@
+--- A3: fusion_with_noise_auxiliary ---
+    convergence_status=early_stopped_epoch_10, runtime=52.7s
+A3 seed 44: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980194091506405e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.02, 'threshold_sweep': 0.02, 'max_abs_test_prob_diff': 2.9595184303232713e-08, 'accepted': True}}
+--- A4: fusion_with_shuffled_auxiliary ---
+    convergence_status=early_stopped_epoch_10, runtime=41.3s
+A4 seed 44: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.9795837352963872e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.02, 'threshold_sweep': 0.02, 'max_abs_test_prob_diff': 2.9786682120835906e-08, 'accepted': True}}
+--- A6: fusion_without_alignment ---
+    convergence_status=early_stopped_epoch_10, runtime=47.9s
+A6 seed 44: {'solar': {'threshold_retrained': 0.03, 'threshold_sweep': 0.03, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.02, 'threshold_sweep': 0.02, 'max_abs_test_prob_diff': 2.910537721945161e-08, 'accepted': True}}
+--- A3: fusion_with_noise_auxiliary ---
+    convergence_status=early_stopped_epoch_8, runtime=38.3s
+A3 seed 45: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.9799652079276484e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9281616242826658e-08, 'accepted': True}}
+--- A4: fusion_with_shuffled_auxiliary ---
+    convergence_status=early_stopped_epoch_8, runtime=34.3s
+A4 seed 45: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980194091506405e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9795837352963872e-08, 'accepted': True}}
+--- A6: fusion_without_alignment ---
+    convergence_status=early_stopped_epoch_20, runtime=78.6s
+A6 seed 45: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980194091506405e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9341125529214196e-08, 'accepted': True}}
+--- A3: fusion_with_noise_auxiliary ---
+    convergence_status=early_stopped_epoch_7, runtime=40.7s
+A3 seed 46: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.9799652079276484e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.818450928199212e-08, 'accepted': True}}
+--- A4: fusion_with_shuffled_auxiliary ---
+    convergence_status=early_stopped_epoch_7, runtime=57.1s
+A4 seed 46: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.9797363243488917e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.931900022762335e-08, 'accepted': True}}
+--- A6: fusion_without_alignment ---
+    convergence_status=early_stopped_epoch_7, runtime=28.4s
+A6 seed 46: {'solar': {'threshold_retrained': 0.05, 'threshold_sweep': 0.05, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9629516618001617e-08, 'accepted': True}}
+--- A3: fusion_with_noise_auxiliary ---
+    convergence_status=early_stopped_epoch_6, runtime=27.8s
+A3 seed 47: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.9797363243488917e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.97042846986173e-08, 'accepted': True}}
+--- A4: fusion_with_shuffled_auxiliary ---
+    convergence_status=early_stopped_epoch_6, runtime=28.2s
+A4 seed 47: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.975082402656426e-08, 'accepted': True}}
+--- A6: fusion_without_alignment ---
+    convergence_status=early_stopped_epoch_13, runtime=73.4s
+A6 seed 47: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9780578558735726e-08, 'accepted': True}}
+--- A3: fusion_with_noise_auxiliary ---
+    convergence_status=early_stopped_epoch_11, runtime=56.6s
+A3 seed 48: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980117796980153e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.978515623031086e-08, 'accepted': True}}
+--- A4: fusion_with_shuffled_auxiliary ---
+    convergence_status=early_stopped_epoch_11, runtime=66.3s
+A4 seed 48: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980194091506405e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.946014399096697e-08, 'accepted': True}}
+--- A6: fusion_without_alignment ---
+    convergence_status=early_stopped_epoch_8, runtime=47.2s
+A6 seed 48: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.9799652079276484e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9485321073607906e-08, 'accepted': True}}
+written to outputs\attention_recovery_20261005

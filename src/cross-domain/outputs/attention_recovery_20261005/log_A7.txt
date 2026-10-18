@@ -1,0 +1,13 @@
+--- A7: full_model (the real fusion model) ---
+    convergence_status=early_stopped_epoch_8, runtime=33.8s
+A7 seed 45: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9451751704101525e-08, 'accepted': True}}
+--- A7: full_model (the real fusion model) ---
+    convergence_status=early_stopped_epoch_7, runtime=32.1s
+A7 seed 46: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.979812618875144e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.882995608910477e-08, 'accepted': True}}
+--- A7: full_model (the real fusion model) ---
+    convergence_status=early_stopped_epoch_6, runtime=28.9s
+A7 seed 47: {'solar': {'threshold_retrained': 0.060000000000000005, 'threshold_sweep': 0.06, 'max_abs_test_prob_diff': 2.9800415024539006e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.9441833526711036e-08, 'accepted': True}}
+--- A7: full_model (the real fusion model) ---
+    convergence_status=early_stopped_epoch_11, runtime=69.8s
+A7 seed 48: {'solar': {'threshold_retrained': 0.04, 'threshold_sweep': 0.04, 'max_abs_test_prob_diff': 2.980194091506405e-08, 'accepted': True}, 'martian': {'threshold_retrained': 0.01, 'threshold_sweep': 0.01, 'max_abs_test_prob_diff': 2.971725465705788e-08, 'accepted': True}}
+written to outputs\attention_recovery_20261005

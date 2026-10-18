@@ -1,0 +1,6 @@
+source: prototype (prototype_rescore_20261005T083742Z; attention alpha_prototype)
+solar: 37598 test rows keyed by goes_sharp_lstm log (A1 == log, max|dp| < 1e-6); persistence joined on time_utc for all rows, labels equal; tau_pers = 0.01
+martian: 9922 test rows keyed by canonical lstm_w3 h=1 windows (A1 == canonical, max|dp| < 1e-6); persistence joined on (cell_id, mars_year, sol) for all rows, labels equal; tau_pers = 0.01; every row's observed latitude lies inside the cell's 5-degree band
+pooled TSS of every config x domain x seed reproduces its source (tss_summary.json; prototype metrics.csv for A3/A4/A6/A7 in prototype mode) (< 1e-9); A1 CSVs identical across seeds
+attention weights verified for 40 of 40 config x domain x seed cells (others NaN, alpha_verified = False)
+catalogue rows: 106347; A7 seed 44: 5444
