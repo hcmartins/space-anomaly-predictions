@@ -1,0 +1,36 @@
+{
+  "task_name": "dust_regression",
+  "model_kind": "baseline",
+  "model_name": "seasonal_mean",
+  "horizon_sols": 3,
+  "exact_parameters": {
+    "ls_column": "solar_longitude_ls"
+  },
+  "random_seed": 42,
+  "feature_order": [],
+  "n_train": 28878,
+  "n_val": 3381,
+  "convergence_status": "n/a (non-iterative baseline)",
+  "runtime_seconds": 0.018223299994133413,
+  "training_history": [],
+  "checkpoint_path": "outputs\\real\\run_20261004T080014968911Z_seed42\\models\\dust_regression\\seasonal_mean_h3.joblib",
+  "software_versions": {
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "sklearn": "1.9.0",
+    "scipy": "1.18.0",
+    "torch": "2.12.1+cpu",
+    "torch_cuda_available": false
+  },
+  "hardware_info": {
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows",
+    "cpu_count": 12,
+    "gpu_available": false,
+    "gpu_name": null
+  },
+  "extra": {}
+}

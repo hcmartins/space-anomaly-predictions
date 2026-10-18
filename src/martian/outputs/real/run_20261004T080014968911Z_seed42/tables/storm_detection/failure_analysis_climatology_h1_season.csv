@@ -1,0 +1,3 @@
+group,n,tss,hss,pod,far,precision,recall,f1,brier,log_score,pr_auc,roc_auc,tp,fp,tn,fn,n_classes_present_in_y_true
+Northern Autumn (Ls 180-270),10167,0.0,0.0,0.0,0.0,,0.0,,0.005651105797493797,0.0606843740149213,0.0036392249434444774,0.5,0,0,10130,37,2
+Northern Winter (Ls 270-360),3289,0.0,0.0,0.0,0.0,,0.0,,0.12724795329579064,0.4612078797730931,0.1383399209486166,0.5,0,0,2834,455,2

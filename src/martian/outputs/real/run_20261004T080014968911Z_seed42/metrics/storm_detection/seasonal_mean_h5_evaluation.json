@@ -1,0 +1,299 @@
+{
+  "splits": {
+    "train": {
+      "n": 66808,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 0.0,
+        "far": 0.0,
+        "precision": NaN,
+        "recall": 0.0,
+        "f1": NaN,
+        "brier": 0.05486129804301457,
+        "log_score": 0.18730029063960413,
+        "pr_auc": 0.14240699199799023,
+        "roc_auc": 0.7953742588028977,
+        "tp": 0,
+        "fp": 0,
+        "tn": 62565,
+        "fn": 4243,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.06351035804095317
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          0.0,
+          0.0
+        ],
+        "far": [
+          0.0,
+          0.0
+        ],
+        "precision": [
+          NaN,
+          NaN
+        ],
+        "recall": [
+          0.0,
+          0.0
+        ],
+        "f1": [
+          NaN,
+          NaN
+        ],
+        "brier": [
+          0.05239496914284502,
+          0.05707833560986504
+        ],
+        "log_score": [
+          0.18078983065848997,
+          0.19332508785287403
+        ],
+        "pr_auc": [
+          0.13546473799786615,
+          0.14920672084150088
+        ],
+        "roc_auc": [
+          0.791696475103041,
+          0.7985660267890401
+        ],
+        "tp": [
+          0.0,
+          0.0
+        ],
+        "fp": [
+          0.0,
+          0.0
+        ],
+        "tn": [
+          60967.5,
+          64458.0
+        ],
+        "fn": [
+          4000.65,
+          4522.2
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "val": {
+      "n": 9766,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 0.0,
+        "far": 0.0,
+        "precision": NaN,
+        "recall": 0.0,
+        "f1": NaN,
+        "brier": 0.040910971434464136,
+        "log_score": 0.2880540971108329,
+        "pr_auc": 0.0277755202867352,
+        "roc_auc": 0.39888751783246457,
+        "tp": 0,
+        "fp": 0,
+        "tn": 9453,
+        "fn": 313,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.032049969281179605
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          0.0,
+          0.0
+        ],
+        "far": [
+          0.0,
+          0.0
+        ],
+        "precision": [
+          NaN,
+          NaN
+        ],
+        "recall": [
+          0.0,
+          0.0
+        ],
+        "f1": [
+          NaN,
+          NaN
+        ],
+        "brier": [
+          0.03741756135734659,
+          0.0440630597414595
+        ],
+        "log_score": [
+          0.25846476785287825,
+          0.3112462468696683
+        ],
+        "pr_auc": [
+          0.024188184214638232,
+          0.03170538504117376
+        ],
+        "roc_auc": [
+          0.3770450870125632,
+          0.43531740885484016
+        ],
+        "tp": [
+          0.0,
+          0.0
+        ],
+        "fp": [
+          0.0,
+          0.0
+        ],
+        "tn": [
+          9235.4,
+          9731.3
+        ],
+        "fn": [
+          275.9,
+          350.09999999999997
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    },
+    "test": {
+      "n": 42131,
+      "metrics": {
+        "tss": 0.0,
+        "hss": 0.0,
+        "pod": 0.0,
+        "far": 0.0,
+        "precision": NaN,
+        "recall": 0.0,
+        "f1": NaN,
+        "brier": 0.04083329064557688,
+        "log_score": 0.15357101092090852,
+        "pr_auc": 0.22230247713491108,
+        "roc_auc": 0.8943632655538047,
+        "tp": 0,
+        "fp": 0,
+        "tn": 40214,
+        "fn": 1917,
+        "n_classes_present_in_y_true": 2,
+        "prevalence": 0.04550093755192139
+      },
+      "ci": {
+        "tss": [
+          0.0,
+          0.0
+        ],
+        "hss": [
+          0.0,
+          0.0
+        ],
+        "pod": [
+          0.0,
+          0.0
+        ],
+        "far": [
+          0.0,
+          0.0
+        ],
+        "precision": [
+          NaN,
+          NaN
+        ],
+        "recall": [
+          0.0,
+          0.0
+        ],
+        "f1": [
+          NaN,
+          NaN
+        ],
+        "brier": [
+          0.038690052822888496,
+          0.04299127719519857
+        ],
+        "log_score": [
+          0.14492870646849487,
+          0.16276670338468832
+        ],
+        "pr_auc": [
+          0.21064889452564325,
+          0.23570629315541478
+        ],
+        "roc_auc": [
+          0.8868187104903382,
+          0.9029747076842014
+        ],
+        "tp": [
+          0.0,
+          0.0
+        ],
+        "fp": [
+          0.0,
+          0.0
+        ],
+        "tn": [
+          39217.1,
+          41364.75
+        ],
+        "fn": [
+          1822.75,
+          2033.05
+        ],
+        "n_classes_present_in_y_true": [
+          2.0,
+          2.0
+        ],
+        "prevalence": [
+          NaN,
+          NaN
+        ]
+      }
+    }
+  },
+  "decision_threshold": 0.15000000000000002,
+  "decision_threshold_source": "validation_selected (maximizing tss, val_tss=0.0000)",
+  "figures": {
+    "confusion_matrix": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\seasonal_mean_h5_confusion_matrix.png",
+    "reliability_diagram": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\seasonal_mean_h5_reliability.png",
+    "pr_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\seasonal_mean_h5_pr_curve.png",
+    "roc_curve": "outputs\\real\\run_20261004T080014968911Z_seed42\\figures\\storm_detection\\seasonal_mean_h5_roc_curve.png"
+  },
+  "failure_analysis": {
+    "season": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_season.csv",
+    "latitude_band": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_latitude_band.csv",
+    "local_time": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_local_time.csv",
+    "retrieval_density": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_retrieval_density.csv",
+    "interpolation_status": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_interpolation_status.csv",
+    "uncertainty": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_uncertainty.csv",
+    "event_category": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_event_category.csv",
+    "label_persistence": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_label_persistence.csv",
+    "spatial_extent": "outputs\\real\\run_20261004T080014968911Z_seed42\\tables\\storm_detection\\failure_analysis_seasonal_mean_h5_spatial_extent.csv"
+  }
+}

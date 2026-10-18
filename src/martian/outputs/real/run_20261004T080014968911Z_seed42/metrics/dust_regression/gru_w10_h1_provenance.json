@@ -1,0 +1,162 @@
+{
+  "task_name": "dust_regression",
+  "model_kind": "sequence",
+  "model_name": "gru_w10",
+  "horizon_sols": 1,
+  "exact_parameters": {
+    "hidden_size": 16,
+    "num_layers": 1,
+    "dropout": 0.0,
+    "window_length_sols": 10
+  },
+  "random_seed": 42,
+  "feature_order": [
+    "feat_dust_optical_depth_lag1",
+    "feat_dust_optical_depth_lag2",
+    "feat_dust_optical_depth_lag3",
+    "feat_dust_optical_depth_trailing5_mean",
+    "feat_dust_optical_depth_trailing5_std",
+    "feat_dust_optical_depth_trailing5_max",
+    "feat_dust_optical_depth_trailing5_min",
+    "feat_dust_optical_depth_diff1",
+    "feat_dust_optical_depth_slope5",
+    "feat_dust_optical_depth_neighbour_mean",
+    "feat_dust_optical_depth_neighbour_max",
+    "feat_dust_optical_depth_z_lag1",
+    "feat_dust_optical_depth_z_lag2",
+    "feat_dust_optical_depth_z_lag3",
+    "feat_dust_optical_depth_z_trailing5_mean",
+    "feat_dust_optical_depth_z_trailing5_std",
+    "feat_dust_optical_depth_z_trailing5_max",
+    "feat_dust_optical_depth_z_trailing5_min",
+    "feat_dust_optical_depth_z_diff1",
+    "feat_dust_optical_depth_z_slope5",
+    "feat_dust_optical_depth_z_neighbour_mean",
+    "feat_dust_optical_depth_z_neighbour_max",
+    "feat_persistence_run_sols",
+    "feat_neighbour_exceedance_count",
+    "feat_ls_sin",
+    "feat_ls_cos",
+    "feat_ltst_sin",
+    "feat_ltst_cos",
+    "feat_is_observed",
+    "feat_interpolation_flag",
+    "feat_low_support_flag",
+    "feat_observation_count",
+    "dust_optical_depth",
+    "dust_optical_depth_z",
+    "dust_anomaly",
+    "atmospheric_anomaly"
+  ],
+  "n_train": 8518,
+  "n_val": 689,
+  "convergence_status": "early_stopped",
+  "runtime_seconds": 0.7437792000127956,
+  "training_history": [
+    {
+      "epoch": 0,
+      "train_loss": 0.05064304172992706,
+      "val_loss": 0.06794841587543488
+    },
+    {
+      "epoch": 1,
+      "train_loss": 0.045610297471284866,
+      "val_loss": 0.06398344039916992
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.04138597846031189,
+      "val_loss": 0.06104547157883644
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.03784575313329697,
+      "val_loss": 0.058943971991539
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.03486580029129982,
+      "val_loss": 0.05749153345823288
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.03233761340379715,
+      "val_loss": 0.05652249604463577
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.030165668576955795,
+      "val_loss": 0.05589456111192703
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.028270216658711433,
+      "val_loss": 0.05549464374780655
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.026593176648020744,
+      "val_loss": 0.05524228513240814
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.02510128542780876,
+      "val_loss": 0.05508791655302048
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.023784006014466286,
+      "val_loss": 0.055006030946969986
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.022646620869636536,
+      "val_loss": 0.05498558282852173
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.021700482815504074,
+      "val_loss": 0.055020127445459366
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.020952943712472916,
+      "val_loss": 0.05509999766945839
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.02039925567805767,
+      "val_loss": 0.05520870164036751
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.020018551498651505,
+      "val_loss": 0.05532409995794296
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.01977534033358097,
+      "val_loss": 0.05542387068271637
+    }
+  ],
+  "checkpoint_path": "outputs\\real\\run_20261004T080014968911Z_seed42\\models\\dust_regression\\gru_w10_h1.pt",
+  "software_versions": {
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "sklearn": "1.9.0",
+    "scipy": "1.18.0",
+    "torch": "2.12.1+cpu",
+    "torch_cuda_available": false
+  },
+  "hardware_info": {
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows",
+    "cpu_count": 12,
+    "gpu_available": false,
+    "gpu_name": null
+  },
+  "extra": {}
+}
