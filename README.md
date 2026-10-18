@@ -129,16 +129,13 @@ Each run writes a new, never-overwritten directory `outputs/real/run_<UTC timest
 cp -r outputs/real/<run_id>/models/storm_detection/. checkpoints/task_storm_detection/
 ```
 
-Chapter 4/6 analyses, which use frozen models and do no retraining. The threshold study and τ* significance scripts read the newest `chapter6_supplementary_*` and `chapter6_threshold_study_*` folders, so run them in this order:
+Chapter 4/6 analyses, which use frozen models and do no retraining. Run the supplement first: `run_newrun_followups.py`, `run_local_time_sensitivity.py` and `report_residual_items.py` read its predictions.
 
 ```bash
 python run_chapter6_supplementary.py --run-dir outputs/real/<run_id>   # writes outputs/real/chapter6_supplementary_<UTC>/
-python run_chapter6_threshold_study.py
-python run_chapter6_tau_star_significance.py
 python run_newrun_followups.py
 python run_local_time_sensitivity.py
 python report_residual_items.py
-python run_harmonisation_target_study.py
 python run_retrieval_uncertainty_propagation.py --run-dir outputs/real/<run_id>
 python run_missing_data_sensitivity_sweep.py
 python generate_figure_4_5_raw_data.py && python generate_chapter4_preprocessing_figures.py
@@ -183,19 +180,11 @@ python make_thesis_figures.py   # Mars/solar PR + reliability, fusion within-sea
 | Fusion, 5-seed sweep | `uncertainty_sweep_20261004T092140396722Z` (+ `ablation_run_20261004T09*`) | `src/cross-domain/outputs/` (summaries committed) |
 | Fusion analyses | `*_20261004*`, `*_20261005*` | `src/cross-domain/outputs/` (summaries committed) |
 
-The July–August fusion runs and the `run_20260805…` and `run_20260813…` Mars runs are superseded.
+Earlier runs (the July–August fusion runs and the 5 Aug and 13 Aug Mars runs) are superseded. No script in the repository reads them.
 
 ## Things to know when reproducing
 
 - **Run IDs are hardcoded in the analysis scripts.** A fresh Mars run gets a new timestamped ID. Most analysis scripts, `src/cross-domain/fusion_data.py` (`MARTIAN_EXPORT_DIR`) and `src/cross-domain/configs/encoders.yaml` name the canonical IDs above in constants near the top of each file. Update them, or pass `--run-dir` where a script accepts it, to point at your own run.
-- **Some Mars scripts default to the superseded run.** These still point at `run_20260813T195013457439Z_seed42` unless you change them:
-  - `run_chapter6_supplementary.py`: default only, so pass `--run-dir`.
-  - `run_chapter6_threshold_study.py`: imports `RUN` from the supplement module, so `--run-dir` does not reach it.
-  - `run_harmonisation_target_study.py`.
-  - `generate_chapter4_preprocessing_figures.py`.
-  - `generate_figure_4_5_raw_data.py`.
-
-  Check the constant at the top of each before running.
 - **Seeds.** Mars uses seed 42 (`configs/run.yaml`). Fusion uses seeds 44–48 (`run_uncertainty_sweep.py`), and bootstrap resampling uses `default_rng(20260818)`. All training is on CPU, so exact reproduction also needs the pinned package versions.
 - **Data downloads change over time.** The solar ingest window is fixed in `configs/solar_ingest.yaml` and `configs/sharp.yaml`. The EMIRS download defaults to "until today", so pass `--end-date 2025-01-14` to match the archive used here (7,445 files).
 

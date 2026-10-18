@@ -37,25 +37,11 @@ solar:
 
 martian:
   checkpoint_path: "../martian/checkpoints/task_storm_detection/lstm_w3_h1.pt"
-  # Real, verified architecture (read directly from the real checkpoint's
-  # state_dict shapes, 2026-08-14) -- promoted from src/martian's real,
-  # completed mars.run_all run against real EMIRS/MCD data
-  # (outputs/real/run_20260813T195013457439Z_seed42, k=2/m=3 primary
-  # regime, real Table 4.6 catalogue validation). This run supersedes
-  # run_20260805T115705602822Z_seed42 (2026-08-05): that run's val split
-  # was empty (chronological-split bug, since fixed) and its raw archive
-  # still contained sentinel/unlocated rows (since excluded) -- see
-  # src/martian/CHAPTER_4_PARAMETER_VALUES.md Section 13 for the full
-  # before/after and CHAPTER_5_PARAMETER_VALUES.md for the cross-domain
-  # consequence (Stage 2 fusion training previously had no real
-  # validation-based model selection because of the empty martian val).
-  # input_size=36 (real storm-detection feature manifest width: 32 real
-  # engineered feat_ columns + 4 raw current-state columns -- narrower
-  # than the old simulated pipeline's 61 because the real pipeline is
-  # dust-only, no surface_temperature_k feature family; manifest
-  # confirmed column-for-column identical between the 2026-08-05 and
-  # 2026-08-13 runs, so this checkpoint promotion is architecture-safe),
-  # hidden_size=16, num_layers=1.
+  # Copied from the canonical mars.run_all run's models/storm_detection/
+  # (outputs/real/run_20261004T080014968911Z_seed42). Architecture read from
+  # the checkpoint's state_dict shapes: input_size=36 (the dust-only
+  # storm-detection feature manifest: 32 engineered feat_ columns + 4 raw
+  # current-state columns), hidden_size=16, num_layers=1.
   input_size: 36
   hidden_size: 16
   num_layers: 1
