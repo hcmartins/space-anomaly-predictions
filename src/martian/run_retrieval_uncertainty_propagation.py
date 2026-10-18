@@ -8,7 +8,7 @@ the Eq. 4.1-4.3 labels (dust_anomaly -> storm_episode -> horizon targets) and
 the frozen canonical models' test scores?
 
 Everything is read from the canonical run
-(outputs/real/run_20260813T195013457439Z_seed42) or recomputed with this
+(outputs/real/run_20261004T080014968911Z_seed42) or recomputed with this
 package's own pipeline functions -- the same ingestion/QC/aggregation/
 labeling/feature code mars/run_all.py uses. Before any perturbation, the
 script REPRODUCES the canonical aggregated dust, labels and model test TSS
@@ -76,8 +76,7 @@ from preprocessing.quality_control import load_qc_config, run_quality_control
 from splitting.chronological_split import assign_split, load_splits_config
 
 MARTIAN_ROOT = Path(__file__).resolve().parent
-# Default target updated 2026-10-04 to the harmonised / masked / Eq. 6.1 canonical
-# run; pass --run-dir to reproduce the 2026-09-26 study on run_20260813T195013457439Z_seed42.
+# Canonical run (harmonised / masked / Eq. 6.1 tau*); override with --run-dir.
 CANONICAL_RUN = MARTIAN_ROOT / "outputs" / "real" / "run_20261004T080014968911Z_seed42"
 KEYS = ["cell_id", "mars_year", "sol"]
 DUST = "dust_optical_depth"
