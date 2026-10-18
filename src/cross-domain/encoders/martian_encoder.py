@@ -1,9 +1,8 @@
 """The real martian storm-detection LSTM encoder (Chapter 5's f_M), loaded
-from src/martian's real checkpoint -- trained on real EMIRS/MCD data via
-`mars.run_all` (outputs/real/run_20260813T195013457439Z_seed42, promoted
-2026-08-14; supersedes run_20260805T115705602822Z_seed42, whose val split
-was empty -- see src/martian/CHAPTER_4_PARAMETER_VALUES.md Section 13),
-not simulated data. `load_martian_encoder` still returns a provenance
+from src/martian's real checkpoint -- trained on real EMIRS data via
+`mars.run_all` (canonical run outputs/real/run_20261004T080014968911Z_seed42,
+whose models/storm_detection/ is copied to checkpoints/task_storm_detection/).
+`load_martian_encoder` still returns a provenance
 string alongside the encoder (the mechanism is domain-agnostic, not
 simulation-specific) so callers always have an explicit, checkable record
 of which run produced the checkpoint they're using.

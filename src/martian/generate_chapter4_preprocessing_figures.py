@@ -35,10 +35,10 @@ from evaluation.preprocessing_figures import (
 from preprocessing.grid import load_primary_grid
 from splitting.chronological_split import assign_split, load_splits_config
 
-RUN_DIR = Path("outputs/real/run_20260813T195013457439Z_seed42")
+RUN_DIR = Path("outputs/real/run_20261004T080014968911Z_seed42")
 DATA_SOURCE_LABEL = (
     "REAL (Martian Chapter 4 mars.run_all pipeline) -- Figures 4.5-4.8 generated post-hoc "
-    "2026-08-12 from this run's own saved outputs, not part of the original 2026-08-05 run"
+    "from the canonical run's own saved outputs"
 )
 
 

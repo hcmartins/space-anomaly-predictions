@@ -17,7 +17,7 @@ from preprocessing.grid import assign_cells, load_primary_grid
 from preprocessing.quality_control import load_qc_config, run_quality_control
 
 REPRESENTATIVE_CELL_ID = 1393  # see evaluation/preprocessing_figures.py::REPRESENTATIVE_CELL_ID
-OUT_DIR = Path("outputs/real/run_20260813T195013457439Z_seed42/figures/preprocessing")
+OUT_DIR = Path("outputs/real/run_20261004T080014968911Z_seed42/figures/preprocessing")
 OUT_PATH = OUT_DIR / f"raw_and_qc_retrievals_cell_{REPRESENTATIVE_CELL_ID}.csv"
 
 

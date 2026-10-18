@@ -26,4 +26,4 @@ extinction_to_absorption_ratio: 1.3     # Montabone et al. (2015), Icarus 251, 6
 # can multiply the absorption optical depth by 1.3" -- "See detailed discussion
 # in Montabone et al., Icarus, 2015, Section 2.3.4". The same page gives the
 # pressure convention applied above: local column OD = cdod610 x p_s(Pa)/610.
-sensitivity_extinction_to_absorption_ratio: [1.2, 1.3, 1.4, 1.5]   # reported by run_harmonisation_target_study.py
+sensitivity_extinction_to_absorption_ratio: [1.2, 1.3, 1.4, 1.5]   # sensitivity range for the extinction-to-absorption conversion

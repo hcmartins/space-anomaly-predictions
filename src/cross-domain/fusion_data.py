@@ -25,19 +25,9 @@ MARTIAN_ROOT = (CROSS_DOMAIN_ROOT / ".." / "martian").resolve()
 # export. See configs/encoders.yaml's solar section for the matching
 # checkpoint and the real before/after TSS comparison.
 SOLAR_EXPORT_DIR = SOLAR_ROOT / "results" / "real_full_sequence_goes_sharp_20100501_20250724" / "fusion_export"
-# Real mars.run_all run against real EMIRS/MCD data (2026-08-13), k=2/m=3
-# primary regime, real Table 4.6 catalogue validation, chronological-split
-# leakage fix + sentinel-row exclusion + missing-data sensitivity selection
-# -- see src/martian/CHAPTER_4_PARAMETER_VALUES.md Section 13. Supersedes
-# the 2026-08-05 run (run_20260805T115705602822Z_seed42), whose exported
-# val split was empty (the same split bug fixed in that run's Section 13)
-# -- see CHAPTER_5_PARAMETER_VALUES.md for the cross-domain before/after.
-# This path must always name a run directory that still exists under
+# Canonical mars.run_all run (harmonised labels, masked horizons, MY37
+# validation split). This path must name a run directory that exists under
 # src/martian/outputs/real/.
-# 2026-10-04: harmonised labels + masked horizons + MY37-validation split
-# (martian_rerun_20261004.md). Supersedes run_20260813T195013457439Z_seed42,
-# whose checkpoints are backed up in
-# src/martian/checkpoints/task_storm_detection_superseded_run_20260813T195013457439Z/.
 MARTIAN_EXPORT_DIR = MARTIAN_ROOT / "outputs" / "real" / "run_20261004T080014968911Z_seed42" / "fusion_export"
 
 FUSION_SEED = 44   # matches this project's existing storm_detection task seed convention

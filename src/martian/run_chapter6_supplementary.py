@@ -4,8 +4,8 @@ confusion matrices, per-season metrics with bootstrap CIs, calibration
 paired block-bootstrap significance tests.
 
 Replays every frozen canonical storm-detection model (6 baseline/classical +
-18 LSTM/GRU, x 3 horizons = 36 model/horizon pairs) from
-outputs/real/run_20260813T195013457439Z_seed42 without retraining:
+18 LSTM/GRU, x 3 horizons = 36 model/horizon pairs) from the canonical run
+outputs/real/run_20261004T080014968911Z_seed42 (override with --run-dir) without retraining:
   * tabular models: joblib checkpoint + train-fitted median imputer (the same
     deterministic SimpleImputer modeling/train.py fits);
   * sequence models: state_dict checkpoint + the exact windowing
@@ -60,7 +60,7 @@ from preprocessing.grid import load_primary_grid
 from splitting.chronological_split import assign_split, load_splits_config
 
 ROOT = Path(__file__).resolve().parent
-RUN = ROOT / "outputs" / "real" / "run_20260813T195013457439Z_seed42"
+RUN = ROOT / "outputs" / "real" / "run_20261004T080014968911Z_seed42"
 KEYS = ["cell_id", "mars_year", "sol"]
 HORIZONS = (1, 3, 5)
 THRESHOLD = 0.5
@@ -125,8 +125,8 @@ def ci(a, level):
 
 
 def thr_of(model: str, h: int) -> float:
-    """Each model's recorded operating point (Eq. 6.1 validation-selected tau*
-    in runs from 2026-10-04 on; absent -> the canonical fixed 0.5 of older runs)."""
+    """Each model's recorded operating point (Eq. 6.1 validation-selected tau*;
+    the fixed 0.5 fallback applies only if the evaluation JSON records none)."""
     ev = json.loads((RUN / "metrics" / "storm_detection" / f"{model}_h{h}_evaluation.json").read_text())
     return float(ev.get("decision_threshold", THRESHOLD))
 
